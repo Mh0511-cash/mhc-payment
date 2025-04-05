@@ -13,8 +13,7 @@
 </head>
 
 <body>
-    <h3 class="sandbox-notice">Bạn đang trong môi trường sandbox - Tất cả mọi thứ ở đây đều không có thật, nó đang được
-        thử nghiệm - Webdemo test</h3>
+
 
     <!-- Favicon -->
     <link rel="icon" href="https://i.imgur.com/F3YpRzA.jpg" type="image/jpeg">
@@ -23,7 +22,7 @@
         <style>
     :root {
       --primary-color: #2f8ffd;
-      --secondary-color: #556B2F;
+      --secondary-coalor: #556B2F;
       --light-color: #F5F5F5;
       --dark-color: #36454F;
       --accent-color: #9370DB;
@@ -358,7 +357,51 @@
     font-size: 0.7rem;
   }
 }
+/* ===== HEADER THÔNG MINH ===== */
+.header-content {
+  transition: all 0.3s ease;
+}
 
+.header-titles {
+  max-height: 100px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.header-titles.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Khi scroll thì ẩn bớt */
+.scrolled .header-titles {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.scrolled .header-content {
+  padding: 5px 10px;
+}
+
+/* Nút toggle (nếu muốn thêm nút ẩn/hiện) */
+.toggle-titles {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.3);
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+            
 /* ===== HIỂN THỊ RÕ RÀNG TRÊN MOBILE ===== */
 @media (max-width: 480px) {
   .sandbox-notice {
@@ -383,33 +426,29 @@
         <!-- Preloader -->
         <div id="preloader">
             <div class="loader"></div>
-        </div>
-
-         <h3 class="sandbox-notice">Bạn đang trong môi trường sandbox - Tất cả mọi thứ ở đây đều không có thật, nó đang được thử nghiệm - Webdemo test</h3>
-
-  <header>
-    <div class="header-content">
-      <div class="header-titles">
-        <h1 class="header-title">TẠP HÓA DEMO</h1>
-        <h5 class="header-title">DEMO LÀ KHÔNG CÓ THẬT</h5>
-      </div>
-
-      <div class="header-buttons">
-        <a href="cart.html" class="header-btn cart-icon">
-          <i class="fas fa-shopping-cart"></i> 
-          <span>Giỏ Hàng</span>
-          <span class="cart-count">0</span>
-        </a>
-        <a href="checkout.html" class="header-btn">
-          <i class="fas fa-credit-card"></i> 
-          <span>Thanh Toán</span>
-        </a>
-        <a href="naptien.html" class="header-btn">
-          <i class="fas fa-qrcode"></i> 
-          <span>QR Ngân Hàng</span>
-        </a>
-      </div>
+        <header>
+  <div class="header-content">
+    <div class="header-titles">
+      <h1 class="header-title">TẠP HÓA DEMO</h1>
+      <h5 class="header-title">DEMO LÀ KHÔNG CÓ THẬT</h5>
     </div>
+
+    <div class="header-buttons">
+      <a href="cart.html" class="header-btn cart-icon">
+        <i class="fas fa-shopping-cart"></i> 
+        <span class="mobile-hidden">Giỏ Hàng</span>
+        <span class="cart-count">0</span>
+      </a>
+      <a href="checkout.html" class="header-btn">
+        <i class="fas fa-credit-card"></i> 
+        <span class="mobile-hidden">Thanh Toán</span>
+      </a>
+      <a href="naptien.html" class="header-btn">
+        <i class="fas fa-qrcode"></i> 
+        <span class="mobile-hidden">QR Ngân Hàng</span>
+      </a>
+    </div>
+  </div>
   </header>
 
 
@@ -531,6 +570,46 @@
         </div>
 
         <script>
+            // Tự động ẩn title khi scroll
+let lastScroll = 0;
+window.addEventListener('scroll', function() {
+  const currentScroll = window.scrollY;
+  const header = document.querySelector('header');
+  
+  if (currentScroll > 100) { 
+    header.classList.add('scrolled');
+    
+    // Ẩn hoàn toàn nếu scroll xuống
+    if (currentScroll > lastScroll) {
+      document.querySelector('.header-titles').classList.add('collapsed');
+    } 
+    // Hiện lại nếu scroll lên
+    else {
+      document.querySelector('.header-titles').classList.remove('collapsed');
+    }
+    
+  } else {
+    header.classList.remove('scrolled');
+    document.querySelector('.header-titles').classList.remove('collapsed');
+  }
+  
+  lastScroll = currentScroll;
+});
+
+// Nếu muốn thêm nút toggle thủ công
+function setupToggleButton() {
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'toggle-titles';
+  toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+  document.querySelector('.header-content').appendChild(toggleBtn);
+  
+  toggleBtn.addEventListener('click', function() {
+    document.querySelector('.header-titles').classList.toggle('collapsed');
+    this.innerHTML = document.querySelector('.header-titles').classList.contains('collapsed') ? 
+      '<i class="fas fa-chevron-down"></i>' : '<i class="fas fa-chevron-up"></i>';
+  });
+}
+
             // Đảm bảo header không bị che khi scroll
 window.addEventListener('scroll', function() {
   const header = document.querySelector('header');
