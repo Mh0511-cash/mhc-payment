@@ -142,9 +142,6 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
         }
 
         .product-card:hover {
@@ -174,23 +171,17 @@
 
         .product-info {
             padding: 1rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
         }
 
         .product-info h3 {
             margin: 0 0 0.5rem;
             font-size: 1.1rem;
-            min-height: 2.5em; /* Giữ chiều cao cố định cho tên sản phẩm */
         }
 
         .description {
             color: var(--text-light);
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            flex-grow: 1;
-            min-height: 3.5em; /* Giữ chiều cao cố định cho mô tả */
         }
 
         .price {
@@ -198,7 +189,6 @@
             font-weight: bold;
             font-size: 1.1rem;
             margin: 0.5rem 0;
-            min-height: 1.5em; /* Giữ chiều cao cố định cho giá */
         }
 
         .add-to-cart {
@@ -214,7 +204,6 @@
             justify-content: center;
             gap: 0.5rem;
             transition: background 0.3s;
-            margin-top: auto; /* Đẩy nút xuống dưới cùng */
         }
 
         .add-to-cart:hover {
@@ -372,11 +361,8 @@
 
     <div class="container">
         <div class="product-grid">
-            
-                </div>
-            </div>
-             <!-- Sản phẩm 1 -->
-             <div class="product-card">
+            <!-- Sản phẩm 1 -->
+            <div class="product-card">
                 <div class="product-image">
                     <img src="https://i.imgur.com/VPBhiHd.png" alt="Mì Hảo Hảo">
                 </div>
@@ -454,7 +440,32 @@
                     </button>
                 </div>
             </div>
-
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://i.imgur.com/N4FcNFa.png" alt="Trà xanh không độ">
+                </div>
+                <div class="product-info">
+                    <h3>Trà xanh không độ</h3>
+                    <p class="description">Trà ngon uống cho bớt xl đi nè ly</p>
+                    <div class="price">20.000 ₫</div>
+                    <button class="add-to-cart" data-id="tra-xanh" data-name="Trà xanh không độ"
+                        data-price="20000" data-img="https://i.imgur.com/N4FcNFa.png">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://i.imgur.com/N3PEwkf.png?2" alt="Bánh mì que">
+                    </div>
+                    <div class="product-info">
+                        <h3>Bánh mì que</h3>
+                        <p class="description">Ăn để té ngữa không đập đầu - diễn xiếc cho mọi người coi</p>
+                        <div class="price">20.000 ₫</div>
+                        <button class="add-to-cart" data-id="banh-mi-que" data-name="Bánh mì que"
+                            data-price="20000" data-img="https://i.imgur.com/N3PEwkf.png?2">
+                            <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                        </button>
+                    </div>
             <!-- Sản phẩm 6 -->
             <div class="product-card">
                 <div class="product-image">
@@ -466,38 +477,6 @@
                     <div class="price">20.000 ₫</div>
                     <button class="add-to-cart" data-id="keo-mut" data-name="Kẹo mút Alpenliebe"
                         data-price="20000" data-img="https://i.imgur.com/SgOahXx.jpg">
-                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                    </button>    
-                </div>
-            </div>
-
-            <!-- Sản phẩm 7 (Mới) -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://imgur.com/N3PEwkf" alt="Bánh mì">
-                </div>
-                <div class="product-info">
-                    <h3>Bánh mì que</h3>
-                    <p class="description">Bánh mì giòn tan, thơm ngon, gói 10 cái</p>
-                    <div class="price">18.000 ₫</div>
-                    <button class="add-to-cart" data-id="banh-mi-que" data-name="Bánh mì que"
-                        data-price="18000" data-img="https://imgur.com/N3PEwkf">
-                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
-                    </button>
-                </div>
-            </div>
-
-            <!-- Sản phẩm 8 (Mới) -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://imgur.com/N4FcNFa" alt="Trà xanh">
-                </div>
-                <div class="product-info">
-                    <h3>Trà xanh không độ</h3>
-                    <p class="description">Giải khát thanh nhiệt, chai 500ml</p>
-                    <div class="price">15.000 ₫</div>
-                    <button class="add-to-cart" data-id="tra-xanh" data-name="Trà xanh không độ"
-                        data-price="15000" data-img="https://imgur.com/N4FcNFa">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
