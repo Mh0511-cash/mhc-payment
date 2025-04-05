@@ -411,6 +411,7 @@
       .continue-btn,
       .payos-btn,
       .sepay-btn,
+      .QRBANK247-btn,
       .qr-btn {
         width: 100%;
         padding: 10px;
@@ -494,6 +495,7 @@
       .continue-btn,
       .payos-btn,
       .sepay-btn,
+      .QRBANK247-btn,
       .qr-btn {
         width: 100%;
         padding: 10px !important;
@@ -711,7 +713,7 @@
             <i class="fas fa-qrcode"></i> Thanh toán QR
             </a>
             <button class="qrbank-btn" onclick="window.location.href='naptien.html'">
-              <i class="fas fa-qrcode"></i> QRBANK24/7
+              <i class="fas fa-qrcode"></i> QRBANK247
             </button>
         </div>
       </div>
@@ -877,6 +879,24 @@
       navigator.clipboard.writeText(text).then(() => {
         alert('Đã copy: ' + text);
       });
+    }
+    function processQRBankPayment() {
+      const btn = document.querySelector('.qrbank-btn');
+
+      // Thêm hiệu ứng loading
+      btn.classList.add('loading');
+
+      // Simulate processing delay
+      setTimeout(() => {
+        // Chuyển hướng sau khi hoàn thành
+        window.location.href = 'naptien.html';
+
+        // Xóa hiệu ứng loading (trong trường hợp không chuyển trang)
+        btn.classList.remove('loading');
+      }, 800); // Delay 0.8 giây cho hiệu ứng
+
+      // Ngăn chặn hành vi mặc định
+      return false;
     }
     // Payment functions
     function processPayOSPayment() {
