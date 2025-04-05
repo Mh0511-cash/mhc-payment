@@ -373,6 +373,82 @@
       color: white;
     }
 
+  .header-content {
+    order: 2;
+    width: 100%;
+    text-align: center;
+  }
+
+  .header-title {
+    font-size: 1rem !important;
+    padding: 0 5px !important;
+    margin-top: 5px !important;
+    line-height: 1.3;
+  }
+
+  .back-button {
+    position: static !important;
+    transform: none !important;
+    order: 1;
+    margin: 5px auto;
+    padding: 6px 10px !important;
+    font-size: 0.8rem;
+    width: max-content;
+  }
+
+  .cart-container {
+    padding: 15px;
+  }
+
+  .cart-items th,
+  .cart-items td {
+    padding: 8px 5px;
+    font-size: 0.9rem;
+  }
+
+  .item-img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .product-info {
+    gap: 5px !important;
+  }
+
+  .quantity-input {
+    width: 30px !important;
+  }
+
+  .action-buttons {
+    /* flex-direction: column; change to this*/
+    flex-direction: row;
+    margin-top: 15px; /*add this*/
+  }
+
+  .checkout-btn,
+  .continue-btn,
+  .payos-btn,
+  .sepay-btn,
+  .QRBANK247-btn,
+  .qr-btn {
+    /* width: 100%; change this*/
+    flex: 1;
+    padding: 10px;
+  }
+}
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 1rem;
+      }
+
+      .back-button {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
     /* ========== MOBILE STYLES ========== */
     @media (max-width: 768px) {
       header {
@@ -383,8 +459,8 @@
       }
 
       .header-content {
-        /* padding: 0 50px !important; Remove this */
-        /* margin: 0 5px !important; Remove this */
+        padding: 0 50px !important;
+        margin: 0 5px !important;
         order: 2;
         width: 100%;
         text-align: center;
@@ -431,10 +507,7 @@
       }
 
       .action-buttons {
-        /* flex-direction: column; change to this*/
-        flex-direction: row;
-        margin-top: 15px;
-        /*add this*/
+        flex-direction: column;
       }
 
       .checkout-btn,
@@ -443,121 +516,17 @@
       .sepay-btn,
       .QRBANK247-btn,
       .qr-btn {
-        /* width: 100%; change this*/
-        flex: 1;
-        padding: 10px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title {
-        font-size: 1rem;
-      }
-
-      .back-button {
-        max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    /* ========== MOBILE STYLES ========== */
-    /* ========== MOBILE STYLES ========== */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.5rem;
-        min-height: 60px;
-        flex-wrap: wrap;
-        position: relative;
-      }
-
-      .header-content {
-        order: 2;
         width: 100%;
-        text-align: center;
-      }
-
-      .header-title {
-        font-size: 1rem !important;
-        padding: 0 5px !important;
-        margin-top: 5px !important;
-        line-height: 1.3;
-      }
-
-      .back-button {
-        position: static !important;
-        transform: none !important;
-        order: 1;
-        margin: 5px auto;
-        padding: 6px 10px !important;
-        font-size: 0.8rem;
-        width: max-content;
-      }
-
-      .cart-container {
-        padding: 15px;
-      }
-
-      .cart-items th,
-      .cart-items td {
-        padding: 8px 5px;
+        padding: 10px !important;
         font-size: 0.9rem;
       }
-
-      .item-img {
-        width: 50px !important;
-        height: 50px !important;
-      }
-
-      .product-info {
-        gap: 5px !important;
-      }
-
-      .quantity-input {
-        width: 30px !important;
-      }
-
-      .action-buttons {
-        flex-direction: row;
-        margin-top: 15px;
-        flex-wrap: wrap; /* Add this to allow wrapping */
-        justify-content: center; /* center all items */
-        gap: 10px; /* small gap */
-      }
-
-      .checkout-btn,
-      .continue-btn,
-      .payos-btn,
-      .sepay-btn,
-      .QRBANK247-btn,
-      .qr-btn {
-        flex: 1 1 auto; /* Allow buttons to grow, shrink, and be content-based */
-        padding: 10px;
-        display: flex;
-        justify-content: center; /* center text */
-        align-items: center; /* center text vertically */
-        min-width: max-content; /* prevent the text from wrapping if the button is small*/
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title {
-        font-size: 1rem;
-      }
-
-      .back-button {
-        max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
 
       /* Modal adjustments */
       #vietqr-modal>div {
         width: 95%;
         padding: 15px;
       }
-    
+    }
 
     @media (max-width: 480px) {
       .header-title {
@@ -613,38 +582,7 @@
       transform: translateY(-50%);
 
     }
-
-    /* ====== RESPONSIVE MOBILE ====== */
-    @media (max-width: 768px) {
-      .header-title-container {
-        padding: 0 80px;
-      }
-
-      .header-title {
-        font-size: 1.1rem;
-      }
-
-      .header-subtitle {
-        font-size: 0.7rem;
-      }
-
-      .back-button {
-        left: 10px;
-        padding: 6px 10px;
-        font-size: 0.8rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title {
-        font-size: 1rem;
-      }
-
-      .header-subtitle {
-        font-size: 0.65rem;
-      }
-    }
-
+     
     header {
       display: flex;
       align-items: center;
@@ -682,36 +620,7 @@
       transform: translateY(-50%);
     }
 
-    /* ====== RESPONSIVE MOBILE ====== */
-    @media (max-width: 768px) {
-      .header-title-container {
-        padding: 0 80px;
-      }
-
-      .header-title {
-        font-size: 1.1rem;
-      }
-
-      .header-subtitle {
-        font-size: 0.7rem;
-      }
-
-      .back-button {
-        left: 10px;
-        padding: 6px 10px;
-        font-size: 0.8rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title {
-        font-size: 1rem;
-      }
-
-      .header-subtitle {
-        font-size: 0.65rem;
-      }
-    }
+   
   </style>
 </head>
 <header>
