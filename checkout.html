@@ -221,33 +221,6 @@
       opacity: 0.9;
     }
 
-    .qrbank-btn:active {
-      transform: translateY(0);
-    }
-
-    .qrbank-btn.loading {
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    .qrbank-btn.loading::after {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s linear infinite;
-      margin-left: 8px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
     .empty-cart {
       text-align: center;
       padding: 40px 0;
