@@ -303,6 +303,78 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
+            /* ===== SANDBOX NOTICE ===== */
+.sandbox-notice {
+  background-color: #43c3ff;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.8rem;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  margin: 0;
+}
+
+/* ===== HEADER MOBILE TỐI ƯU ===== */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .header-titles {
+    order: 1;
+    text-align: center;
+  }
+
+  .header-title {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin: 5px 0;
+  }
+
+  .header-buttons {
+    order: 2;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .header-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .header-btn span {
+    display: inline !important;
+  }
+
+  .cart-count {
+    width: 16px;
+    height: 16px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ===== HIỂN THỊ RÕ RÀNG TRÊN MOBILE ===== */
+@media (max-width: 480px) {
+  .sandbox-notice {
+    font-size: 0.7rem;
+    padding: 6px;
+  }
+
+  .header-title {
+    font-size: 0.9rem;
+  }
+
+  .header-btn {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+}
         </style>
             
     </head>
@@ -313,27 +385,33 @@
             <div class="loader"></div>
         </div>
 
-        <header>
-            <div class="header-content">
-                <div class="header-titles">
-                    <h1 class="header-title">TẠP HÓA DEMO - DEMO LÀ KHÔNG CÓ THẬT</h1>
-                    <h5 class="header-title">Nó được tạo ra nhằm mục đích nghiên cứu và phát triển</h5>
-                </div>
+         <h3 class="sandbox-notice">Bạn đang trong môi trường sandbox - Tất cả mọi thứ ở đây đều không có thật, nó đang được thử nghiệm - Webdemo test</h3>
 
-                <div class="header-buttons">
-                    <a href="cart.html" class="header-btn cart-icon">
-                        <i class="fas fa-shopping-cart"></i> Giỏ Hàng
-                        <span class="cart-count">0</span>
-                    </a>
-                    <a href="checkout.html" class="header-btn" id="checkout-btn">
-                        <i class="fas fa-credit-card"></i> Thanh Toán
-                    </a>
-                    <a href="naptien.html" class="header-btn">
-                        <i class="fas fa-qrcode"></i> QR Ngân Hàng
-                    </a>
-                </div>
-            </div>
-        </header>
+  <header>
+    <div class="header-content">
+      <div class="header-titles">
+        <h1 class="header-title">TẠP HÓA DEMO</h1>
+        <h5 class="header-title">DEMO LÀ KHÔNG CÓ THẬT</h5>
+      </div>
+
+      <div class="header-buttons">
+        <a href="cart.html" class="header-btn cart-icon">
+          <i class="fas fa-shopping-cart"></i> 
+          <span>Giỏ Hàng</span>
+          <span class="cart-count">0</span>
+        </a>
+        <a href="checkout.html" class="header-btn">
+          <i class="fas fa-credit-card"></i> 
+          <span>Thanh Toán</span>
+        </a>
+        <a href="naptien.html" class="header-btn">
+          <i class="fas fa-qrcode"></i> 
+          <span>QR Ngân Hàng</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
 
         <div class="product-grid">
             <!-- Sản phẩm 1 -->
@@ -453,6 +531,18 @@
         </div>
 
         <script>
+            // Đảm bảo header không bị che khi scroll
+window.addEventListener('scroll', function() {
+  const header = document.querySelector('header');
+  if (window.scrollY > 50) {
+    header.style.position = 'fixed';
+    header.style.top = '30px'; // Tránh đè lên sandbox notice
+    header.style.width = '100%';
+  } else {
+    header.style.position = 'relative';
+    header.style.top = 'auto';
+  }
+});
             // ================ FIXED CART FUNCTIONS ================
             document.addEventListener('DOMContentLoaded', function () {
                 // Khởi tạo giỏ hàng
