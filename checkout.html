@@ -462,6 +462,7 @@
     }
 
     /* ========== MOBILE STYLES ========== */
+    /* ========== MOBILE STYLES ========== */
     @media (max-width: 768px) {
       header {
         padding: 0.5rem;
@@ -471,8 +472,6 @@
       }
 
       .header-content {
-        padding: 0 50px !important;
-        margin: 0 5px !important;
         order: 2;
         width: 100%;
         text-align: center;
@@ -519,7 +518,11 @@
       }
 
       .action-buttons {
-        flex-direction: column;
+        flex-direction: row;
+        margin-top: 15px;
+        flex-wrap: wrap; /* Add this to allow wrapping */
+        justify-content: center; /* center all items */
+        gap: 10px; /* small gap */
       }
 
       .checkout-btn,
@@ -528,17 +531,33 @@
       .sepay-btn,
       .QRBANK247-btn,
       .qr-btn {
-        width: 100%;
-        padding: 10px !important;
-        font-size: 0.9rem;
+        flex: 1 1 auto; /* Allow buttons to grow, shrink, and be content-based */
+        padding: 10px;
+        display: flex;
+        justify-content: center; /* center text */
+        align-items: center; /* center text vertically */
+        min-width: max-content; /* prevent the text from wrapping if the button is small*/
       }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 1rem;
+      }
+
+      .back-button {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
 
       /* Modal adjustments */
       #vietqr-modal>div {
         width: 95%;
         padding: 15px;
       }
-    }
+    
 
     @media (max-width: 480px) {
       .header-title {
