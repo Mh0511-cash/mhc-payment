@@ -268,61 +268,44 @@
     }
 
     /* QR Modal */
-    #vietqr-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
+    #vietqr-modal > div {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        width: 95%;
+        max-width: 340px;
+        max-height: 90vh;
+        overflow-y: auto;
     }
-
-    #vietqr-modal>div {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      max-width: 90%;
-      width: 400px;
-      max-width: 95%;
-      width: 340px;
-      padding: 15px;
+    
+    #vietqr-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
     }
-
+    
+    #vietqr-image {
+        max-width: 240px;
+        width: 100%;
+        margin: 0 auto 15px;
+        display: block;
+    }
+    
     .bank-info {
-      margin-top: 15px;
-      font-size: 14px;
-      background: #f9f9f9;
-      padding: 10px;
-      border-radius: 5px;
+        margin-top: 10px;
+        font-size: 14px;
+        background: #f9f9f9;
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
     }
-
-    .bank-info p {
-      margin: 8px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .copy-btn {
-      background: #3498db;
-      color: white;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 12px;
-      margin-left: 10px;
-    }
-
+    
     .modal-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        gap: 10px;
     }
 
     .modal-btn {
@@ -696,46 +679,47 @@
   <!-- VietQR Modal -->
   <div id="vietqr-modal">
     <div>
-      <h3 style="text-align: center;">THANH TOÁN QUA QR CODE</h3>
-      <div id="vietqr-container">
-        <div style="height: 250px; display: flex; justify-content: center; align-items: center">
-          <p>Đang tạo mã QR...</p>
+        <h3 style="text-align: center; margin-bottom: 15px;">THANH TOÁN QUA QR CODE</h3>
+        
+        <!-- Đưa phần QR code lên trên -->
+        <div id="vietqr-container">
+            <img id="vietqr-image" style="display: none" alt="Mã QR thanh toán">
+            <div style="text-align: center; margin-bottom: 10px;">
+                <img src="https://via.placeholder.com/120x40?text=napas+247" alt="napas 247" style="height: 30px;">
+                <span style="display: block; font-weight: bold; margin-top: 5px;">BIDV</span>
+            </div>
         </div>
-        <img id="vietqr-image" style="max-width: 250px; margin: 15px auto; display: none">
-      </div>
 
-      <div class="bank-info">
-        <p>
-          <span><strong>Ngân hàng:</strong> BIDV</span>
-        </p>
-        <p>
-          <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
-          <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
-        </p>
-        <p>
-          <span><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></span>
-          <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
-        </p>
-        <p>
-          <span><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></span>
-          <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
-        </p>
-        <p>
-          <span><strong>Nội dung:</strong> <span id="payment-content">DH${generateRandomString(7)}</span></span>
-          <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
-        </p>
-      </div>
+        <div class="bank-info">
+            <p><strong>Ngân hàng:</strong> BIDV</p>
+            <p>
+                <strong>Số TK:</strong> 962QR000003146
+                <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
+            </p>
+            <p>
+                <strong>Chủ TK:</strong> DAO MINH HAI
+                <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
+            </p>
+            <p>
+                <strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span>
+                <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
+            </p>
+            <p>
+                <strong>Nội dung:</strong> <span id="payment-content">DHABCD123</span>
+                <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
+            </p>
+        </div>
 
-      <div class="modal-actions">
-        <button class="modal-btn close-btn" onclick="hideVietQR()">
-          <i class="fas fa-times"></i> Đóng
-        </button>
-        <button class="modal-btn continue-btn" onclick="window.location.href='index.html'">
-          <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
-        </button>
-      </div>
+        <div class="modal-actions">
+            <button class="modal-btn close-btn" onclick="hideVietQR()">
+                <i class="fas fa-times"></i> Đóng
+            </button>
+            <button class="modal-btn continue-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+            </button>
+        </div>
     </div>
-  </div>
+</div>
 
   <footer>
     <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
