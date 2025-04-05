@@ -780,7 +780,7 @@ header {
 
       // Hiển thị thông tin ngân hàng
       document.getElementById('bank-name').textContent = 'BIDV';
-      document.getElementById('account-number').textContent = 'V2Q8KDH001176';
+      document.getElementById('account-number').textContent = '962QR000003146';
       document.getElementById('account-name').textContent = 'DAO MINH HAI';
       document.getElementById('qr-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' ₫';
 
@@ -790,7 +790,7 @@ header {
       qrImage.style.display = 'block';
 
       // Sử dụng link QR code
-      qrImage.src = `https://api.vietqr.io/image/970418-V2Q8KDH001176-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${totalAmount}&addInfo=DH`;
+      qrImage.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${totalAmount}&addInfo=DH`;
 
       // Lưu thông tin thanh toán tạm thời
       localStorage.setItem(
