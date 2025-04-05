@@ -431,20 +431,157 @@
     height: 25px !important;
   }
 }
+    /* ====== CĂN GIỮA HEADER ====== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1rem;
+  min-height: 80px;
+  background-color: var(--primary);
+  color: white;
+}
+
+.header-title-container {
+  flex: 1;
+  text-align: center;
+  padding: 0 60px; /* Để chừa chỗ cho nút back */
+}
+
+.header-title {
+  font-size: 1.3rem;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-top: 3px;
+}
+
+.back-button {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Giữ nguyên các style khác của nút back */
+}
+
+/* ====== RESPONSIVE MOBILE ====== */
+@media (max-width: 768px) {
+  .header-title-container {
+    padding: 0 80px; /* Tăng padding để chừa chỗ cho nút back */
+  }
+  
+  .header-title {
+    font-size: 1.1rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.7rem;
+  }
+  
+  .back-button {
+    left: 10px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.65rem;
+  }
+}/* ====== CĂN GIỮA HEADER ====== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 1rem;
+  min-height: 80px;
+  background-color: var(--primary);
+  color: white;
+}
+
+.header-title-container {
+  flex: 1;
+  text-align: center;
+  padding: 0 60px; /* Để chừa chỗ cho nút back */
+}
+
+.header-title {
+  font-size: 1.3rem;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.header-subtitle {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-top: 3px;
+}
+
+.back-button {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ====== RESPONSIVE MOBILE ====== */
+@media (max-width: 768px) {
+  .header-title-container {
+    padding: 0 80px; /* Tăng padding để chừa chỗ cho nút back */
+  }
+  
+  .header-title {
+    font-size: 1.1rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.7rem;
+  }
+  
+  .back-button {
+    left: 10px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.65rem;
+  }
+}
   </style>
 </head>
 
 <body>
-  <header>
-    <a href="index.html" class="back-button">
-      <i class="fas fa-arrow-left"></i> Trang chủ
-    </a>
-    <div class="header-content">
-      <h1 class="header-title">
-        TẠP HÓA BÀ TRÂM - TỰ HÀO TẠP HÓA TẠP NHAM NHẤT VIỆT NAM
-      </h1>
-    </div>
-  </header>
+<header>
+  <a href="index.html" class="back-button">
+    <i class="fas fa-arrow-left"></i> Trang chủ
+  </a>
+  <div class="header-title-container">
+    <h1 class="header-title">
+      TẠP HÓA BÀ TRÂM
+      <span class="header-subtitle">TỰ HÀO TẠP HÓA TẠP NHAM NHẤT VIỆT NAM</span>
+    </h1>
+  </div>
+</header>
 
   <div class="container">
     <div class="cart-container">
