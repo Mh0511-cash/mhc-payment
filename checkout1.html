@@ -182,19 +182,17 @@
 
     .action-buttons {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       gap: 15px;
       margin-top: 20px;
-      flex-wrap: wrap;
     }
 
     .checkout-btn,
     .continue-btn,
     .payos-btn,
     .sepay-btn,
-    .QRBANK247-btn,
-    .qr-btn,
-    .qrbank-btn {
+    .QRBANK247,
+    .qr-btn {
       background-color: var(--primary);
       color: white;
       border: none;
@@ -205,7 +203,6 @@
       transition: background-color 0.3s;
       text-decoration: none;
       display: inline-block;
-      text-align: center;
     }
 
     .continue-btn {
@@ -220,9 +217,8 @@
       background-color: #8e44ad;
     }
 
-    .QRBANK247-btn,
-    .qrbank-btn {
-      background-color: #9b59b6;
+    .QRBANK247-btn {
+      background-color: #4e73df;
     }
 
     .checkout-btn:hover,
@@ -230,8 +226,7 @@
     .payos-btn:hover,
     .sepay-btn:hover,
     .QRBANK247-btn:hover,
-    .qr-btn:hover,
-    .qrbank-btn:hover {
+    .qr-btn:hover {
       opacity: 0.9;
     }
 
@@ -435,8 +430,10 @@
     }
 
     .action-buttons {
+      /* flex-direction: column; change to this*/
       flex-direction: row;
       margin-top: 15px;
+      /*add this*/
     }
 
     .checkout-btn,
@@ -444,8 +441,8 @@
     .payos-btn,
     .sepay-btn,
     .QRBANK247-btn,
-    .qr-btn,
-    .qrbank-btn {
+    .qr-btn {
+      /* width: 100%; change this*/
       flex: 1;
       padding: 10px;
     }
@@ -529,8 +526,7 @@
       .payos-btn,
       .sepay-btn,
       .QRBANK247-btn,
-      .qr-btn,
-      .qrbank-btn {
+      .qr-btn {
         width: 100%;
         padding: 10px !important;
         font-size: 0.9rem;
@@ -634,71 +630,6 @@
       top: 50%;
       transform: translateY(-50%);
     }
-    .table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
-
-.empty-cart {
-  text-align: center;
-  padding: 30px 0;
-}
-
-.empty-cart .continue-btn {
-  display: inline-block;
-  margin-top: 15px;
-  padding: 10px 15px;
-  width: auto;
-  max-width: 100%;
-}
-
-@media (max-width: 768px) {
-  .table-wrapper {
-    margin-left: -15px;
-    margin-right: -15px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-  
-  .cart-items {
-    min-width: 100%;
-  }
-  
-  .empty-cart .continue-btn {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .action-buttons .continue-btn,
-  .action-buttons .payos-btn,
-  .action-buttons .sepay-btn,
-  .action-buttons .qr-btn,
-  .action-buttons .qrbank-btn {
-    width: 100%;
-    padding: 12px;
-    box-sizing: border-box;
-  }
-}
-
-@media (max-width: 480px) {
-  .empty-cart {
-    padding: 20px 10px;
-  }
-  
-  .empty-cart .continue-btn {
-    width: 100%;
-  }
-}
   </style>
 </head>
 <header>
@@ -714,10 +645,10 @@
 </header>
 
 <body>
-  <div class="cart-container">
-    <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
-  
-    <div class="table-wrapper">
+  <div class="container">
+    <div class="cart-container">
+      <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
+
       <table class="cart-items">
         <thead>
           <tr>
@@ -728,39 +659,31 @@
             <th></th>
           </tr>
         </thead>
-        <tbody id="cart-body">
-          <tr>
-            <td colspan="5" class="empty-cart">
-              <i class="fas fa-shopping-cart"></i>
-              <p>Giỏ hàng trống</p>
-              <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="cart-body"></tbody>
       </table>
-    </div>
-  
-    <div class="cart-summary">
-      <h3>
-        Tổng cộng:
-        <span id="total-price" style="color: var(--primary); font-weight: bold">0 ₫</span>
-      </h3>
-      <div class="action-buttons">
-        <a href="index.html" class="continue-btn">
-          <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
-        </a>
-        <button class="payos-btn" onclick="processPayOSPayment()">
-          <i class="fas fa-credit-card"></i> Thanh toán PayOS
-        </button>
-        <button class="sepay-btn" onclick="processSePayPayment()">
-          <i class="fas fa-wallet"></i> Thanh toán SePay
-        </button>
-        <button class="qr-btn" onclick="showVietQR()">
-          <i class="fas fa-qrcode"></i> Thanh toán QR
-        </button>
-        <button class="qrbank-btn" onclick="processQRBankPayment()">
-          <i class="fas fa-qrcode"></i> QRBANK247
-        </button>
+
+      <div class="cart-summary">
+        <h3>
+          Tổng cộng:
+          <span id="total-price" style="color: var(--primary); font-weight: bold">0 ₫</span>
+        </h3>
+        <div class="action-buttons">
+          <a href="index.html" class="continue-btn">
+            <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+          </a>
+          <button class="payos-btn" onclick="processPayOSPayment()">
+            <i class="fas fa-credit-card"></i> Thanh toán PayOS
+          </button>
+          <button class="sepay-btn" onclick="processSePayPayment()">
+            <i class="fas fa-wallet"></i> Thanh toán SePay
+          </button>
+          <button class="qr-btn" onclick="showVietQR()">
+            <i class="fas fa-qrcode"></i> Thanh toán QR
+            </a>
+            <button class="qrbank-btn" onclick="window.location.href='naptien.html'">
+              <i class="fas fa-qrcode"></i> QRBANK247
+            </button>
+        </div>
       </div>
     </div>
   </div>
@@ -773,7 +696,7 @@
         <div style="height: 15px; display: flex; justify-content: center; align-items: center">
           <p>Đang tạo mã QR...</p>
         </div>
-        <img id="vietqr-image" style="max-width: 330px; margin: 25px auto; display: none">
+        <img id="vietqr-image" style="max-width: 340px; margin: 30px auto; display: none">
       </div>
 
       <div class="bank-info">
@@ -927,13 +850,21 @@
     }
     function processQRBankPayment() {
       const btn = document.querySelector('.qrbank-btn');
+
+      // Thêm hiệu ứng loading
       btn.classList.add('loading');
 
       // Simulate processing delay
       setTimeout(() => {
+        // Chuyển hướng sau khi hoàn thành
         window.location.href = 'naptien.html';
+
+        // Xóa hiệu ứng loading (trong trường hợp không chuyển trang)
         btn.classList.remove('loading');
-      }, 800);
+      }, 800); // Delay 0.8 giây cho hiệu ứng
+
+      // Ngăn chặn hành vi mặc định
+      return false;
     }
     // Payment functions
     function processPayOSPayment() {

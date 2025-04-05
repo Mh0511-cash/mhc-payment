@@ -33,7 +33,7 @@
       .logo {
         font-size: 20px;
         font-weight: bold;
-        color: #9b59b6;
+        color: #2f8ffd;
         text-decoration: none;
       }
 
@@ -44,7 +44,7 @@
 
       .nav-btn {
         padding: 6px 12px;
-        background: #9b59b6;
+        background: #2f8ffd;
         color: white;
         border: none;
         border-radius: 5px;
@@ -65,7 +65,7 @@
 
       h2 {
         margin-top: 0;
-        color: #9b59b6;
+        color: #2f8ffd;
         text-align: center;
         font-size: 18px;
       }
@@ -81,30 +81,31 @@
       }
 
       .method-list {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
         padding-left: 0;
         list-style: none;
         margin: 0 0 15px 0;
-        gap: 8px;
       }
 
       .method-item {
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 290px;
-        height: 72px;
+        height: 100px;
         color: #fff;
         font-size: 14px;
         font-weight: 500;
-        background: #02a9dd;
+        background: #2f8ffd;
         border-radius: 10px;
         box-sizing: border-box;
-        border: 3px solid #02a9dd;
+        border: 3px solid #2f8ffd;
         cursor: pointer;
         transition: all 0.3s;
-        margin: 5px 0;
+        padding: 10px;
+        text-align: center;
       }
 
       .method-item.active {
@@ -112,9 +113,8 @@
       }
 
       .method-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 8px;
+        font-size: 30px;
+        margin-bottom: 8px;
       }
 
       .quick-options {
@@ -138,7 +138,7 @@
 
       .quick-option:hover,
       .quick-option.active {
-        background: #9b59b6;
+        background: #2f8ffd;
         color: white;
       }
 
@@ -157,7 +157,7 @@
       }
 
       .confirm-btn {
-        background: #9b59b6;
+        background: #2f8ffd;
         color: white;
         border: none;
         padding: 12px;
@@ -180,6 +180,15 @@
         text-align: left;
         background: #f9f9f9;
         padding: 10px;
+        border-radius: 5px;
+      }
+
+      .fee-info {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        padding: 10px;
+        background: #f0f8ff;
         border-radius: 5px;
       }
 
@@ -215,46 +224,59 @@
         <ul class="method-list">
           <li class="method-item active" data-method="bank">
             <i class="fas fa-university method-icon"></i>
-            <span>Chuyển khoản ngân hàng</span>
+            <span>Chuyển khoản<br>ngân hàng</span>
           </li>
           <li class="method-item" data-method="momo">
-            <i class="fas fa-mobile-alt method-icon"></i>
+            <i class="fas fa-mobile-alt method-icon" style="color: #A50064"></i>
             <span>Ví Momo</span>
           </li>
           <li class="method-item" data-method="zalo">
-            <i class="fab fa-product-hunt method-icon"></i>
+            <i class="fab fa-product-hunt method-icon" style="color: #0180C3"></i>
             <span>ZaloPay</span>
           </li>
           <li class="method-item" data-method="card">
-            <i class="fas fa-credit-card method-icon"></i>
+            <i class="fas fa-credit-card method-icon" style="color: #FFCC00"></i>
             <span>Thẻ Cào</span>
           </li>
           <li class="method-item" data-method="vtpay">
-            <i class="fas fa-wallet method-icon"></i>
+            <i class="fas fa-wallet method-icon" style="color: #ED1C24"></i>
             <span>VTPay</span>
           </li>
           <li class="method-item" data-method="qrbank">
-            <i class="fas fa-qrcode method-icon"></i>
+            <i class="fas fa-qrcode method-icon" style="color: #00A651"></i>
             <span>QRBank247</span>
           </li>
         </ul>
 
         <div class="quick-options">
-          <button class="quick-option" data-amount="50000">50,000</button>
-          <button class="quick-option" data-amount="100000">100,000</button>
-          <button class="quick-option" data-amount="200000">200,000</button>
-          <button class="quick-option" data-amount="300000">300,000</button>
-          <button class="quick-option" data-amount="400000">400,000</button>
-          <button class="quick-option" data-amount="500000">500,000</button>
-        </div>
+          <button class="quick-option" data-amount="50">50</button>
+          <button class="quick-option" data-amount="100">100</button>
+          <button class="quick-option" data-amount="200">200</button>
+          <button class="quick-option" data-amount="300">300</button>
+          <button class="quick-option" data-amount="400">400</button>
+          <button class="quick-option" data-amount="500">500</button>
+          <button class="quick-option" data-amount="1000">1000</button>
+          <button class="quick-option" data-amount="5000">5000</button>
+          <button class="quick-option" data-amount="10000">10000</button>
+<button class="quick-option" data-amount="50000">50000</button>
+</div>
 
         <input
           type="number"
           id="amount"
-          placeholder="Nhập số tiền (VND)"
-          min="1000"
+          placeholder="Nhập số tiền "
+          min="1"
           inputmode="numeric"
         />
+
+        <div class="fee-info">
+          <span>Phí thủ tục:</span>
+          <span>0 VND</span>
+        </div>
+        <div class="fee-info">
+          <span>Số tiền thực chuyển:</span>
+          <span id="real-amount">0 VND</span>
+        </div>
 
         <div class="qr-container" id="qr-container">
           <img id="qr-code" class="qr-code" src="" alt="QR Code" />
@@ -275,11 +297,16 @@
       const paymentInfo = document.getElementById('payment-info');
       const generateBtn = document.getElementById('generate-btn');
       const quickOptions = document.querySelectorAll('.quick-option');
-
-      const successUrl = 'https://pay.mhcomputer.org/payment-success';
-      const cancelUrl = 'https://pay.mhcomputer.org/payment-cancel';
+      const realAmountSpan = document.getElementById('real-amount');
 
       let currentMethod = 'bank';
+
+      // Cập nhật số tiền thực chuyển
+      function updateRealAmount(amount) {
+        const realAmount = amount * 1000;
+        realAmountSpan.textContent = realAmount.toLocaleString('vi-VN') + ' VND';
+        return realAmount;
+      }
 
       // Chọn phương thức
       methodItems.forEach(item => {
@@ -292,12 +319,14 @@
         });
       });
 
-      // Chọn nhanh số tiền
+      // Chọn nhanh số tiền (đơn vị x1000 VND)
       quickOptions.forEach(option => {
         option.addEventListener('click', () => {
           quickOptions.forEach(opt => opt.classList.remove('active'));
           option.classList.add('active');
-          amountInput.value = option.dataset.amount;
+          const amount = parseInt(option.dataset.amount);
+          amountInput.value = amount;
+          updateRealAmount(amount);
           qrContainer.style.display = 'none';
           generateBtn.disabled = false;
         });
@@ -306,7 +335,9 @@
       // Kiểm tra giá trị nhập
       amountInput.addEventListener('input', () => {
         quickOptions.forEach(opt => opt.classList.remove('active'));
-        generateBtn.disabled = !amountInput.value || parseInt(amountInput.value) < 1000;
+        const amount = parseInt(amountInput.value) || 0;
+        updateRealAmount(amount);
+        generateBtn.disabled = amount < 1;
         qrContainer.style.display = 'none';
       });
 
@@ -314,18 +345,19 @@
       generateBtn.addEventListener('click', () => {
         const amount = parseInt(amountInput.value);
 
-        if (!amount || amount < 1000) {
-          alert('Vui lòng nhập số tiền tối thiểu 1,000 VND');
+        if (!amount || amount < 1) {
+          alert('Vui lòng nhập số tiền tối thiểu 1 (tương đương 1,000 VND)');
           return;
         }
 
-        const formattedAmount = amount.toLocaleString('vi-VN');
-        const paymentContent = `NAP${amount}${Math.floor(Math.random() * 1000)}`;
+        const realAmount = updateRealAmount(amount);
+        const formattedAmount = realAmount.toLocaleString('vi-VN');
+        const paymentContent = `NAP${realAmount}${Math.floor(Math.random() * 1000)}`;
 
         // Tạo QR code và thông tin thanh toán
         switch (currentMethod) {
           case 'bank':
-            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=${paymentContent}`;
+            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${realAmount}&addInfo=${paymentContent}`;
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
               <p><strong>Ngân hàng:</strong> BIDV</p>
@@ -337,7 +369,7 @@
             break;
 
           case 'momo':
-            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=${paymentContent}`;
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${realAmount}&addInfo=${paymentContent}`;
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> Ví Momo</p>
               <p><strong>Số điện thoại:</strong> 0987.654.321</p>
@@ -347,7 +379,7 @@
             break;
 
           case 'zalo':
-            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=${paymentContent}`;
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${realAmount}&addInfo=${paymentContent}`;
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> Ví ZaloPay</p>
               <p><strong>Số điện thoại:</strong> 0987.654.321</p>
@@ -357,7 +389,6 @@
             break;
 
           case 'card':
-            // Xử lý thẻ cào
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> Thẻ cào</p>
               <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
@@ -369,7 +400,6 @@
             return;
 
           case 'vtpay':
-            // Xử lý VTPay
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> VTPay</p>
               <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
@@ -379,8 +409,7 @@
             return;
 
           case 'qrbank':
-            // Xử lý QRBank247
-            qrCode.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=${paymentContent}`;
+            qrCode.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${realAmount}&addInfo=${paymentContent}`;
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> QRBank247</p>
               <p><strong>Ngân hàng:</strong> BIDV</p>
@@ -393,11 +422,6 @@
         }
 
         qrContainer.style.display = 'block';
-        
-        // Chuyển hướng sau 5 giây (ví dụ)
-        setTimeout(() => {
-          window.location.href = successUrl;
-        }, 5000);
       });
     </script>
   </body>
