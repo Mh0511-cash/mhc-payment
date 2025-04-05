@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nạp Tiền - MH Computer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -79,41 +80,41 @@
         font-size: 16px;
       }
 
-      .method {
+      .method-list {
         display: flex;
-        justify-content: space-between;
-        margin: 15px 0;
+        flex-wrap: wrap;
+        padding-left: 0;
+        list-style: none;
+        margin: 0 0 15px 0;
         gap: 8px;
       }
 
-      .method-btn {
-        display: flex;
+      .method-item {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
-        padding: 10px 5px !important;
+        width: 290px;
+        height: 72px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        background: #02a9dd;
+        border-radius: 10px;
+        box-sizing: border-box;
+        border: 3px solid #02a9dd;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin: 5px 0;
+      }
+
+      .method-item.active {
+        border-color: #42e2f4;
       }
 
       .method-icon {
         width: 24px;
         height: 24px;
-        object-fit: contain;
-      }
-
-      .method-btn {
-        background: #f1f1f1;
-        border: none;
-        padding: 10px 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        flex: 1;
-        font-size: 14px;
-        text-align: center;
-      }
-
-      .method-btn.active {
-        background: #9b59b6;
-        color: white;
+        margin-right: 8px;
       }
 
       .quick-options {
@@ -194,11 +195,6 @@
         .quick-options {
           grid-template-columns: repeat(3, 1fr);
         }
-
-        .method-btn {
-          padding: 10px 5px;
-          font-size: 14px;
-        }
       }
     </style>
   </head>
@@ -216,22 +212,32 @@
       <div class="popup">
         <h2>NẠP TIỀN VÀO TÀI KHOẢN</h2>
 
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-
-        <div class="method">
-          <button class="method-btn active" data-method="momo">
-            <i class="fas fa-mobile-alt"></i> Momo
-          </button>
-          <button class="method-btn" data-method="zalo">
-            <i class="fab fa-product-hunt"></i> ZaloPay
-          </button>
-          <button class="method-btn" data-method="bank">
-            <i class="fas fa-university"></i> Ngân hàng
-          </button>
-        </div>
+        <ul class="method-list">
+          <li class="method-item active" data-method="bank">
+            <i class="fas fa-university method-icon"></i>
+            <span>Chuyển khoản ngân hàng</span>
+          </li>
+          <li class="method-item" data-method="momo">
+            <i class="fas fa-mobile-alt method-icon"></i>
+            <span>Ví Momo</span>
+          </li>
+          <li class="method-item" data-method="zalo">
+            <i class="fab fa-product-hunt method-icon"></i>
+            <span>ZaloPay</span>
+          </li>
+          <li class="method-item" data-method="card">
+            <i class="fas fa-credit-card method-icon"></i>
+            <span>Thẻ Cào</span>
+          </li>
+          <li class="method-item" data-method="vtpay">
+            <i class="fas fa-wallet method-icon"></i>
+            <span>VTPay</span>
+          </li>
+          <li class="method-item" data-method="qrbank">
+            <i class="fas fa-qrcode method-icon"></i>
+            <span>QRBank247</span>
+          </li>
+        </ul>
 
         <div class="quick-options">
           <button class="quick-option" data-amount="50000">50,000</button>
@@ -255,14 +261,14 @@
           <div class="info" id="payment-info"></div>
         </div>
 
-        <button class="confirm-btn" id="generate-btn">HIỂN THỊ QR CODE</button>
+        <button class="confirm-btn" id="generate-btn">THANH TOÁN NGAY</button>
       </div>
 
       <div class="footer">© 2023 MH Computer - Điện thoại: 0987.654.321</div>
     </div>
 
     <script>
-      const methods = document.querySelectorAll('.method-btn');
+      const methodItems = document.querySelectorAll('.method-item');
       const amountInput = document.getElementById('amount');
       const qrContainer = document.getElementById('qr-container');
       const qrCode = document.getElementById('qr-code');
@@ -273,14 +279,14 @@
       const successUrl = 'https://pay.mhcomputer.org/payment-success';
       const cancelUrl = 'https://pay.mhcomputer.org/payment-cancel';
 
-      let currentMethod = 'momo';
+      let currentMethod = 'bank';
 
       // Chọn phương thức
-      methods.forEach(method => {
-        method.addEventListener('click', () => {
-          methods.forEach(m => m.classList.remove('active'));
-          method.classList.add('active');
-          currentMethod = method.dataset.method;
+      methodItems.forEach(item => {
+        item.addEventListener('click', () => {
+          methodItems.forEach(m => m.classList.remove('active'));
+          item.classList.add('active');
+          currentMethod = item.dataset.method;
           qrContainer.style.display = 'none';
           generateBtn.disabled = !amountInput.value;
         });
@@ -299,15 +305,12 @@
 
       // Kiểm tra giá trị nhập
       amountInput.addEventListener('input', () => {
-        // Xóa active khỏi các nút chọn nhanh nếu nhập thủ công
         quickOptions.forEach(opt => opt.classList.remove('active'));
-
-        generateBtn.disabled =
-          !amountInput.value || parseInt(amountInput.value) < 1000;
+        generateBtn.disabled = !amountInput.value || parseInt(amountInput.value) < 1000;
         qrContainer.style.display = 'none';
       });
 
-      // Tạo QR Code
+      // Tạo QR Code và xử lý thanh toán
       generateBtn.addEventListener('click', () => {
         const amount = parseInt(amountInput.value);
 
@@ -316,45 +319,85 @@
           return;
         }
 
-        // Format số tiền
         const formattedAmount = amount.toLocaleString('vi-VN');
+        const paymentContent = `NAP${amount}${Math.floor(Math.random() * 1000)}`;
 
-        // Tạo QR code tương ứng với phương thức
+        // Tạo QR code và thông tin thanh toán
         switch (currentMethod) {
-          case 'momo':
-            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=NAP${amount}`;
-            paymentInfo.innerHTML = `
-              <p><strong>Phương thức:</strong> Ví Momo</p>
-              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
-              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
-              <p><strong>Nội dung:</strong> NAP${amount}</p>
-            `;
-            break;
-
-          case 'zalo':
-            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=NAP${amount}`;
-            paymentInfo.innerHTML = `
-              <p><strong>Phương thức:</strong> Ví ZaloPay</p>
-              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
-              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
-              <p><strong>Nội dung:</strong> NAP${amount}</p>
-            `;
-            break;
-
           case 'bank':
-            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=MHS`;
+            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=${paymentContent}`;
             paymentInfo.innerHTML = `
               <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
               <p><strong>Ngân hàng:</strong> BIDV</p>
               <p><strong>Số TK:</strong> V2QRBCHH01176</p>
               <p><strong>Chủ TK:</strong> DAO MINH HAI</p>
               <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
-              <p><strong>Nội dung:</strong> NAP${amount}</p>
+              <p><strong>Nội dung:</strong> ${paymentContent}</p>
+            `;
+            break;
+
+          case 'momo':
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=${paymentContent}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Ví Momo</p>
+              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> ${paymentContent}</p>
+            `;
+            break;
+
+          case 'zalo':
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=${paymentContent}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Ví ZaloPay</p>
+              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> ${paymentContent}</p>
+            `;
+            break;
+
+          case 'card':
+            // Xử lý thẻ cào
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Thẻ cào</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p>Vui lòng nhập mã thẻ cào của bạn</p>
+              <input type="text" id="card-code" placeholder="Nhập mã thẻ" class="form-control">
+              <input type="text" id="card-serial" placeholder="Nhập serial thẻ" class="form-control" style="margin-top: 5px;">
+            `;
+            qrContainer.style.display = 'block';
+            return;
+
+          case 'vtpay':
+            // Xử lý VTPay
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> VTPay</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p>Vui lòng chuyển khoản qua ví VTPay</p>
+            `;
+            qrContainer.style.display = 'block';
+            return;
+
+          case 'qrbank':
+            // Xử lý QRBank247
+            qrCode.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=${paymentContent}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> QRBank247</p>
+              <p><strong>Ngân hàng:</strong> BIDV</p>
+              <p><strong>Số TK:</strong> 962QR000003146</p>
+              <p><strong>Chủ TK:</strong> DAO MINH HAI</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> ${paymentContent}</p>
             `;
             break;
         }
 
         qrContainer.style.display = 'block';
+        
+        // Chuyển hướng sau 5 giây (ví dụ)
+        setTimeout(() => {
+          window.location.href = successUrl;
+        }, 5000);
       });
     </script>
   </body>
