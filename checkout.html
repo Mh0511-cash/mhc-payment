@@ -221,6 +221,33 @@
       opacity: 0.9;
     }
 
+    .qrbank-btn:active {
+      transform: translateY(0);
+    }
+
+    .qrbank-btn.loading {
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .qrbank-btn.loading::after {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .empty-cart {
       text-align: center;
       padding: 40px 0;
@@ -268,44 +295,61 @@
     }
 
     /* QR Modal */
-    #vietqr-modal > div {
-        background: white;
-        padding: 15px;
-        border-radius: 10px;
-        width: 95%;
-        max-width: 340px;
-        max-height: 90vh;
-        overflow-y: auto;
+    #vietqr-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
     }
-    
-    #vietqr-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
+
+    #vietqr-modal>div {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
+      max-width: 95%;
+      width: 340px;
+      padding: 15px;
     }
-    
-    #vietqr-image {
-        max-width: 240px;
-        width: 100%;
-        margin: 0 auto 15px;
-        display: block;
-    }
-    
+
     .bank-info {
-        margin-top: 10px;
-        font-size: 14px;
-        background: #f9f9f9;
-        padding: 12px;
-        border-radius: 8px;
-        width: 100%;
+      margin-top: 15px;
+      font-size: 14px;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
     }
-    
+
+    .bank-info p {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copy-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+
     .modal-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 15px;
-        gap: 10px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
     }
 
     .modal-btn {
