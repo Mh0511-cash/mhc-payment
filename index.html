@@ -142,6 +142,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-card:hover {
@@ -171,17 +174,23 @@
 
         .product-info {
             padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-info h3 {
             margin: 0 0 0.5rem;
             font-size: 1.1rem;
+            min-height: 2.5em; /* Giữ chiều cao cố định cho tên sản phẩm */
         }
 
         .description {
             color: var(--text-light);
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            flex-grow: 1;
+            min-height: 3.5em; /* Giữ chiều cao cố định cho mô tả */
         }
 
         .price {
@@ -189,6 +198,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             margin: 0.5rem 0;
+            min-height: 1.5em; /* Giữ chiều cao cố định cho giá */
         }
 
         .add-to-cart {
@@ -204,6 +214,7 @@
             justify-content: center;
             gap: 0.5rem;
             transition: background 0.3s;
+            margin-top: auto; /* Đẩy nút xuống dưới cùng */
         }
 
         .add-to-cart:hover {
@@ -364,14 +375,15 @@
             <!-- Sản phẩm 1 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/VPBhiHd.png" alt="Mì Hảo Hảo">
+                    <a href="https://imgur.com/VPBhiHd"><img src="https://i.imgur.com/VPBhiHd.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Mì Hảo Hảo">
                 </div>
                 <div class="product-info">
                     <h3>Mì Hảo Hảo tôm chua cay</h3>
                     <p class="description">Món ăn huyền thoại, cứu đói mọi sinh viên</p>
                     <div class="price">25.000 ₫</div>
                     <button class="add-to-cart" data-id="mi-hao-hao" data-name="Mì Hảo Hảo tôm chua cay"
-                        data-price="25000" data-img="https://i.imgur.com/VPBhiHd.png">
+                        data-price="25000" data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
@@ -380,14 +392,15 @@
             <!-- Sản phẩm 2 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/ZEL4bLO.jpg" alt="Mì sợi dầu">
+                    <a href="https://imgur.com/ZEL4bLO"><img src="https://i.imgur.com/ZEL4bLO.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Mì sợi dầu">
                 </div>
                 <div class="product-info">
                     <h3>Mì sợi dầu</h3>
                     <p class="description">Cảnh báo: Ăn vào là nghiện, không phải tại mì mà do đói!</p>
                     <div class="price">28.000 ₫</div>
                     <button class="add-to-cart" data-id="mi-soi-dau" data-name="Mì sợi dầu" data-price="28000"
-                        data-img="https://i.imgur.com/ZEL4bLO.jpg">
+                        data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
@@ -396,14 +409,15 @@
             <!-- Sản phẩm 3 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/TKreRzg.jpg" alt="Bánh Oreo">
+                    <a href="https://imgur.com/TKreRzg"><img src="https://i.imgur.com/TKreRzg.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Bánh Oreo">
                 </div>
                 <div class="product-info">
                     <h3>Bánh Oreo vị dâu</h3>
                     <p class="description">Bánh sandwich kem dâu thơm ngon, hộp 12 cái</p>
                     <div class="price">35.000 ₫</div>
                     <button class="add-to-cart" data-id="banh-oreo" data-name="Bánh Oreo vị dâu"
-                        data-price="35000" data-img="https://i.imgur.com/TKreRzg.jpg">
+                        data-price="35000" data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
@@ -412,14 +426,15 @@
             <!-- Sản phẩm 4 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/H0V9SFG.jpg" alt="Snack khoai tây">
+                    <a href="https://imgur.com/H0V9SFG"><img src="https://i.imgur.com/H0V9SFG.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Snack khoai tây">
                 </div>
                 <div class="product-info">
                     <h3>Snack khoai tây vị bò</h3>
                     <p class="description">Giòn tan, thơm ngon, gói 50g</p>
                     <div class="price">15.000 ₫</div>
                     <button class="add-to-cart" data-id="snack-khoai-tay" data-name="Snack khoai tây vị bò"
-                        data-price="15000" data-img="https://i.imgur.com/H0V9SFG.jpg">
+                        data-price="15000" data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
@@ -428,14 +443,15 @@
             <!-- Sản phẩm 5 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/5fTijGk.jpg" alt="Coca Cola">
+                    <a href="https://imgur.com/5fTijGk"><img src="https://i.imgur.com/5fTijGk.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Coca Cola">
                 </div>
                 <div class="product-info">
                     <h3>Nước ngọt Coca Cola</h3>
                     <p class="description">Lon 330ml, mát lạnh, giải khát tức thì</p>
                     <div class="price">12.000 ₫</div>
                     <button class="add-to-cart" data-id="coca-cola" data-name="Nước ngọt Coca Cola"
-                        data-price="12000" data-img="https://i.imgur.com/5fTijGk.jpg">
+                        data-price="12000" data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
@@ -444,14 +460,49 @@
             <!-- Sản phẩm 6 -->
             <div class="product-card">
                 <div class="product-image">
-                    <img src="https://i.imgur.com/SgOahXx.jpg" alt="Kẹo mút">
+                    <a href="https://imgur.com/SgOahXx"><img src="https://i.imgur.com/SgOahXx.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Kẹo mút">
                 </div>
                 <div class="product-info">
                     <h3>Kẹo mút Alpenliebe</h3>
                     <p class="description">Vị sữa thơm ngon, 10 cái/hộp</p>
                     <div class="price">20.000 ₫</div>
                     <button class="add-to-cart" data-id="keo-mut" data-name="Kẹo mút Alpenliebe"
-                        data-price="20000" data-img="https://i.imgur.com/SgOahXx.jpg">
+                        data-price="20000" data-img="">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 7 (Mới) -->
+            <div class="product-card">
+                <div class="product-image">
+                    <a href="https://imgur.com/N3PEwkf"><img src="https://i.imgur.com/N3PEwkf.png?2" title="source: imgur.com" /></a>
+                    <img src="" alt="Bánh mì">
+                </div>
+                <div class="product-info">
+                    <h3>Bánh mì que</h3>
+                    <p class="description">Bánh mì giòn tan, thơm ngon, gói 10 cái</p>
+                    <div class="price">18.000 ₫</div>
+                    <button class="add-to-cart" data-id="banh-mi-que" data-name="Bánh mì que"
+                        data-price="18000" data-img="">
+                        <i class="fas fa-cart-plus"></i> Thêm vào giỏ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sản phẩm 8 (Mới) -->
+            <div class="product-card">
+                <div class="product-image">
+                    <a href="https://imgur.com/N4FcNFa"><img src="https://i.imgur.com/N4FcNFa.png" title="source: imgur.com" /></a>
+                    <img src="" alt="Trà xanh">
+                </div>
+                <div class="product-info">
+                    <h3>Trà xanh không độ</h3>
+                    <p class="description">Giải khát thanh nhiệt, chai 500ml</p>
+                    <div class="price">15.000 ₫</div>
+                    <button class="add-to-cart" data-id="tra-xanh" data-name="Trà xanh không độ"
+                        data-price="15000" data-img="">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
                 </div>
