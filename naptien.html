@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nạp Tiền - MH Computer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 10px;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #9b59b6;
+        text-decoration: none;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .nav-btn {
+        padding: 6px 12px;
+        background: #9b59b6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 12px;
+      }
+
+      .popup {
+        background: white;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 400px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+      }
+
+      h2 {
+        margin-top: 0;
+        color: #9b59b6;
+        text-align: center;
+        font-size: 18px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+
+      .method {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+        gap: 8px;
+      }
+
+      .method-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 5px !important;
+      }
+
+      .method-icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      .method-btn {
+        background: #f1f1f1;
+        border: none;
+        padding: 10px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        flex: 1;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .method-btn.active {
+        background: #9b59b6;
+        color: white;
+      }
+
+      .quick-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .quick-option {
+        background: #f1f1f1;
+        border: none;
+        padding: 12px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        font-size: 14px;
+        transition: all 0.2s;
+      }
+
+      .quick-option:hover,
+      .quick-option.active {
+        background: #9b59b6;
+        color: white;
+      }
+
+      .qr-container {
+        text-align: center;
+        margin: 15px 0;
+        display: none;
+      }
+
+      .qr-code {
+        max-width: 200px;
+        width: 100%;
+        margin: 0 auto;
+        border: 1px solid #eee;
+        padding: 10px;
+      }
+
+      .confirm-btn {
+        background: #9b59b6;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .confirm-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .info {
+        font-size: 14px;
+        margin-top: 10px;
+        text-align: left;
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: auto;
+        padding: 15px 0;
+        color: #666;
+        font-size: 12px;
+      }
+
+      @media (min-width: 500px) {
+        .quick-options {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .method-btn {
+          padding: 10px 5px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <a href="index.html" class="logo">MH Computer</a>
+        <div class="nav-buttons">
+          <a href="index.html" class="nav-btn">Trang chủ</a>
+          <a href="cart.html" class="nav-btn">Giỏ hàng</a>
+        </div>
+      </div>
+
+      <div class="popup">
+        <h2>NẠP TIỀN VÀO TÀI KHOẢN</h2>
+
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+
+        <div class="method">
+          <button class="method-btn active" data-method="momo">
+            <i class="fas fa-mobile-alt"></i> Momo
+          </button>
+          <button class="method-btn" data-method="zalo">
+            <i class="fab fa-product-hunt"></i> ZaloPay
+          </button>
+          <button class="method-btn" data-method="bank">
+            <i class="fas fa-university"></i> Ngân hàng
+          </button>
+        </div>
+
+        <div class="quick-options">
+          <button class="quick-option" data-amount="50000">50,000</button>
+          <button class="quick-option" data-amount="100000">100,000</button>
+          <button class="quick-option" data-amount="200000">200,000</button>
+          <button class="quick-option" data-amount="300000">300,000</button>
+          <button class="quick-option" data-amount="400000">400,000</button>
+          <button class="quick-option" data-amount="500000">500,000</button>
+        </div>
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="Nhập số tiền (VND)"
+          min="1000"
+          inputmode="numeric"
+        />
+
+        <div class="qr-container" id="qr-container">
+          <img id="qr-code" class="qr-code" src="" alt="QR Code" />
+          <div class="info" id="payment-info"></div>
+        </div>
+
+        <button class="confirm-btn" id="generate-btn">HIỂN THỊ QR CODE</button>
+      </div>
+
+      <div class="footer">© 2023 MH Computer - Điện thoại: 0987.654.321</div>
+    </div>
+
+    <script>
+      const methods = document.querySelectorAll('.method-btn');
+      const amountInput = document.getElementById('amount');
+      const qrContainer = document.getElementById('qr-container');
+      const qrCode = document.getElementById('qr-code');
+      const paymentInfo = document.getElementById('payment-info');
+      const generateBtn = document.getElementById('generate-btn');
+      const quickOptions = document.querySelectorAll('.quick-option');
+
+      const successUrl = 'https://pay.mhcomputer.org/payment-success';
+      const cancelUrl = 'https://pay.mhcomputer.org/payment-cancel';
+
+      let currentMethod = 'momo';
+
+      // Chọn phương thức
+      methods.forEach(method => {
+        method.addEventListener('click', () => {
+          methods.forEach(m => m.classList.remove('active'));
+          method.classList.add('active');
+          currentMethod = method.dataset.method;
+          qrContainer.style.display = 'none';
+          generateBtn.disabled = !amountInput.value;
+        });
+      });
+
+      // Chọn nhanh số tiền
+      quickOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          quickOptions.forEach(opt => opt.classList.remove('active'));
+          option.classList.add('active');
+          amountInput.value = option.dataset.amount;
+          qrContainer.style.display = 'none';
+          generateBtn.disabled = false;
+        });
+      });
+
+      // Kiểm tra giá trị nhập
+      amountInput.addEventListener('input', () => {
+        // Xóa active khỏi các nút chọn nhanh nếu nhập thủ công
+        quickOptions.forEach(opt => opt.classList.remove('active'));
+
+        generateBtn.disabled =
+          !amountInput.value || parseInt(amountInput.value) < 1000;
+        qrContainer.style.display = 'none';
+      });
+
+      // Tạo QR Code
+      generateBtn.addEventListener('click', () => {
+        const amount = parseInt(amountInput.value);
+
+        if (!amount || amount < 1000) {
+          alert('Vui lòng nhập số tiền tối thiểu 1,000 VND');
+          return;
+        }
+
+        // Format số tiền
+        const formattedAmount = amount.toLocaleString('vi-VN');
+
+        // Tạo QR code tương ứng với phương thức
+        switch (currentMethod) {
+          case 'momo':
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=NAP${amount}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Ví Momo</p>
+              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> NAP${amount}</p>
+            `;
+            break;
+
+          case 'zalo':
+            qrCode.src = `https://img.vietqr.io/image/VCB-68686868-compact2.jpg?amount=${amount}&addInfo=NAP${amount}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Ví ZaloPay</p>
+              <p><strong>Số điện thoại:</strong> 0987.654.321</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> NAP${amount}</p>
+            `;
+            break;
+
+          case 'bank':
+            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${amount}&addInfo=MHS`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
+              <p><strong>Ngân hàng:</strong> BIDV</p>
+              <p><strong>Số TK:</strong> V2QRBCHH01176</p>
+              <p><strong>Chủ TK:</strong> DAO MINH HAI</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> NAP${amount}</p>
+            `;
+            break;
+        }
+
+        qrContainer.style.display = 'block';
+      });
+    </script>
+  </body>
+</html>
