@@ -526,7 +526,7 @@
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
-      
+
     }
 
     /* ====== RESPONSIVE MOBILE ====== */
@@ -631,110 +631,133 @@
 </head>
 <header>
   <a href="index.html" class="back-button">
-      <i class="fas fa-arrow-left"></i> Trang chủ
+    <i class="fas fa-arrow-left"></i> Trang chủ
   </a>
   <div class="header-title-container">
-      <h1 class="header-title">
-          TẠP HÓA BÀ TRÂM
-          <span class="header-subtitle">THANH TOÁN ĐƠN HÀNG</span>
-      </h1>
+    <h1 class="header-title">
+      TẠP HÓA BÀ TRÂM
+      <span class="header-subtitle">THANH TOÁN ĐƠN HÀNG</span>
+    </h1>
   </div>
 </header>
 
 <body>
-    <div class="container">
-      <div class="cart-container">
-        <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
+  <div class="container">
+    <div class="cart-container">
+      <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
 
-        <table class="cart-items">
-          <thead>
-            <tr>
-              <th>Sản phẩm</th>
-              <th>Giá</th>
-              <th>Số lượng</th>
-              <th>Tổng</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="cart-body"></tbody>
-        </table>
+      <table class="cart-items">
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
 
-        <div class="cart-summary">
-          <h3>
-            Tổng cộng:
-            <span id="total-price" style="color: var(--primary); font-weight: bold">0 ₫</span>
-          </h3>
-          <div class="action-buttons">
-            <a href="index.html" class="continue-btn">
-              <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+      <div class="cart-summary">
+        <h3>
+          Tổng cộng:
+          <span id="total-price" style="color: var(--primary); font-weight: bold">0 ₫</span>
+        </h3>
+        <div class="action-buttons">
+          <a href="index.html" class="continue-btn">
+            <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+          </a>
+          <button class="payos-btn" onclick="processPayOSPayment()">
+            <i class="fas fa-credit-card"></i> Thanh toán PayOS
+          </button>
+          <button class="sepay-btn" onclick="processSePayPayment()">
+            <i class="fas fa-wallet"></i> Thanh toán SePay
+          </button>
+          <button class="qr-btn" onclick="showVietQR()">
+            <i class="fas fa-qrcode"></i> Thanh toán QR
             </a>
-            <button class="payos-btn" onclick="processPayOSPayment()">
-              <i class="fas fa-credit-card"></i> Thanh toán PayOS
+            <button class="qrbank-btn" onclick="window.location.href='naptien.html'">
+              <i class="fas fa-qrcode"></i> QRBANK24/7
             </button>
-            <button class="sepay-btn" onclick="processSePayPayment()">
-              <i class="fas fa-wallet"></i> Thanh toán SePay
-            </button>
-            <button class="qr-btn" onclick="showVietQR()">
-              <i class="fas fa-qrcode"></i> Thanh toán QR
-            </button>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- VietQR Modal -->
-    <div id="vietqr-modal">
-      <div>
-        <h3>THANH TOÁN QUA QR CODE</h3>
-        <div id="vietqr-container">
-          <div style="height: 250px; display: flex; justify-content: center; align-items: center">
-            <p>Đang tạo mã QR...</p>
-          </div>
-          <img id="vietqr-image" style="max-width: 250px; margin: 15px auto; display: none" />
+  <!-- VietQR Modal -->
+  <div id="vietqr-modal">
+    <div>
+      <h3 style="text-align: center;">THANH TOÁN QUA QR CODE</h3>
+      <div id="vietqr-container">
+        <div style="height: 250px; display: flex; justify-content: center; align-items: center">
+          <p>Đang tạo mã QR...</p>
         </div>
+        <img id="vietqr-image" style="max-width: 250px; margin: 15px auto; display: none">
+      </div>
 
-        <div style="margin-top: 15px; font-size: 14px; background: #f9f9f9; padding: 10px; border-radius: 5px;">
-          <p><strong>Ngân hàng:</strong> <span id="bank-name">BIDV</span></p>
-          <p><strong>Số TK:</strong> <span id="account-number">V2Q8KDH001176</span></p>
-          <p><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></p>
-          <p><strong>Nội dung:</strong> <span>DH</span></p>
-          <p><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></p>
-        </div>
+      <div class="bank-info">
+        <p>
+          <span><strong>Ngân hàng:</strong> BIDV</span>
+        </p>
+        <p>
+          <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Nội dung:</strong> <span id="payment-content">DH${generateRandomString(7)}</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
+        </p>
+      </div>
 
-        <button onclick="hideVietQR()"
-          style="margin-top: 15px; padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+      <div class="modal-actions">
+        <button class="modal-btn close-btn" onclick="hideVietQR()">
           <i class="fas fa-times"></i> Đóng
+        </button>
+        <button class="modal-btn continue-btn" onclick="window.location.href='index.html'">
+          <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
         </button>
       </div>
     </div>
+  </div>
 
-    <footer>
-      <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
-      <p>Powered by Demo by DMH</p>
-    </footer>
+  <footer>
+    <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
+    <p>Powered by Demo by DMH</p>
+  </footer>
 
-    <script>
-      const CART_STORAGE_KEY = 'shopping_cart';
-      let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-      const fallbackImageUrl = 'https://via.placeholder.com/80?text=Image+Error';
+  <script>
+    const CART_STORAGE_KEY = 'shopping_cart';
+    let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+    const fallbackImageUrl = 'https://via.placeholder.com/80?text=Image+Error';
 
-      // Product images mapping
-      const productImages = {
-        'mi-hao-hao': 'https://i.imgur.com/VPBhiHd.png',
-        'mi-soi-dau': 'https://i.imgur.com/ZEL4bLO.jpg',
-        'banh-oreo': 'https://i.imgur.com/TKreRzg.jpg',
-        'snack-khoai-tay': 'https://i.imgur.com/H0V9SFG.jpg',
-        'coca-cola': 'https://i.imgur.com/5fTijGk.jpg',
-        'keo-mut': 'https://i.imgur.com/SgOahXx.jpg'
-      };
+    // Product images mapping
+    const productImages = {
+      'mi-hao-hao': 'https://i.imgur.com/VPBhiHd.png',
+      'mi-soi-dau': 'https://i.imgur.com/ZEL4bLO.jpg',
+      'banh-oreo': 'https://i.imgur.com/TKreRzg.jpg',
+      'snack-khoai-tay': 'https://i.imgur.com/H0V9SFG.jpg',
+      'coca-cola': 'https://i.imgur.com/5fTijGk.jpg',
+      'keo-mut': 'https://i.imgur.com/SgOahXx.jpg',
+      'tra-xanh': 'https://i.imgur.com/N4FcNFa.png',
+      'banh-mi-que': 'https://i.imgur.com/3gKR0hO.png'
+    };
 
-      function renderCart() {
-        const cartBody = document.getElementById('cart-body');
-        cartBody.innerHTML = '';
-        let totalPrice = 0;
+    function renderCart() {
+      const cartBody = document.getElementById('cart-body');
+      cartBody.innerHTML = '';
+      let totalPrice = 0;
 
-        if (!cart?.length) {
-          cartBody.innerHTML = `
+      if (!cart?.length) {
+        cartBody.innerHTML = `
           <tr>
             <td colspan="5" class="empty-cart">
               <i class="fas fa-shopping-cart"></i>
@@ -742,16 +765,16 @@
               <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
             </td>
           </tr>`;
-          document.getElementById('total-price').textContent = '0 ₫';
-          return;
-        }
+        document.getElementById('total-price').textContent = '0 ₫';
+        return;
+      }
 
-        cart.forEach((item, index) => {
-          const subtotal = item.price * item.quantity;
-          totalPrice += subtotal;
-          const itemImage = productImages[item.id] || item.img || fallbackImageUrl;
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        totalPrice += subtotal;
+        const itemImage = productImages[item.id] || item.img || fallbackImageUrl;
 
-          cartBody.innerHTML += `
+        cartBody.innerHTML += `
           <tr>
             <td>
               <div class="product-info">
@@ -775,120 +798,164 @@
               </button>
             </td>
           </tr>`;
-        });
+      });
 
-        document.getElementById('total-price').textContent = `${totalPrice.toLocaleString('vi-VN')} ₫`;
+      document.getElementById('total-price').textContent = `${totalPrice.toLocaleString('vi-VN')} ₫`;
+    }
+
+    function saveCart() {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+      renderCart();
+    }
+
+    function updateQuantity(index, change) {
+      if (index >= 0 && index < cart.length) {
+        cart[index].quantity = Math.max(1, cart[index].quantity + change);
+        saveCart();
+      }
+    }
+
+    function removeItem(index) {
+      if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+        cart.splice(index, 1);
+        saveCart();
+      }
+    }
+
+    function clearCart() {
+      cart = [];
+      localStorage.removeItem(CART_STORAGE_KEY);
+      renderCart();
+    }
+    // Hàm tạo chuỗi ngẫu nhiên
+    function generateRandomString(length) {
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    // Hàm copy text
+    function copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      const text = element.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Đã copy: ' + text);
+      });
+    }
+    // Payment functions
+    function processPayOSPayment() {
+      const btn = document.querySelector('.payos-btn');
+      btn.classList.add('loading');
+
+      // Simulate payment processing
+      setTimeout(() => {
+        alert('Thanh toán PayOS thành công!');
+        clearCart();
+        btn.classList.remove('loading');
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+
+    function processSePayPayment() {
+      const btn = document.querySelector('.sepay-btn');
+      btn.classList.add('loading');
+
+      // Simulate payment processing
+      setTimeout(() => {
+        alert('Thanh toán SePay thành công!');
+        clearCart();
+        btn.classList.remove('loading');
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+
+    function showVietQR() {
+      const modal = document.getElementById('vietqr-modal');
+      const totalAmount = calculateTotal();
+
+      // Kiểm tra giỏ hàng trống
+      if (totalAmount <= 0) {
+        alert('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+        return;
       }
 
-      function saveCart() {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-        renderCart();
+      modal.style.display = 'flex';
+
+      // Tạo nội dung thanh toán ngẫu nhiên
+      const paymentContent = 'DH' + generateRandomString(7);
+
+      // Cập nhật thông tin thanh toán
+      document.getElementById('qr-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('payment-content').textContent = paymentContent;
+
+      // Hiển thị QR code
+      const qrContainer = document.querySelector('#vietqr-container p');
+      const qrImage = document.getElementById('vietqr-image');
+
+      qrContainer.style.display = 'none';
+      qrImage.style.display = 'block';
+      qrImage.alt = `QR Thanh toán ${totalAmount.toLocaleString('vi-VN')}₫`;
+
+      // Tạo URL QR với thông tin mới nhất
+      const qrUrl = new URL('https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg');
+      qrUrl.searchParams.set('accountName', 'DAO MINH HAI');
+      qrUrl.searchParams.set('amount', totalAmount);
+      qrUrl.searchParams.set('addInfo', paymentContent);
+
+      qrImage.src = qrUrl.toString();
+
+      // Lưu thông tin thanh toán tạm thời
+      localStorage.setItem(
+        'currentQRPayment',
+        JSON.stringify({
+          orderId: paymentContent,
+          amount: totalAmount,
+          timestamp: new Date().toISOString()
+        })
+      );
+    }
+
+    function hideVietQR() {
+      document.getElementById('vietqr-modal').style.display = 'none';
+    }
+
+    function calculateTotal() {
+      if (!cart || cart.length === 0) return 0;
+      return cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
+    }
+
+    // Hàm tạo chuỗi ngẫu nhiên (nên đặt cùng với các hàm utility khác)
+    function generateRandomString(length) {
+      const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
       }
+      return result;
+    }
 
-      function updateQuantity(index, change) {
-        if (index >= 0 && index < cart.length) {
-          cart[index].quantity = Math.max(1, cart[index].quantity + change);
-          saveCart();
-        }
-      }
+    // Initialize cart on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
 
-      function removeItem(index) {
-        if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
-          cart.splice(index, 1);
-          saveCart();
-        }
-      }
-
-      function clearCart() {
-        cart = [];
-        localStorage.removeItem(CART_STORAGE_KEY);
-        renderCart();
-      }
-
-      // Payment functions
-      function processPayOSPayment() {
-        const btn = document.querySelector('.payos-btn');
-        btn.classList.add('loading');
-
-        // Simulate payment processing
-        setTimeout(() => {
-          alert('Thanh toán PayOS thành công!');
-          clearCart();
-          btn.classList.remove('loading');
-          window.location.href = 'index.html';
-        }, 1500);
-      }
-
-      function processSePayPayment() {
-        const btn = document.querySelector('.sepay-btn');
-        btn.classList.add('loading');
-
-        // Simulate payment processing
-        setTimeout(() => {
-          alert('Thanh toán SePay thành công!');
-          clearCart();
-          btn.classList.remove('loading');
-          window.location.href = 'index.html';
-        }, 1500);
-      }
-
-      function showVietQR() {
-        const modal = document.getElementById('vietqr-modal');
-        const totalAmount = calculateTotal();
-        modal.style.display = 'flex';
-
-        // Hiển thị thông tin ngân hàng
-        document.getElementById('bank-name').textContent = 'BIDV';
-        document.getElementById('account-number').textContent = '962QR000003146';
-        document.getElementById('account-name').textContent = 'DAO MINH HAI';
-        document.getElementById('qr-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' ₫';
-
-        // Ẩn thông báo đang tạo và hiển thị QR code
-        document.querySelector('#vietqr-container p').style.display = 'none';
-        const qrImage = document.getElementById('vietqr-image');
-        qrImage.style.display = 'block';
-
-        // Sử dụng link QR code
-        qrImage.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${totalAmount}&addInfo=DH`;
-
-        // Lưu thông tin thanh toán tạm thời
-        localStorage.setItem(
-          'currentQRPayment',
-          JSON.stringify({
-            orderId: 'QR_' + Date.now(),
-            amount: totalAmount,
-            timestamp: new Date().toISOString()
-          })
-        );
-      }
-
-      function hideVietQR() {
-        document.getElementById('vietqr-modal').style.display = 'none';
-      }
-
-      function calculateTotal() {
-        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-      }
-
-      // Initialize cart on load
-      document.addEventListener('DOMContentLoaded', () => {
-        renderCart();
-
-        // Listen for storage changes from other tabs
-        window.addEventListener('storage', function (e) {
-          if (e.key === CART_STORAGE_KEY) {
-            cart = JSON.parse(e.newValue || '[]');
-            renderCart();
-          }
-        });
-
-        // Kiểm tra nếu có thông tin thanh toán QR chưa xử lý
-        const paymentData = JSON.parse(localStorage.getItem('currentQRPayment'));
-        if (paymentData) {
-          // Có thể thêm logic kiểm tra trạng thái thanh toán ở đây
+      // Listen for storage changes from other tabs
+      window.addEventListener('storage', function (e) {
+        if (e.key === CART_STORAGE_KEY) {
+          cart = JSON.parse(e.newValue || '[]');
+          renderCart();
         }
       });
-    </script>
+
+      // Kiểm tra nếu có thông tin thanh toán QR chưa xử lý
+      const paymentData = JSON.parse(localStorage.getItem('currentQRPayment'));
+      if (paymentData) {
+        // Có thể thêm logic kiểm tra trạng thái thanh toán ở đây
+      }
+    });
+  </script>
 </body>
 <footer>...</footer>
 
