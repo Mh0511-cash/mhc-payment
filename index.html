@@ -624,133 +624,112 @@
         </div>
 
         <script>
-            // ================ CART FUNCTIONS ================
-            let cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
-            // Xóa Giỏ Hàng
-            function clearCart() {
-                localStorage.removeItem('shopping_cart');
-                cart = []; // Reset biến cart
-                updateCartCount(); // Cập nhật UI
+            // ================ FIXED CART FUNCTIONS ================
+document.addEventListener('DOMContentLoaded', function() {
+    // Khởi tạo giỏ hàng
+    let cart = JSON.parse(localStorage.getItem('shopping_cart')) || [];
+    
+    // Cập nhật số lượng giỏ hàng (FIXED)
+    function updateCartCount() {
+        const totalItems = cart.reduce((total, item) => total + (item.quantity || 0), 0);
+        document.querySelectorAll('.cart-count').forEach(el => {
+            el.textContent = totalItems;
+            // Ẩn số 0 khi chưa có sản phẩm
+            el.style.display = totalItems > 0 ? 'flex' : 'none';
+        });
+    }
+    
+    // Hiển thị thông báo toast (FIXED POSITION)
+    function showToast(message, type = 'success') {
+        // Tạo toast nếu chưa có
+        let toast = document.querySelector('.toast-notification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            
+            // Tự động ẩn sau 3s
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    }
 
-                // Thêm vào sự kiện khi click thanh toán
-                document.querySelector('a[href="checkout.html"]').addEventListener('click', function (e) {
-                    e.preventDefault(); // Tạm ngăn chuyển trang
-                    clearCart();
-                    showToast('Đã xóa giỏ hàng sau thanh toán');
+    // Thêm sản phẩm vào giỏ hàng (FIXED)
+    function addToCart(product) {
+        const existingItem = cart.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+        
+        localStorage.setItem('shopping_cart', JSON.stringify(cart));
+        updateCartCount();
+        showToast(`Đã thêm ${product.name} vào giỏ hàng`);
+    }
 
-                    // Chuyển trang sau 1.5s
-                    setTimeout(() => {
-                        window.location.href = 'checkout.html';
-                    }, 1500);
-                });
-            }
+    // Bắt sự kiện click nút "Thêm vào giỏ"
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const product = {
+                id: this.dataset.id,
+                name: this.dataset.name,
+                price: parseInt(this.dataset.price),
+                img: this.dataset.img
+            };
+            addToCart(product);
+        });
+    });
 
-            // Gọi hàm khi trang load
-            document.addEventListener('DOMContentLoaded', clearCart);
-            // Hàm cập nhật số lượng giỏ hàng
-            function updateCartCount() {
-                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-                document.querySelectorAll('.cart-count').forEach(el => {
-                    el.textContent = totalItems;
-                    el.style.display = totalItems > 0 ? 'flex' : 'none';
-                });
-            }
+    // Khởi tạo lần đầu
+    updateCartCount();
+});
 
-            // Hàm hiển thị thông báo
-            function showToast(message, type = 'success') {
-                const toast = document.createElement('div');
-                toast.className = `toast-notification ${type}`;
-                toast.innerHTML = `
-    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-    <span>${message}</span>
-  `;
-
-                document.body.appendChild(toast);
-
-                // Tự động ẩn sau 3s
-                setTimeout(() => {
-                    toast.classList.add('fade-out');
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
-            }
-
-            // Thêm sản phẩm vào giỏ hàng
-            function addToCart(product) {
-                const existingItem = cart.find(item => item.id === product.id);
-
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({ ...product, quantity: 1 });
-                }
-
-                localStorage.setItem('shopping_cart', JSON.stringify(cart));
-                updateCartCount();
-                showToast(`Đã thêm ${product.name} vào giỏ hàng`);
-            }
-
-            // ================ EVENT LISTENERS ================
-            document.addEventListener('DOMContentLoaded', function () {
-                // Khởi tạo giỏ hàng
-                updateCartCount();
-
-                // Bắt sự kiện click nút "Thêm vào giỏ"
-                document.querySelectorAll('.add-to-cart').forEach(button => {
-                    button.addEventListener('click', function () {
-                        const product = {
-                            id: this.dataset.id || Date.now().toString(),
-                            name: this.dataset.name,
-                            price: parseInt(this.dataset.price),
-                            img: this.dataset.img
-                        };
-                        addToCart(product);
-                    });
-                });
-            });
-
-            // ================ CSS CHO THÔNG BÁO ================
-            const toastStyle = document.createElement('style');
-            toastStyle.textContent = `
+// ================ FIXED TOAST CSS ================
+const toastCSS = `
 .toast-notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #4CAF50;
-  color: white;
-  padding: 15px 20px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  animation: slideIn 0.3s ease-out;
-  transform: translateX(0);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #43a047;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
 }
-
 .toast-notification.error {
-  background: #f44336;
+    background: #e53935;
 }
-
 .toast-notification i {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
 }
-
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
-
 .fade-out {
-  animation: fadeOut 0.3s ease-in;
-  opacity: 0;
+    animation: fadeOut 0.3s ease-in forwards;
 }
-
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 `;
+const style = document.createElement('style');
+  style.textContent = toastCSS;
+  document.head.appendChild(style);
             document.head.appendChild(toastStyle);
             // ================ CORE FUNCTIONS ================
             document.addEventListener('DOMContentLoaded', function () {
