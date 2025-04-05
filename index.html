@@ -2,6 +2,7 @@
 <html lang="vi">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TẠP HÓA DEMO - DEMO LÀ KHÔNG CÓ THẬT </title>
@@ -20,6 +21,45 @@
     <link rel="icon" href="https://i.imgur.com/F3YpRzA.jpg" type="image/jpeg">
 
     <style>
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.2rem !important;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr !important;
+                padding: 0 10px;
+            }
+
+            .product-card {
+                width: 100% !important;
+                margin: 10px 0 !important;
+            }
+
+            .header-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .header-btn {
+                padding: 8px 12px !important;
+                font-size: 0.9rem !important;
+                margin: 3px !important;
+            }
+        }
+
+
+        @media (hover: none) {
+            .product-card:active {
+                transform: scale(0.98) !important;
+            }
+
+            .add-to-cart:active {
+                background: #2a00cc !important;
+            }
+        }
+       
+    
         .sandbox-notice {
             background-color: #43c3ff;
             color: white;
@@ -478,12 +518,7 @@
     </style>
     </head>
 
-    <body>
-        <!-- Preloader -->
-        <div id="preloader">
-            <div class="loader"></div>
-        </div>
-
+    <body>     
         <header>
             <div class="header-content">
                 <div class="header-titles">
@@ -624,6 +659,7 @@
         </div>
 
         <script>
+
             // ================ FIXED CART FUNCTIONS ================
             document.addEventListener('DOMContentLoaded', function () {
                 // Khởi tạo giỏ hàng
@@ -692,44 +728,12 @@
                 updateCartCount();
             });
 
-            // ================ FIXED TOAST CSS ================
-            const toastCSS = `
-.toast-notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #43a047;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
-}
-.toast-notification.error {
-    background: #e53935;
-}
-.toast-notification i {
-    font-size: 1.2rem;
-}
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-.fade-out {
-    animation: fadeOut 0.3s ease-in forwards;
-}
-@keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-}
-`;
-            
+
+
+
             // ================ CORE FUNCTIONS ================
             document.addEventListener('DOMContentLoaded', function () {
+                
                 // Load cart from common storage key
                 const CART_STORAGE_KEY = 'shopping_cart';
                 let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];

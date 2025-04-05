@@ -14,6 +14,14 @@
       --danger: #e74c3c;
       --light: #ecf0f1;
       --dark: #2c3e50;
+      --primary: #2f8ffd;
+      --secondary: #556B2F;
+      --success: #28a745;
+      --danger: #dc3545;
+      --warning: #ffc107;
+      --info: #17a2b8;
+      --light: #f8f9fa;
+      --dark: #343a40;
     }
 
     body {
@@ -331,6 +339,242 @@
         text-overflow: ellipsis;
       }
     }
+
+    /* ========== MOBILE STYLES ========== */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.5rem;
+        min-height: 60px;
+        flex-wrap: wrap;
+        position: relative;
+      }
+
+      .header-content {
+        padding: 0 50px !important;
+        margin: 0 5px !important;
+        order: 2;
+        width: 100%;
+        text-align: center;
+      }
+
+      .header-title {
+        font-size: 1rem !important;
+        padding: 0 5px !important;
+        margin-top: 5px !important;
+        line-height: 1.3;
+      }
+
+      .back-button {
+        position: static !important;
+        transform: none !important;
+        order: 1;
+        margin: 5px auto;
+        padding: 6px 10px !important;
+        font-size: 0.8rem;
+        width: max-content;
+      }
+
+      .cart-container {
+        padding: 15px;
+      }
+
+      .cart-items th,
+      .cart-items td {
+        padding: 8px 5px;
+        font-size: 0.9rem;
+      }
+
+      .item-img {
+        width: 50px !important;
+        height: 50px !important;
+      }
+
+      .product-info {
+        gap: 5px !important;
+      }
+
+      .quantity-input {
+        width: 30px !important;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .checkout-btn,
+      .continue-btn,
+      .payos-btn,
+      .sepay-btn,
+      .qr-btn {
+        width: 100%;
+        padding: 10px !important;
+        font-size: 0.9rem;
+      }
+
+      /* Modal adjustments */
+      #vietqr-modal>div {
+        width: 95%;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 0.9rem !important;
+      }
+
+      .product-name {
+        font-size: 0.8rem;
+      }
+
+      .quantity-btn {
+        width: 25px !important;
+        height: 25px !important;
+      }
+    }
+
+    /* ====== CĂN GIỮA HEADER ====== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 1rem;
+      min-height: 80px;
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .header-title-container {
+      flex: 1;
+      text-align: center;
+      padding: 0 60px;
+      /* Để chừa chỗ cho nút back */
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .header-subtitle {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: normal;
+      margin-top: 3px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      /* Giữ nguyên các style khác của nút back */
+    }
+
+    /* ====== RESPONSIVE MOBILE ====== */
+    @media (max-width: 768px) {
+      .header-title-container {
+        padding: 0 80px;
+        /* Tăng padding để chừa chỗ cho nút back */
+      }
+
+      .header-title {
+        font-size: 1.1rem;
+      }
+
+      .header-subtitle {
+        font-size: 0.7rem;
+      }
+
+      .back-button {
+        left: 10px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 1rem;
+      }
+
+      .header-subtitle {
+        font-size: 0.65rem;
+      }
+    }
+
+    /* ====== CĂN GIỮA HEADER ====== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 1rem;
+      min-height: 80px;
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .header-title-container {
+      flex: 1;
+      text-align: center;
+      padding: 0 60px;
+      /* Để chừa chỗ cho nút back */
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .header-subtitle {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: normal;
+      margin-top: 3px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* ====== RESPONSIVE MOBILE ====== */
+    @media (max-width: 768px) {
+      .header-title-container {
+        padding: 0 80px;
+        /* Tăng padding để chừa chỗ cho nút back */
+      }
+
+      .header-title {
+        font-size: 1.1rem;
+      }
+
+      .header-subtitle {
+        font-size: 0.7rem;
+      }
+
+      .back-button {
+        left: 10px;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title {
+        font-size: 1rem;
+      }
+
+      .header-subtitle {
+        font-size: 0.65rem;
+      }
+    }
   </style>
 </head>
 
@@ -339,9 +583,10 @@
     <a href="index.html" class="back-button">
       <i class="fas fa-arrow-left"></i> Trang chủ
     </a>
-    <div class="header-content">
+    <div class="header-title-container">
       <h1 class="header-title">
-        TẠP HÓA BÀ TRÂM - TỰ HÀO TẠP HÓA TẠP NHAM NHẤT VIỆT NAM
+        TẠP HÓA BÀ TRÂM
+        <span class="header-subtitle">TỰ HÀO TẠP HÓA TẠP NHAM NHẤT VIỆT NAM</span>
       </h1>
     </div>
   </header>
@@ -543,7 +788,7 @@
 
       // Hiển thị thông tin ngân hàng
       document.getElementById('bank-name').textContent = 'BIDV';
-      document.getElementById('account-number').textContent = 'V2Q8KDH001176';
+      document.getElementById('account-number').textContent = '962QR000003146';
       document.getElementById('account-name').textContent = 'DAO MINH HAI';
       document.getElementById('qr-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' ₫';
 
@@ -553,7 +798,7 @@
       qrImage.style.display = 'block';
 
       // Sử dụng link QR code
-      qrImage.src = `https://api.vietqr.io/image/970418-V2Q8KDH001176-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${totalAmount}&addInfo=DH`;
+      qrImage.src = `https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg?accountName=DAO%20MINH%20HAI&amount=${totalAmount}&addInfo=DH`;
 
       // Lưu thông tin thanh toán tạm thời
       localStorage.setItem(
