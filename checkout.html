@@ -699,6 +699,37 @@
     width: 100%;
   }
 }
+.payment-methods {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.payment-option {
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.payment-option:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.payment-option input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .payment-methods {
+    padding: 15px;
+  }
+  
+  .payment-option {
+    padding: 8px;
+  }
+}
   </style>
 </head>
 <header>
@@ -739,36 +770,78 @@
         </tbody>
       </table>
     </div>
-  
+   
+</div>
     <div class="cart-summary">
       <h3>
         Tổng cộng:
         <span id="total-price" style="color: var(--primary); font-weight: bold">0 ₫</span>
       </h3>
+       <!-- Payment method selection section -->
+<div class="payment-methods" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+  <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
+  
+  <!-- Payment method options -->
+  <div class="payment-options" style="margin: 15px 0;">
+    <!-- PayOS option -->
+    <div class="payment-option" style="margin-bottom: 10px;">
+      <input type="radio" id="payment-payos" name="payment-method" value="payos" checked 
+             style="margin-right: 10px;">
+      <label for="payment-payos" style="display: flex; align-items: center; cursor: pointer;">
+        <span class="payment-logo" style="margin-right: 10px;">
+          <i class="fas fa-credit-card" style="color: var(--primary); font-size: 1.5rem;"></i>
+        </span>
+        <span class="payment-name">Thanh toán qua PayOS</span>
+      </label>
+    </div>
+    
+    <!-- SEPAY option -->
+    <div class="payment-option" style="margin-bottom: 10px;">
+      <input type="radio" id="payment-sepay" name="payment-method" value="sepay"
+             style="margin-right: 10px;">
+      <label for="payment-sepay" style="display: flex; align-items: center; cursor: pointer;">
+        <span class="payment-logo" style="margin-right: 10px;">
+          <i class="fas fa-wallet" style="color: #4e73df; font-size: 1.5rem;"></i>
+        </span>
+        <span class="payment-name">Thanh toán qua SEPAY</span>
+      </label>
+    </div>
+
+    <!-- QR Bank option -->
+    <div class="payment-option" style="margin-bottom: 10px;">
+      <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank"
+             style="margin-right: 10px;">
+      <label for="payment-qrbank" style="display: flex; align-items: center; cursor: pointer;">
+        <span class="payment-logo" style="margin-right: 10px;">
+          <i class="fas fa-qrcode" style="color: #9b59b6; font-size: 1.5rem;"></i>
+        </span>
+        <span class="payment-name">QR Bank</span>
+      </label>
+    </div>
+  </div>
+  
+  <!-- Payment error message -->
+  <div id="payment-error" class="error-message" 
+       style="display: none; color: var(--danger); margin: 15px 0; padding: 10px; 
+              background: #f8d7da; border-radius: 4px;"></div>
+  
+  <!-- Payment button -->
+  <div class="payment-buttons" style="margin-top: 20px;">
+    <button id="confirm-payment-button" class="payos-btn" style="width: 100%;">
+      <i class="fas fa-check-circle"></i> Xác nhận thanh toán
+    </button>
+  </div>
       <div class="action-buttons">
         <a href="index.html" class="continue-btn">
           <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
         </a>
-        <button class="payos-btn" onclick="processPayOSPayment()">
-          <i class="fas fa-credit-card"></i> Thanh toán PayOS
-        </button>
-        <button class="sepay-btn" onclick="processSePayPayment()">
-          <i class="fas fa-wallet"></i> Thanh toán SePay
-        </button>
-        <button class="qr-btn" onclick="showVietQR()">
-          <i class="fas fa-qrcode"></i> Thanh toán QR
-        </button>
-        <button class="qrbank-btn" onclick="processQRBankPayment()">
-          <i class="fas fa-qrcode"></i> QRBANK247
-        </button>
-      </div>
     </div>
   </div>
 
   <!-- VietQR Modal -->
   <div id="vietqr-modal">
     <div>
-      <h3 style="text-align: center;">THANH TOÁN QUA QR CODE</h3>
+      <h3 style="text-align: center;">QR BANK</h3>
       <div id="vietqr-container">
         <div style="height: 15px; display: flex; justify-content: center; align-items: center">
           <p>Đang tạo mã QR...</p>
@@ -935,19 +1008,87 @@
         btn.classList.remove('loading');
       }, 800);
     }
-    // Payment functions
-    function processPayOSPayment() {
-      const btn = document.querySelector('.payos-btn');
-      btn.classList.add('loading');
+   // Thay thế hàm processPayOSPayment() hiện tại bằng hàm này
+async function processPayOSPayment() {
+  const btn = document.querySelector('.payos-btn');
+  btn.classList.add('loading');
+  
+  // Kiểm tra giỏ hàng trống
+  if (cart.length === 0) {
+    alert('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    btn.classList.remove('loading');
+    return;
+  }
 
-      // Simulate payment processing
-      setTimeout(() => {
-        alert('Thanh toán PayOS thành công!');
-        clearCart();
-        btn.classList.remove('loading');
-        window.location.href = 'index.html';
-      }, 1500);
+  try {
+    // Tính tổng tiền
+    const amount = calculateTotal();
+    const orderCode = Date.now();
+    const description = `Thanh toán đơn hàng Tạp hóa Bà Trâm #${orderCode}`;
+    // Payment method selection logic
+document.addEventListener('DOMContentLoaded', function() {
+  const paymentMethodRadios = document.querySelectorAll('input[name="payment-method"]');
+  const confirmPaymentBtn = document.getElementById('confirm-payment-button');
+  
+  // Update payment button based on selected method
+  paymentMethodRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.checked) {
+        confirmPaymentBtn.className = this.value + '-btn';
+      }
+    });
+  });
+  
+  // Handle payment confirmation
+  confirmPaymentBtn.addEventListener('click', function() {
+    const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+    
+    if (selectedMethod === 'payos') {
+      processPayOSPayment();
+    } else if (selectedMethod === 'sepay') {
+      processSePayPayment();
+    } else if (selectedMethod === 'qrbank') {
+      processQRBankPayment();
     }
+  });
+});
+    // Tạo dữ liệu thanh toán
+    const paymentData = {
+      orderCode,
+      amount,
+      description,
+      items: cart.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      returnUrl: "https://www.mhcomputer.org/payment-success",
+      cancelUrl: "https://www.mhcomputer.org/payment-cancel"
+    };
+
+    // Gọi API PayOS backend
+    const response = await fetch('https://your-backend-domain.com/create-payment-link', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(paymentData)
+    });
+
+    const data = await response.json();
+    
+    if (data.checkoutUrl) {
+      // Chuyển hướng đến trang thanh toán PayOS
+      window.location.href = data.checkoutUrl;
+    } else {
+      throw new Error('Không nhận được link thanh toán');
+    }
+  } catch (error) {
+    console.error('Lỗi thanh toán PayOS:', error);
+    alert('Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại');
+    btn.classList.remove('loading');
+  }
+}
 
     function processSePayPayment() {
       const btn = document.querySelector('.sepay-btn');
