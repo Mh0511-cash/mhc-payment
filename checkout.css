@@ -184,7 +184,8 @@
   .continue-btn,
   .payos-btn,
   .sepay-btn,
-  .qrbank-btn {
+  .naptien-btn,
+  .vietqrr-btn {
     background-color: var(--primary);
     color: white;
     border: none;
@@ -206,14 +207,19 @@
     background-color: #4e73df;
   }
   
-  .qrbank-btn {
+  .vietqrr-btn {
     background-color: #9b59b6;
+  }
+
+   .naptien-btn {
+    background-color: #5b91b4;
   }
   
   .continue-btn:hover,
   .payos-btn:hover,
   .sepay-btn:hover,
-  .qrbank-btn:hover {
+  .naptien-btn:hover,
+  .vietqrr-btn:hover {
     opacity: 0.9;
   }
   
@@ -261,7 +267,8 @@
   
   #payment-payos + label .payment-icon { color: var(--primary); }
   #payment-sepay + label .payment-icon { color: #4e73df; }
-  #payment-qrbank + label .payment-icon { color: #9b59b6; }
+  #payment-vietqrr + label .payment-icon { color: #9b59b6; }
+  #payment-naptien + label .payment-icon { color: #9b59b6; }
   
   .error-message {
     display: none;
