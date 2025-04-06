@@ -209,7 +209,10 @@
   .qrbank-btn {
     background-color: #9b59b6;
   }
-  
+  .vietqr-btn {
+    background-color: #8e44ad;
+    color: white;
+  }
   .continue-btn:hover,
   .payos-btn:hover,
   .sepay-btn:hover,
@@ -262,7 +265,9 @@
   #payment-payos + label .payment-icon { color: var(--primary); }
   #payment-sepay + label .payment-icon { color: #4e73df; }
   #payment-qrbank + label .payment-icon { color: #9b59b6; }
-  
+  #payment-vietqr + label .payment-icon { 
+    color: #25f400; 
+  }
   .error-message {
     display: none;
     color: var(--danger);

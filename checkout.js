@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
   paymentMethods.forEach(method => {
     method.addEventListener('change', function() {
       if (this.checked) {
-        confirmBtn.classList.remove('payos-btn', 'sepay-btn', 'qrbank-btn');
+        confirmBtn.classList.remove('payos-btn', 'sepay-btn', 'qrbank-btn', 'vietqr-btn');
         confirmBtn.classList.add(`${this.value}-btn`);
       }
     });
@@ -270,6 +270,8 @@ document.addEventListener('DOMContentLoaded', function() {
       processSePayPayment();
     } else if (selectedMethod === 'qrbank') {
       processQRBankPayment();
+    } else if (selectedMethod === 'vietqr') {
+      showVietQR();
     }
   });
 
