@@ -7,18 +7,18 @@
     --info: #17a2b8;
     --light: #f8f9fa;
     --dark: #343a40;
-  }
-  
-  body {
+}
+
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     background-color: #f9f9f9;
     margin: 0;
     padding: 0;
-  }
-  
-  /* Header styles */
-  header {
+}
+
+/* Header styles */
+header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,28 +27,28 @@
     min-height: 80px;
     background-color: var(--primary);
     color: white;
-  }
-  
-  .header-title-container {
+}
+
+.header-title-container {
     flex: 1;
     text-align: center;
     padding: 0 60px;
-  }
-  
-  .header-title {
+}
+
+.header-title {
     font-size: 1.3rem;
     margin: 0;
     line-height: 1.3;
-  }
-  
-  .header-subtitle {
+}
+
+.header-subtitle {
     display: block;
     font-size: 0.8rem;
     font-weight: normal;
     margin-top: 3px;
-  }
-  
-  .back-button {
+}
+
+.back-button {
     position: absolute;
     left: 20px;
     top: 50%;
@@ -62,10 +62,10 @@
     font-size: 0.9rem;
     white-space: nowrap;
     z-index: 1;
-  }
-  
-  /* Cart styles */
-  .cart-container {
+}
+
+/* Cart styles */
+.cart-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -73,118 +73,119 @@
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
-  }
-  
-  .table-wrapper {
+}
+
+.table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #eee;
-  }
-  
-  .cart-items {
+}
+
+.cart-items {
     width: 100%;
     border-collapse: collapse;
     min-width: 600px;
-  }
-  
-  .cart-items th,
-  .cart-items td {
+}
+
+.cart-items th,
+.cart-items td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-  }
-  
-  .cart-items th {
+}
+
+.cart-items th {
     background-color: #f2f2f2;
     position: sticky;
     top: 0;
-  }
-  
-  .cart-items td {
+}
+
+.cart-items td {
     vertical-align: middle;
-  }
-  
-  .item-img {
+}
+
+.item-img {
     width: 80px;
     height: 80px;
     object-fit: contain;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: white;
-  }
-  
-  .product-info {
+}
+
+.product-info {
     display: flex;
     align-items: center;
     gap: 15px;
     min-width: 200px;
-  }
-  
-  .product-name {
+}
+
+.product-name {
     word-break: break-word;
-  }
-  
-  .quantity-control {
+}
+
+.quantity-control {
     display: flex;
     align-items: center;
-  }
-  
-  .quantity-btn {
+}
+
+.quantity-btn {
     background: var(--light);
     border: none;
     width: 30px;
     height: 30px;
     cursor: pointer;
     font-weight: bold;
-  }
-  
-  .quantity-input {
+}
+
+.quantity-input {
     width: 50px;
     text-align: center;
     margin: 0 5px;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  
-  .remove-btn {
+}
+
+.remove-btn {
     color: var(--danger);
     background: none;
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
-  }
-  
-  .cart-summary {
+}
+
+.cart-summary {
     margin-top: 30px;
     text-align: right;
     padding-top: 20px;
     border-top: 1px solid #eee;
-  }
-  
-  .cart-summary #total-price {
+}
+
+.cart-summary #total-price {
     color: var(--primary);
     font-weight: bold;
-  }
-  
-  .empty-cart {
+}
+
+.empty-cart {
     text-align: center;
     padding: 40px 0;
-  }
-  
-  .empty-cart i {
+}
+
+.empty-cart i {
     font-size: 3rem;
     color: #ccc;
     margin-bottom: 15px;
-  }
-  
-  /* Button styles */
-  .continue-btn,
-  .payos-btn,
-  .sepay-btn,
-  .qrbank-btn {
+}
+
+/* Button styles */
+.continue-btn,
+.payos-btn,
+.sepay-btn,
+.naptien-btn,
+.vietqrr-btn {
     background-color: var(--primary);
     color: white;
     border: none;
@@ -196,14 +197,15 @@
     text-decoration: none;
     display: inline-block;
     text-align: center;
-  }
-  
-  .continue-btn {
+}
+
+.continue-btn {
     background-color: var(--success);
-  }
-  
-  .sepay-btn {
+}
+
+.sepay-btn {
     background-color: #4e73df;
+<<<<<<< HEAD
   }
   
   .qrbank-btn {
@@ -222,44 +224,67 @@
   
   /* Payment methods */
   .payment-methods {
+=======
+}
+
+.vietqrr-btn {
+    background-color: #9b59b6; /* Màu nền cho nút VietQR */
+}
+
+.naptien-btn {
+    background-color: #5b91b4; /* Màu nền cho nút Nạp Tiền */
+}
+
+.continue-btn:hover,
+.payos-btn:hover,
+.sepay-btn:hover,
+.naptien-btn:hover,
+.vietqrr-btn:hover {
+    opacity: 0.9; /* Hiệu ứng mờ khi hover vào các nút */
+}
+
+/* Payment methods */
+.payment-methods {
+>>>>>>> ba8a4cf5d7c457cda8386d355c69b2c8cc18d6b6
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-top: 20px;
-  }
-  
-  .payment-options {
+}
+
+.payment-options {
     margin: 15px 0;
-  }
-  
-  .payment-option {
+}
+
+.payment-option {
     padding: 12px;
     border-radius: 5px;
     transition: background 0.2s;
     margin-bottom: 8px;
-  }
-  
-  .payment-option:hover {
+}
+
+.payment-option:hover {
     background: rgba(0, 0, 0, 0.03);
-  }
-  
-  .payment-option input[type="radio"] {
+}
+
+.payment-option input[type="radio"] {
     accent-color: var(--primary);
     margin-right: 10px;
-  }
-  
-  .payment-option label {
+}
+
+.payment-option label {
     display: flex;
     align-items: center;
     cursor: pointer;
-  }
-  
-  .payment-icon {
+}
+
+.payment-icon {
     font-size: 1.2rem;
     margin-right: 10px;
     width: 24px;
     text-align: center;
+<<<<<<< HEAD
   }
   
   #payment-payos + label .payment-icon { color: var(--primary); }
@@ -269,21 +294,39 @@
     color: #25f400; 
   }
   .error-message {
+=======
+}
+
+#payment-payos + label .payment-icon {
+    color: var(--primary);
+}
+#payment-sepay + label .payment-icon {
+    color: #4e73df;
+}
+#payment-vietqrr + label .payment-icon {
+    color: #9b59b6;
+}
+#payment-naptien + label .payment-icon {
+    color: #5b91b4; /* Đảm bảo màu cho naptien */
+}
+
+.error-message {
+>>>>>>> ba8a4cf5d7c457cda8386d355c69b2c8cc18d6b6
     display: none;
     color: var(--danger);
     margin: 15px 0;
     padding: 10px;
     background: #f8d7da;
     border-radius: 4px;
-  }
-  
-  #confirm-payment-button {
+}
+
+#confirm-payment-button {
     width: 100%;
     margin-top: 10px;
-  }
-  
-  /* QR Modal */
-  #vietqr-modal {
+}
+
+/* QR Modal */
+#vietqr-modal {
     display: none;
     position: fixed;
     top: 0;
@@ -294,33 +337,33 @@
     z-index: 1000;
     justify-content: center;
     align-items: center;
-  }
-  
-  #vietqr-modal>div {
+}
+
+#vietqr-modal > div {
     background: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     max-width: 95%;
     width: 340px;
-  }
-  
-  .bank-info {
+}
+
+.bank-info {
     margin-top: 15px;
     font-size: 14px;
     background: #f9f9f9;
     padding: 10px;
     border-radius: 5px;
-  }
-  
-  .bank-info p {
+}
+
+.bank-info p {
     margin: 8px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .copy-btn {
+}
+
+.copy-btn {
     background: #3498db;
     color: white;
     border: none;
@@ -329,55 +372,55 @@
     cursor: pointer;
     font-size: 12px;
     margin-left: 10px;
-  }
-  
-  .modal-actions {
+}
+
+.modal-actions {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
-  }
-  
-  .modal-btn {
+}
+
+.modal-btn {
     padding: 8px 15px;
     border-radius: 4px;
     cursor: pointer;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     background: #e74c3c;
     color: white;
-  }
-  
-  .qr-loading {
+}
+
+.qr-loading {
     height: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .qr-image {
+}
+
+.qr-image {
     max-width: 330px;
     margin: 25px auto;
     display: none;
-  }
-  
-  /* Footer */
-  footer {
+}
+
+/* Footer */
+footer {
     background-color: var(--dark);
     color: white;
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-  }
-  
-  /* Loading states */
-  .loading {
+}
+
+/* Loading states */
+.loading {
     opacity: 0.7;
     pointer-events: none;
     position: relative;
-  }
-  
-  .loading::after {
+}
+
+.loading::after {
     content: '';
     position: absolute;
     right: 10px;
@@ -389,88 +432,89 @@
     border-top-color: transparent;
     animation: spin 0.8s linear infinite;
     transform: translateY(-50%);
-  }
-  
-  @keyframes spin {
+}
+
+@keyframes spin {
     to {
-      transform: translateY(-50%) rotate(360deg);
+        transform: translateY(-50%) rotate(360deg);
     }
-  }
-  
-  /* Mobile styles */
-  @media (max-width: 768px) {
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
     header {
-      padding: 0.5rem;
-      min-height: 60px;
-      flex-wrap: wrap;
+        padding: 0.5rem;
+        min-height: 60px;
+        flex-wrap: wrap;
     }
-  
+
     .header-title {
-      font-size: 1rem !important;
-      padding: 0 5px !important;
-      margin-top: 5px !important;
+        font-size: 1rem !important;
+        padding: 0 5px !important;
+        margin-top: 5px !important;
     }
-  
+
     .back-button {
-      position: static !important;
-      transform: none !important;
-      order: 1;
-      margin: 5px auto;
-      padding: 6px 10px !important;
-      font-size: 0.8rem;
+        position: static !important;
+        transform: none !important;
+        order: 1;
+        margin: 5px auto;
+        padding: 6px 10px !important;
+        font-size: 0.8rem;
     }
-  
+
     .cart-container {
-      padding: 15px;
+        padding: 15px;
     }
-  
+
     .cart-items th,
     .cart-items td {
-      padding: 8px 5px;
-      font-size: 0.9rem;
+        padding: 8px 5px;
+        font-size: 0.9rem;
     }
-  
+
     .item-img {
-      width: 50px !important;
-      height: 50px !important;
+        width: 50px !important;
+        height: 50px !important;
     }
-  
+
     .product-info {
-      gap: 5px !important;
+        gap: 5px !important;
     }
-  
+
     .quantity-input {
-      width: 30px !important;
+        width: 30px !important;
     }
-  
+
     .table-wrapper {
-      margin-left: -15px;
-      margin-right: -15px;
-      border-radius: 0;
-      border-left: none;
-      border-right: none;
+        margin-left: -15px;
+        margin-right: -15px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
-    
+
     .payment-methods {
-      padding: 15px;
+        padding: 15px;
     }
-    
+
     .payment-option {
-      padding: 8px;
+        padding: 8px;
     }
-  }
-  
-  @media (max-width: 480px) {
+}
+
+@media (max-width: 480px) {
     .header-title {
-      font-size: 0.9rem !important;
+        font-size: 0.9rem !important;
     }
-  
+
     .product-name {
-      font-size: 0.8rem;
+        font-size: 0.8rem;
     }
-  
+
     .quantity-btn {
-      width: 25px !important;
-      height: 25px !important;
+        width: 25px !important;
+        height: 25px !important;
     }
-  }
+}
+
