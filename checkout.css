@@ -205,14 +205,13 @@ header {
 
 .sepay-btn {
     background-color: #4e73df;
-<<<<<<< HEAD
   }
   
   .qrbank-btn {
     background-color: #9b59b6;
   }
   .vietqr-btn {
-    background-color: #8e44ad;
+    background-color: #4dad44;
     color: white;
   }
   .continue-btn:hover,
@@ -224,28 +223,6 @@ header {
   
   /* Payment methods */
   .payment-methods {
-=======
-}
-
-.vietqrr-btn {
-    background-color: #9b59b6; /* Màu nền cho nút VietQR */
-}
-
-.naptien-btn {
-    background-color: #5b91b4; /* Màu nền cho nút Nạp Tiền */
-}
-
-.continue-btn:hover,
-.payos-btn:hover,
-.sepay-btn:hover,
-.naptien-btn:hover,
-.vietqrr-btn:hover {
-    opacity: 0.9; /* Hiệu ứng mờ khi hover vào các nút */
-}
-
-/* Payment methods */
-.payment-methods {
->>>>>>> ba8a4cf5d7c457cda8386d355c69b2c8cc18d6b6
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -284,34 +261,15 @@ header {
     margin-right: 10px;
     width: 24px;
     text-align: center;
-<<<<<<< HEAD
   }
   
   #payment-payos + label .payment-icon { color: var(--primary); }
   #payment-sepay + label .payment-icon { color: #4e73df; }
   #payment-qrbank + label .payment-icon { color: #9b59b6; }
   #payment-vietqr + label .payment-icon { 
-    color: #25f400; 
+    color: #4dad44; 
   }
   .error-message {
-=======
-}
-
-#payment-payos + label .payment-icon {
-    color: var(--primary);
-}
-#payment-sepay + label .payment-icon {
-    color: #4e73df;
-}
-#payment-vietqrr + label .payment-icon {
-    color: #9b59b6;
-}
-#payment-naptien + label .payment-icon {
-    color: #5b91b4; /* Đảm bảo màu cho naptien */
-}
-
-.error-message {
->>>>>>> ba8a4cf5d7c457cda8386d355c69b2c8cc18d6b6
     display: none;
     color: var(--danger);
     margin: 15px 0;
