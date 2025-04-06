@@ -71,6 +71,7 @@
               <span class="payment-name">SEPAY</span>
             </label>
           </div>
+
           <div class="payment-option">
             <input type="radio" id="payment-vietqrr" name="payment-method" value="vietqrr">
             <label for="payment-vietqrr" onclick="showVietQR()">
@@ -78,6 +79,7 @@
               <span class="payment-name">VIETQR</span>
             </label>
           </div>
+
           <div class="payment-option">
             <input type="radio" id="payment-naptien" name="payment-method" value="naptien">
             <label for="payment-naptien">
@@ -96,14 +98,14 @@
     </div>
 
     <!-- VietQR Modal -->
-    <div id="vietqr-modal">
+    <div id="vietqr-modal" style="display: none;">
       <div>
         <h3>VietQR</h3>
         <div id="vietqr-container">
           <div class="qr-loading">
             <p>Đang tạo mã QR...</p>
           </div>
-          <img id="vietqr-image" class="qr-image">
+          <img id="vietqr-image" class="qr-image" style="display: none;">
         </div>
 
         <div class="bank-info">
