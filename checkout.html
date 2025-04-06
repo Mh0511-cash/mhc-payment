@@ -71,6 +71,14 @@
         </div>
         
         <div class="payment-option">
+          <input type="radio" id="payment-vietqr" name="payment-method" value="vietqr">
+          <label for="payment-vietqr">
+            <i class="fas fa-qrcode payment-icon"></i>
+            <span class="payment-name">VIETQR</span>
+          </label>
+        </div>
+
+        <div class="payment-option">
           <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
           <label for="payment-sepay">
             <i class="fas fa-wallet payment-icon"></i>
@@ -78,19 +86,11 @@
           </label>
         </div>
 
-<div class="payment-option">
-          <input type="radio" id="payment-vietqrr" name="payment-method" value="vietqrr">
-          <label for="payment-vietqrr">
-            <i class="fas fa-wallet payment-icon"></i>
-            <span class="payment-name">TT VIETQR</span>
-          </label>
-        </div>
-
         <div class="payment-option">
-          <input type="radio" id="payment-naptien" name="payment-method" value="naptien">
-          <label for="payment-naptien">
+          <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
+          <label for="payment-qrbank">
             <i class="fas fa-qrcode payment-icon"></i>
-            <span class="payment-name">NẠP TIỀN</span>
+            <span class="payment-name">QR Bank</span>
           </label>
         </div>
       </div>
@@ -101,23 +101,12 @@
         <i class="fas fa-check-circle"></i> Xác nhận thanh toán
       </button>
     </div>
-<<<<<<< HEAD
-    </div>
-    <div class="payment-option">
-      <input type="radio" id="payment-vietqr" name="payment-method" value="vietqr">
-      <label for="payment-vietqr">
-        <i class="fas fa-qrcode payment-icon"></i>
-        <span class="payment-name">VIETQR</span>
-      </label>
-    </div>
-=======
   </div>
 
->>>>>>> ba8a4cf5d7c457cda8386d355c69b2c8cc18d6b6
   <!-- VietQR Modal -->
   <div id="vietqr-modal">
     <div>
-      <h3>TT VIETQR</h3>
+      <h3>QR BANK</h3>
       <div id="vietqr-container">
         <div class="qr-loading">
           <p>Đang tạo mã QR...</p>
