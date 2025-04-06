@@ -53,12 +53,7 @@
         Tổng cộng:
         <span id="total-price">0 ₫</span>
       </h3>
-      <a href="index.html" class="continue-btn">
-        <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
-      </a>
-    </div>
-
-    <div class="payment-methods">
+       <div class="payment-methods">
       <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
       
       <div class="payment-options">
@@ -77,7 +72,13 @@
             <span class="payment-name">SEPAY</span>
           </label>
         </div>
-
+ <div class="payment-option">
+          <input type="radio" id="payment-qr bank" name="payment-method" value="qr bank">
+          <label for="payment-qr bank">
+            <i class="fas fa-wallet payment-icon"></i>
+            <span class="payment-name">QR BANK</span>
+          </label>
+        </div>
         <div class="payment-option">
           <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
           <label for="payment-qrbank">
@@ -92,6 +93,10 @@
       <button id="confirm-payment-button" class="payos-btn">
         <i class="fas fa-check-circle"></i> Xác nhận thanh toán
       </button>
+    </div>
+<a href="index.html" class="continue-btn">
+        <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+      </a>
     </div>
   </div>
   
