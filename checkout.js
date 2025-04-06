@@ -158,20 +158,45 @@ async function processPayOSPayment() {
   }
 }
 
-function processSePayPayment() {
+async function processSePayPayment() {
   const btn = document.querySelector('.sepay-btn');
   btn.classList.add('loading');
+  
+  try {
+    if (cart.length === 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    }
 
-  setTimeout(() => {
-    alert('Thanh toán SePay thành công!');
-    clearCart();
+    const response = await fetch('https://sepay.mhcomputer.org/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: calculateTotal(),
+        items: cart,
+        orderCode: `SEPAY-${Date.now()}`,
+        successUrl: 'https://sepay.mhcomputer.org/payment-success',
+        cancelUrl: 'https://sepay.mhcomputer.org/payment-cancel'
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.success && result.paymentUrl) {
+      window.location.href = result.paymentUrl;
+    } else {
+      throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
+    }
+  } catch (error) {
+    console.error('SePay Error:', error);
+    showPaymentError(error.message);
     btn.classList.remove('loading');
-    window.location.href = 'index.html';
-  }, 1500);
+  }
 }
 
 function processQRBankPayment() {
-  const btn = document.querySelector('.qrbank-btn');
+  const btn = document.querySelector('.vietqr-btn');
   btn.classList.add('loading');
 
   setTimeout(() => {
