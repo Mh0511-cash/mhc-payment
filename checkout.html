@@ -24,7 +24,7 @@
 
   <div class="cart-container">
     <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
-
+  
     <div class="table-wrapper">
       <table class="cart-items">
         <thead>
@@ -47,128 +47,111 @@
         </tbody>
       </table>
     </div>
-
+    
     <div class="cart-summary">
       <h3>
         Tổng cộng:
         <span id="total-price">0 ₫</span>
       </h3>
-      <div class="payment-methods">
-        <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
-        <div class="payment-options">
-          <div class="payment-option">
-            <input type="radio" id="payment-payos" name="payment-method" value="payos" checked>
-            <label for="payment-payos">
-              <i class="fas fa-credit-card payment-icon"></i>
-              <span class="payment-name">PayOS</span>
-            </label>
-          </div>
+      <a href="index.html" class="continue-btn">
+        <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+      </a>
+    </div>
 
-          <div class="payment-option">
-            <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
-            <label for="payment-sepay">
-              <i class="fas fa-wallet payment-icon"></i>
-              <span class="payment-name">SEPAY</span>
-            </label>
-          </div>
-
-          <div class="payment-option">
-            <input type="radio" id="payment-vietqrr" name="payment-method" value="vietqrr">
-            <label for="payment-vietqrr" onclick="showVietQR()">
-              <i class="fas fa-qrcode payment-icon"></i>
-              <span class="payment-name">VIETQR</span>
-            </label>
-          </div>
-
-          <div class="payment-option">
-            <input type="radio" id="payment-naptien" name="payment-method" value="naptien">
-            <label for="payment-naptien">
-              <i class="fas fa-wallet payment-icon"></i>
-              <span class="payment-name">NẠP TIỀN</span>
-            </label>
-          </div>
+    <div class="payment-methods">
+      <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
+      
+      <div class="payment-options">
+        <div class="payment-option">
+          <input type="radio" id="payment-payos" name="payment-method" value="payos" checked>
+          <label for="payment-payos">
+            <i class="fas fa-credit-card payment-icon"></i>
+            <span class="payment-name">PayOS</span>
+          </label>
+        </div>
+        
+        <div class="payment-option">
+          <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
+          <label for="payment-sepay">
+            <i class="fas fa-wallet payment-icon"></i>
+            <span class="payment-name">SEPAY</span>
+          </label>
         </div>
 
-        <div id="payment-error" class="error-message"></div>
+<div class="payment-option">
+          <input type="radio" id="payment-vietqrr" name="payment-method" value="vietqrr">
+          <label for="payment-vietqrr">
+            <i class="fas fa-wallet payment-icon"></i>
+            <span class="payment-name">TT VIETQR</span>
+          </label>
+        </div>
 
-        <button id="confirm-payment-button" class="payos-btn">
-          <i class="fas fa-check-circle"></i> Xác nhận thanh toán
+        <div class="payment-option">
+          <input type="radio" id="payment-naptien" name="payment-method" value="naptien">
+          <label for="payment-naptien">
+            <i class="fas fa-qrcode payment-icon"></i>
+            <span class="payment-name">NẠP TIỀN</span>
+          </label>
+        </div>
+      </div>
+      
+      <div id="payment-error" class="error-message"></div>
+      
+      <button id="confirm-payment-button" class="payos-btn">
+        <i class="fas fa-check-circle"></i> Xác nhận thanh toán
+      </button>
+    </div>
+  </div>
+
+  <!-- VietQR Modal -->
+  <div id="vietqr-modal">
+    <div>
+      <h3>QR BANK</h3>
+      <div id="vietqr-container">
+        <div class="qr-loading">
+          <p>Đang tạo mã QR...</p>
+        </div>
+        <img id="vietqr-image" class="qr-image">
+      </div>
+
+      <div class="bank-info">
+        <p>
+          <span><strong>Ngân hàng:</strong> BIDV</span>
+        </p>
+        <p>
+          <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
+        </p>
+        <p>
+          <span><strong>Nội dung:</strong> <span id="payment-content">DH${generateRandomString(7)}</span></span>
+          <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
+        </p>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn close-btn" onclick="hideVietQR()">
+          <i class="fas fa-times"></i> Đóng
+        </button>
+        <button class="modal-btn continue-btn" onclick="window.location.href='index.html'">
+          <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- VietQR Modal -->
-    <div id="vietqr-modal" style="display: none;">
-      <div>
-        <h3>VietQR</h3>
-        <div id="vietqr-container">
-          <div class="qr-loading">
-            <p>Đang tạo mã QR...</p>
-          </div>
-          <img id="vietqr-image" class="qr-image" style="display: none;">
-        </div>
+  <footer>
+    <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
+    <p>Powered by Demo by DMH</p>
+  </footer>
 
-        <div class="bank-info">
-          <p>
-            <span><strong>Ngân hàng:</strong> BIDV</span>
-          </p>
-          <p>
-            <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
-            <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
-          </p>
-          <p>
-            <span><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></span>
-            <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
-          </p>
-          <p>
-            <span><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></span>
-            <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
-          </p>
-          <p>
-            <span><strong>Nội dung:</strong> <span id="payment-content">DH${generateRandomString(7)}</span></span>
-            <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
-          </p>
-        </div>
-
-        <div class="modal-actions">
-          <button class="modal-btn close-btn" onclick="hideVietQR()">
-            <i class="fas fa-times"></i> Đóng
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
-      <p>Powered by Demo by DMH</p>
-    </footer>
-
-    <script src="checkout.js"></script>
-    <script>
-        function showVietQR() {
-            document.getElementById('vietqr-modal').style.display = 'flex';
-        }
-
-        function hideVietQR() {
-            document.getElementById('vietqr-modal').style.display = 'none';
-        }
-
-        function copyToClipboard(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard!');
-            });
-        }
-
-        function generateRandomString(length) {
-            let result = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const charactersLength = characters.length;
-            for (let i = 0; i < length; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
-            return result;
-        }
-    </script>
+  <script src="checkout.js"></script>
 </body>
 </html>
