@@ -120,7 +120,7 @@ async function processPayOSPayment() {
 
   try {
     const amount = calculateTotal();
-    const orderCode = Date.now();
+    const orderCode = `MH_${Date.now()}`;
     const description = `Thanh toán đơn hàng Tạp hóa Bà Trâm #${orderCode}`;
     
     const paymentData = {
@@ -136,7 +136,8 @@ async function processPayOSPayment() {
       cancelUrl: "https://www.mhcomputer.org/payment-cancel"
     };
 
-    const response = await fetch('https://mhcomuter.org/create-payment-link', {
+    // Gọi đến endpoint của worker bạn đã tạo
+    const response = await fetch('https://your-worker-domain.workers.dev/payos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -144,17 +145,45 @@ async function processPayOSPayment() {
       body: JSON.stringify(paymentData)
     });
 
-    const data = await response.json();
+    const result = await response.json();
     
-    if (data.checkoutUrl) {
-      window.location.href = data.checkoutUrl;
+    if (result.success && result.checkoutUrl) {
+      window.location.href = result.checkoutUrl;
     } else {
-      throw new Error('Không nhận được link thanh toán');
+      throw new Error(result.message || 'Không nhận được link thanh toán');
     }
   } catch (error) {
     console.error('Lỗi thanh toán PayOS:', error);
-    showPaymentError('Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại');
+    showPaymentError(error.message || 'Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại');
     btn.classList.remove('loading');
+  }
+}
+
+// Khởi tạo PayOS
+const payos = new PayOSCheckout({
+  returnUrl: 'https://payos.mhcomputer.org/payment-success',
+  cancelUrl: 'https://payos.mhcomputer.org/payment-cancel'
+});
+
+// Xử lý thanh toán
+async function processPayOSPayment() {
+  try {
+    const result = await payos.initiatePayment({
+      amount: calculateTotal(),
+      items: cart.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
+      description: `Đơn hàng từ Tạp hóa Bà Trâm`
+    });
+    
+    // Nếu không autoRedirect
+    if (!payos.autoRedirect && result.checkoutUrl) {
+      window.location.href = result.checkoutUrl;
+    }
+  } catch (error) {
+    showPaymentError(error.message);
   }
 }
 
