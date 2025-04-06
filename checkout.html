@@ -53,51 +53,45 @@
         Tổng cộng:
         <span id="total-price">0 ₫</span>
       </h3>
-      <a href="index.html" class="continue-btn">
-        <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
-      </a>
-    </div>
-
-    <div class="payment-methods">
-      <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
-      
-      <div class="payment-options">
-        <div class="payment-option">
-          <input type="radio" id="payment-payos" name="payment-method" value="payos" checked>
-          <label for="payment-payos">
-            <i class="fas fa-credit-card payment-icon"></i>
-            <span class="payment-name">PayOS</span>
-          </label>
-        </div>
+      <div class="payment-methods">
+        <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
         
-        <div class="payment-option">
-          <input type="radio" id="payment-vietqr" name="payment-method" value="vietqr">
-          <label for="payment-vietqr">
-            <i class="fas fa-qrcode payment-icon"></i>
-            <span class="payment-name">VIETQR</span>
-          </label>
-        </div>
-
-        <div class="payment-option">
-          <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
-          <label for="payment-sepay">
-            <i class="fas fa-wallet payment-icon"></i>
-            <span class="payment-name">SEPAY</span>
-          </label>
-        </div>
-
-        <div class="payment-option">
-          <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
-          <label for="payment-qrbank">
-            <i class="fas fa-qrcode payment-icon"></i>
-            <span class="payment-name">QR Bank</span>
-          </label>
-        </div>
+        <div class="payment-options">
+          <div class="payment-option">
+            <input type="radio" id="payment-payos" name="payment-method" value="payos" checked>
+            <label for="payment-payos">
+              <i class="fas fa-credit-card payment-icon"></i>
+              <span class="payment-name">PayOS</span>
+            </label>
+          </div>
+          
+          <div class="payment-option">
+            <input type="radio" id="payment-vietqr" name="payment-method" value="vietqr">
+            <label for="payment-vietqr">
+              <i class="fas fa-qrcode payment-icon"></i>
+              <span class="payment-name">VIETQR</span>
+            </label>
+          </div>
+  
+          <div class="payment-option">
+            <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
+            <label for="payment-sepay">
+              <i class="fas fa-wallet payment-icon"></i>
+              <span class="payment-name">SEPAY</span>
+            </label>
+          </div>
+  
+          <div class="payment-option">
+            <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
+            <label for="payment-qrbank">
+              <i class="fas fa-qrcode payment-icon"></i>
+              <span class="payment-name">QR Bank</span>
+            </label>
+          </div>
+     </div>
       </div>
-      
-      <div id="payment-error" class="error-message"></div>
-      
-      <button id="confirm-payment-button" class="payos-btn">
+        <div id="payment-error" class="error-message"></div>
+          <button id="confirm-payment-button" class="payos-btn">
         <i class="fas fa-check-circle"></i> Xác nhận thanh toán
       </button>
     </div>
@@ -106,7 +100,7 @@
   <!-- VietQR Modal -->
   <div id="vietqr-modal">
     <div>
-      <h3>QR BANK</h3>
+      <h3>VIETQR</h3>
       <div id="vietqr-container">
         <div class="qr-loading">
           <p>Đang tạo mã QR...</p>
