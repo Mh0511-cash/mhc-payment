@@ -1,4 +1,5 @@
 const CART_STORAGE_KEY = 'shopping_cart';
+const PAYMENT_STATUS_KEY = 'payment_status';
 let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
 const fallbackImageUrl = 'https://via.placeholder.com/80?text=Image+Error';
 
@@ -132,12 +133,12 @@ async function processPayOSPayment() {
         quantity: item.quantity,
         price: item.price
       })),
-      returnUrl: "https://www.mhcomputer.org/payment-success",
-      cancelUrl: "https://www.mhcomputer.org/payment-cancel"
+      returnUrl: "https://www.payos.mhcomputer.org/payment-success",
+      cancelUrl: "https://www.payos.mhcomputer.org/payment-cancel"
     };
 
     // Gọi đến endpoint của worker bạn đã tạo
-    const response = await fetch('https://your-worker-domain.workers.dev/payos', {
+    const response = await fetch('https://payos.mhcomputer.org/payos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -161,8 +162,8 @@ async function processPayOSPayment() {
 
 // Khởi tạo PayOS
 const payos = new PayOSCheckout({
-  returnUrl: 'https://payos.mhcomputer.org/payment-success',
-  cancelUrl: 'https://payos.mhcomputer.org/payment-cancel'
+  returnUrl: 'https://mhcomputer.org/payment-success',
+  cancelUrl: 'https://mhcomputer.org/payment-cancel'
 });
 
 // Xử lý thanh toán
@@ -205,8 +206,8 @@ async function processSePayPayment() {
         amount: calculateTotal(),
         items: cart,
         orderCode: `SEPAY-${Date.now()}`,
-        successUrl: 'https://sepay.mhcomputer.org/payment-success',
-        cancelUrl: 'https://sepay.mhcomputer.org/payment-cancel'
+        successUrl: 'https://mhcomputer.org/payment-success',
+        cancelUrl: 'https://mhcomputer.org/payment-cancel'
       })
     });
 
@@ -290,6 +291,59 @@ function showPaymentError(message) {
   setTimeout(() => {
     errorElement.style.display = 'none';
   }, 5000);
+}
+/**
+ * Xử lý thanh toán qua SePay
+ */
+async function processSePayPayment() {
+  const btn = document.querySelector('.sepay-btn');
+  btn.classList.add('loading');
+  
+  try {
+    if (cart.length === 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    }
+
+    const orderData = {
+      orderCode: `SEPAY_${Date.now()}`,
+      amount: calculateTotal(),
+      description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
+      items: cart.map(item => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      })),
+      customerName: "Khách hàng Tạp hóa Bà Trâm",
+      returnUrl: window.location.origin + '/payment-success.html',
+      cancelUrl: window.location.origin + '/payment-cancel.html',
+    };
+
+    const response = await fetch('https://sepay.mhcomputer.org/api/payments/sepay', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+    
+    if (result.success && result.paymentUrl) {
+      localStorage.setItem('current_payment', JSON.stringify({
+        provider: 'sepay',
+        orderCode: orderData.orderCode,
+        amount: orderData.amount
+      }));
+      window.location.href = result.paymentUrl;
+    } else {
+      throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
+    }
+  } catch (error) {
+    console.error('SePay Error:', error);
+    showPaymentError(error.message);
+  } finally {
+    btn.classList.remove('loading');
+  }
 }
 
 // Initialize cart and payment methods
