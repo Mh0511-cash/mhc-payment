@@ -189,7 +189,6 @@ async function processPayOSPayment() {
 
     const result = await response.json();
     
-<<<<<<< HEAD
     if (result.success && result.paymentUrl) {
       // Lưu thông tin thanh toán
       localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
@@ -264,15 +263,6 @@ async function processSePayPayment() {
         amount,
         status: 'pending',
         provider: 'sepay',
-=======
-    if (result.success && result.paymentUrl) {
-      // Lưu thông tin thanh toán
-      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
-        orderCode,
-        amount,
-        status: 'pending',
-        provider: 'payos',
->>>>>>> 7b87c042757b353459f5b7ee81692db571653aea
         timestamp: new Date().toISOString(),
         items: cart
       }));
