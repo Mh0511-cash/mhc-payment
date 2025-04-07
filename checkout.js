@@ -136,6 +136,20 @@ function copyToClipboard(elementId) {
   });
 }
 
+// Cấu hình endpoints
+const PAYMENT_ENDPOINTS = {
+  payos: {
+    create: 'https://payos.mhcomputer.org/api/create-payment',
+    success: 'https://payos.mhcomputer.org/payment-success.html',
+    cancel: 'https://payos.mhcomputer.org/payment-cancel.html'
+  },
+  sepay: {
+    create: 'https://sepay.mhcomputer.org/api/create-payment',
+    success: 'https://sepay.mhcomputer.org/payment-success.html',
+    cancel: 'https://sepay.mhcomputer.org/payment-cancel.html'
+  }
+};
+
 /**
  * Xử lý thanh toán qua PayOS
  */
@@ -149,7 +163,7 @@ async function processPayOSPayment() {
       throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
     }
 
-    const orderCode = `MH_${generateRandomString()}`;
+    const orderCode = `PAYOS_${generateRandomString(8)}`;
     const description = `Thanh toán đơn hàng #${orderCode}`;
     
     const paymentData = {
@@ -161,12 +175,11 @@ async function processPayOSPayment() {
         quantity: item.quantity,
         price: item.price
       })),
-      returnUrl: window.location.href.replace('checkout.html', 'payment-success.html'),
-      cancelUrl: window.location.href.replace('checkout.html', 'payment-cancel.html')
+      returnUrl: PAYMENT_ENDPOINTS.payos.success,
+      cancelUrl: PAYMENT_ENDPOINTS.payos.cancel
     };
 
-    // Gọi API PayOS (thay bằng endpoint thực tế của bạn)
-    const response = await fetch('https://your-payos-endpoint.com/create-payment', {
+    const response = await fetch(PAYMENT_ENDPOINTS.payos.create, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -176,15 +189,25 @@ async function processPayOSPayment() {
 
     const result = await response.json();
     
-    if (result.success && result.checkoutUrl) {
+    if (result.success && result.paymentUrl) {
+      // Lưu thông tin thanh toán
       localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
         orderCode,
         amount,
-        status: 'pending'
+        status: 'pending',
+        provider: 'payos',
+        timestamp: new Date().toISOString(),
+        items: cart
       }));
-      window.location.href = result.checkoutUrl;
+      
+      // Xóa giỏ hàng sau khi thanh toán thành công
+      localStorage.removeItem(CART_STORAGE_KEY);
+      cart = [];
+      
+      // Chuyển hướng đến trang thanh toán
+      window.location.href = result.paymentUrl;
     } else {
-      throw new Error(result.message || 'Lỗi khi tạo thanh toán');
+      throw new Error(result.message || 'Không thể khởi tạo thanh toán PayOS');
     }
   } catch (error) {
     console.error('PayOS Error:', error);
@@ -208,7 +231,7 @@ async function processSePayPayment() {
     }
 
     const orderData = {
-      orderCode: `SEPAY_${generateRandomString()}`,
+      orderCode: `SEPAY_${generateRandomString(8)}`,
       amount,
       description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
       items: cart.map(item => ({
@@ -216,12 +239,14 @@ async function processSePayPayment() {
         price: item.price,
         quantity: item.quantity
       })),
-      returnUrl: window.location.href.replace('checkout.html', 'payment-success.html'),
-      cancelUrl: window.location.href.replace('checkout.html', 'payment-cancel.html')
+      returnUrl: PAYMENT_ENDPOINTS.sepay.success,
+      cancelUrl: PAYMENT_ENDPOINTS.sepay.cancel,
+      metadata: {
+        store: "Tạp hóa Bà Trâm"
+      }
     };
 
-    // Gọi API SePay (thay bằng endpoint thực tế của bạn)
-    const response = await fetch('https://your-sepay-endpoint.com/create-payment', {
+    const response = await fetch(PAYMENT_ENDPOINTS.sepay.create, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -232,15 +257,24 @@ async function processSePayPayment() {
     const result = await response.json();
     
     if (result.success && result.paymentUrl) {
+      // Lưu thông tin thanh toán
       localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
         orderCode: orderData.orderCode,
         amount,
         status: 'pending',
-        provider: 'sepay'
+        provider: 'sepay',
+        timestamp: new Date().toISOString(),
+        items: cart
       }));
+      
+      // Xóa giỏ hàng sau khi thanh toán thành công
+      localStorage.removeItem(CART_STORAGE_KEY);
+      cart = [];
+      
+      // Chuyển hướng đến trang thanh toán
       window.location.href = result.paymentUrl;
     } else {
-      throw new Error(result.message || 'Lỗi khi tạo thanh toán SePay');
+      throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
     }
   } catch (error) {
     console.error('SePay Error:', error);
