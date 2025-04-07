@@ -109,20 +109,35 @@ function copyToClipboard(elementId) {
   });
 }
 
+// Cấu hình endpoints
+const PAYMENT_ENDPOINTS = {
+  payos: {
+    create: 'https://payos.mhcomputer.org/api/create-payment',
+    success: 'https://payos.mhcomputer.org/payment-success.html',
+    cancel: 'https://payos.mhcomputer.org/payment-cancel.html'
+  },
+  sepay: {
+    create: 'https://sepay.mhcomputer.org/api/create-payment',
+    success: 'https://sepay.mhcomputer.org/payment-success.html',
+    cancel: 'https://sepay.mhcomputer.org/payment-cancel.html'
+  }
+};
+
+/**
+ * Xử lý thanh toán qua PayOS
+ */
 async function processPayOSPayment() {
   const btn = document.querySelector('.payos-btn');
   btn.classList.add('loading');
   
-  if (cart.length === 0) {
-    showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
-    btn.classList.remove('loading');
-    return;
-  }
-
   try {
     const amount = calculateTotal();
-    const orderCode = `MH_${Date.now()}`;
-    const description = `Thanh toán đơn hàng Tạp hóa Bà Trâm #${orderCode}`;
+    if (amount <= 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
+    }
+
+    const orderCode = `PAYOS_${generateRandomString(8)}`;
+    const description = `Thanh toán đơn hàng #${orderCode}`;
     
     const paymentData = {
       orderCode,
@@ -133,12 +148,11 @@ async function processPayOSPayment() {
         quantity: item.quantity,
         price: item.price
       })),
-      returnUrl: "https://www.payos.mhcomputer.org/payment-success",
-      cancelUrl: "https://www.payos.mhcomputer.org/payment-cancel"
+      returnUrl: PAYMENT_ENDPOINTS.payos.success,
+      cancelUrl: PAYMENT_ENDPOINTS.payos.cancel
     };
 
-    // Gọi đến endpoint của worker bạn đã tạo
-    const response = await fetch('https://payos.mhcomputer.org/payos', {
+    const response = await fetch(PAYMENT_ENDPOINTS.payos.create, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -148,72 +162,89 @@ async function processPayOSPayment() {
 
     const result = await response.json();
     
-    if (result.success && result.checkoutUrl) {
-      window.location.href = result.checkoutUrl;
+    if (result.success && result.paymentUrl) {
+      // Lưu thông tin thanh toán
+      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
+        orderCode,
+        amount,
+        status: 'pending',
+        provider: 'payos',
+        timestamp: new Date().toISOString(),
+        items: cart
+      }));
+      
+      // Xóa giỏ hàng sau khi thanh toán thành công
+      localStorage.removeItem(CART_STORAGE_KEY);
+      cart = [];
+      
+      // Chuyển hướng đến trang thanh toán
+      window.location.href = result.paymentUrl;
     } else {
-      throw new Error(result.message || 'Không nhận được link thanh toán');
+      throw new Error(result.message || 'Không thể khởi tạo thanh toán PayOS');
     }
   } catch (error) {
-    console.error('Lỗi thanh toán PayOS:', error);
-    showPaymentError(error.message || 'Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại');
+    console.error('PayOS Error:', error);
+    showPaymentError(error.message);
+  } finally {
     btn.classList.remove('loading');
   }
 }
 
-// Khởi tạo PayOS
-const payos = new PayOSCheckout({
-  returnUrl: 'https://mhcomputer.org/payment-success',
-  cancelUrl: 'https://mhcomputer.org/payment-cancel'
-});
-
-// Xử lý thanh toán
-async function processPayOSPayment() {
-  try {
-    const result = await payos.initiatePayment({
-      amount: calculateTotal(),
-      items: cart.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price
-      })),
-      description: `Đơn hàng từ Tạp hóa Bà Trâm`
-    });
-    
-    // Nếu không autoRedirect
-    if (!payos.autoRedirect && result.checkoutUrl) {
-      window.location.href = result.checkoutUrl;
-    }
-  } catch (error) {
-    showPaymentError(error.message);
-  }
-}
-
+/**
+ * Xử lý thanh toán qua SePay
+ */
 async function processSePayPayment() {
   const btn = document.querySelector('.sepay-btn');
   btn.classList.add('loading');
   
   try {
-    if (cart.length === 0) {
-      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    const amount = calculateTotal();
+    if (amount <= 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
     }
 
-    const response = await fetch('https://sepay.mhcomputer.org/payment', {
+    const orderData = {
+      orderCode: `SEPAY_${generateRandomString(8)}`,
+      amount,
+      description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
+      items: cart.map(item => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity
+      })),
+      returnUrl: PAYMENT_ENDPOINTS.sepay.success,
+      cancelUrl: PAYMENT_ENDPOINTS.sepay.cancel,
+      metadata: {
+        store: "Tạp hóa Bà Trâm"
+      }
+    };
+
+    const response = await fetch(PAYMENT_ENDPOINTS.sepay.create, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        amount: calculateTotal(),
-        items: cart,
-        orderCode: `SEPAY-${Date.now()}`,
-        successUrl: 'https://mhcomputer.org/payment-success',
-        cancelUrl: 'https://mhcomputer.org/payment-cancel'
-      })
+      body: JSON.stringify(orderData)
     });
 
     const result = await response.json();
-
+    
     if (result.success && result.paymentUrl) {
+      // Lưu thông tin thanh toán
+      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
+        orderCode: orderData.orderCode,
+        amount,
+        status: 'pending',
+        provider: 'sepay',
+        timestamp: new Date().toISOString(),
+        items: cart
+      }));
+      
+      // Xóa giỏ hàng sau khi thanh toán thành công
+      localStorage.removeItem(CART_STORAGE_KEY);
+      cart = [];
+      
+      // Chuyển hướng đến trang thanh toán
       window.location.href = result.paymentUrl;
     } else {
       throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
@@ -221,6 +252,7 @@ async function processSePayPayment() {
   } catch (error) {
     console.error('SePay Error:', error);
     showPaymentError(error.message);
+  } finally {
     btn.classList.remove('loading');
   }
 }
