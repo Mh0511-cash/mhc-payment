@@ -34,7 +34,6 @@ function renderCart() {
         <td colspan="5" class="empty-cart">
           <i class="fas fa-shopping-cart"></i>
           <p>Giỏ hàng trống</p>
-          <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
         </td>
       </tr>`;
     totalPriceEl.textContent = '0 ₫';
