@@ -1,7 +1,7 @@
+// checkout.js
 const CART_STORAGE_KEY = 'shopping_cart';
 const PAYMENT_STATUS_KEY = 'payment_status';
-let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-const fallbackImageUrl = 'https://via.placeholder.com/80?text=Image+Error';
+const VIETQR_MODAL_ID = 'vietqr-modal';
 
 // Product images mapping
 const productImages = {
@@ -15,12 +15,20 @@ const productImages = {
   'banh-mi-que': 'https://i.imgur.com/3gKR0hO.png'
 };
 
+// Khởi tạo giỏ hàng
+let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+
+/**
+ * Hiển thị giỏ hàng lên trang
+ */
 function renderCart() {
   const cartBody = document.getElementById('cart-body');
-  cartBody.innerHTML = '';
-  let totalPrice = 0;
+  const totalPriceEl = document.getElementById('total-price');
+  const fallbackImage = 'https://via.placeholder.com/80?text=Image+Error';
 
-  if (!cart?.length) {
+  cartBody.innerHTML = '';
+  
+  if (!cart || cart.length === 0) {
     cartBody.innerHTML = `
       <tr>
         <td colspan="5" class="empty-cart">
@@ -29,30 +37,30 @@ function renderCart() {
           <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
         </td>
       </tr>`;
-    document.getElementById('total-price').textContent = '0 ₫';
+    totalPriceEl.textContent = '0 ₫';
     return;
   }
 
+  let totalPrice = 0;
+  
   cart.forEach((item, index) => {
     const subtotal = item.price * item.quantity;
     totalPrice += subtotal;
-    const itemImage = productImages[item.id] || item.img || fallbackImageUrl;
+    const itemImage = productImages[item.id] || item.img || fallbackImage;
 
     cartBody.innerHTML += `
       <tr>
         <td>
           <div class="product-info">
-            <img src="${itemImage}" class="item-img" alt="${item.name}" 
-                 onerror="this.src='${fallbackImageUrl}'">
+            <img src="${itemImage}" class="item-img" alt="${item.name}"
+                 onerror="this.src='${fallbackImage}'">
             <span class="product-name">${item.name}</span>
           </div>
         </td>
-        <td>${item.price?.toLocaleString('vi-VN') || '0'} ₫</td>
+        <td>${item.price.toLocaleString('vi-VN')} ₫</td>
         <td>
           <div class="quantity-control">
-            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
-            <input type="number" value="${item.quantity}" class="quantity-input" readonly>
-            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+            <span>${item.quantity}</span>
           </div>
         </td>
         <td>${subtotal.toLocaleString('vi-VN')} ₫</td>
@@ -64,35 +72,51 @@ function renderCart() {
       </tr>`;
   });
 
-  document.getElementById('total-price').textContent = `${totalPrice.toLocaleString('vi-VN')} ₫`;
+  totalPriceEl.textContent = `${totalPrice.toLocaleString('vi-VN')} ₫`;
 }
 
-function saveCart() {
-  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-  renderCart();
-}
-
-function updateQuantity(index, change) {
-  if (index >= 0 && index < cart.length) {
-    cart[index].quantity = Math.max(1, cart[index].quantity + change);
-    saveCart();
-  }
-}
-
+/**
+ * Xóa sản phẩm khỏi giỏ hàng
+ */
 function removeItem(index) {
   if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
     cart.splice(index, 1);
     saveCart();
+    renderCart();
   }
 }
 
-function clearCart() {
-  cart = [];
-  localStorage.removeItem(CART_STORAGE_KEY);
-  renderCart();
+/**
+ * Lưu giỏ hàng vào localStorage
+ */
+function saveCart() {
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
 }
 
-function generateRandomString(length) {
+/**
+ * Tính tổng giá trị đơn hàng
+ */
+function calculateTotal() {
+  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
+/**
+ * Hiển thị thông báo lỗi thanh toán
+ */
+function showPaymentError(message) {
+  const errorElement = document.getElementById('payment-error');
+  errorElement.textContent = message;
+  errorElement.style.display = 'block';
+  
+  setTimeout(() => {
+    errorElement.style.display = 'none';
+  }, 5000);
+}
+
+/**
+ * Tạo chuỗi ngẫu nhiên cho mã đơn hàng
+ */
+function generateRandomString(length = 8) {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let result = '';
   for (let i = 0; i < length; i++) {
@@ -101,6 +125,9 @@ function generateRandomString(length) {
   return result;
 }
 
+/**
+ * Sao chép nội dung vào clipboard
+ */
 function copyToClipboard(elementId) {
   const element = document.getElementById(elementId);
   const text = element.innerText;
@@ -109,20 +136,21 @@ function copyToClipboard(elementId) {
   });
 }
 
+/**
+ * Xử lý thanh toán qua PayOS
+ */
 async function processPayOSPayment() {
   const btn = document.querySelector('.payos-btn');
   btn.classList.add('loading');
   
-  if (cart.length === 0) {
-    showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
-    btn.classList.remove('loading');
-    return;
-  }
-
   try {
     const amount = calculateTotal();
-    const orderCode = `MH_${Date.now()}`;
-    const description = `Thanh toán đơn hàng Tạp hóa Bà Trâm #${orderCode}`;
+    if (amount <= 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
+    }
+
+    const orderCode = `MH_${generateRandomString()}`;
+    const description = `Thanh toán đơn hàng #${orderCode}`;
     
     const paymentData = {
       orderCode,
@@ -133,12 +161,12 @@ async function processPayOSPayment() {
         quantity: item.quantity,
         price: item.price
       })),
-      returnUrl: "https://www.payos.mhcomputer.org/payment-success",
-      cancelUrl: "https://www.payos.mhcomputer.org/payment-cancel"
+      returnUrl: window.location.href.replace('checkout.html', 'payment-success.html'),
+      cancelUrl: window.location.href.replace('checkout.html', 'payment-cancel.html')
     };
 
-    // Gọi đến endpoint của worker bạn đã tạo
-    const response = await fetch('https://payos.mhcomputer.org/payos', {
+    // Gọi API PayOS (thay bằng endpoint thực tế của bạn)
+    const response = await fetch('https://your-payos-endpoint.com/create-payment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -149,149 +177,23 @@ async function processPayOSPayment() {
     const result = await response.json();
     
     if (result.success && result.checkoutUrl) {
+      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
+        orderCode,
+        amount,
+        status: 'pending'
+      }));
       window.location.href = result.checkoutUrl;
     } else {
-      throw new Error(result.message || 'Không nhận được link thanh toán');
+      throw new Error(result.message || 'Lỗi khi tạo thanh toán');
     }
   } catch (error) {
-    console.error('Lỗi thanh toán PayOS:', error);
-    showPaymentError(error.message || 'Có lỗi xảy ra khi tạo thanh toán. Vui lòng thử lại');
-    btn.classList.remove('loading');
-  }
-}
-
-// Khởi tạo PayOS
-const payos = new PayOSCheckout({
-  returnUrl: 'https://mhcomputer.org/payment-success',
-  cancelUrl: 'https://mhcomputer.org/payment-cancel'
-});
-
-// Xử lý thanh toán
-async function processPayOSPayment() {
-  try {
-    const result = await payos.initiatePayment({
-      amount: calculateTotal(),
-      items: cart.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price
-      })),
-      description: `Đơn hàng từ Tạp hóa Bà Trâm`
-    });
-    
-    // Nếu không autoRedirect
-    if (!payos.autoRedirect && result.checkoutUrl) {
-      window.location.href = result.checkoutUrl;
-    }
-  } catch (error) {
+    console.error('PayOS Error:', error);
     showPaymentError(error.message);
-  }
-}
-
-async function processSePayPayment() {
-  const btn = document.querySelector('.sepay-btn');
-  btn.classList.add('loading');
-  
-  try {
-    if (cart.length === 0) {
-      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
-    }
-
-    const response = await fetch('https://sepay.mhcomputer.org/payment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: calculateTotal(),
-        items: cart,
-        orderCode: `SEPAY-${Date.now()}`,
-        successUrl: 'https://mhcomputer.org/payment-success',
-        cancelUrl: 'https://mhcomputer.org/payment-cancel'
-      })
-    });
-
-    const result = await response.json();
-
-    if (result.success && result.paymentUrl) {
-      window.location.href = result.paymentUrl;
-    } else {
-      throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
-    }
-  } catch (error) {
-    console.error('SePay Error:', error);
-    showPaymentError(error.message);
+  } finally {
     btn.classList.remove('loading');
   }
 }
 
-function processQRBankPayment() {
-  const btn = document.querySelector('.vietqr-btn');
-  btn.classList.add('loading');
-
-  setTimeout(() => {
-    window.location.href = 'naptien.html';
-    btn.classList.remove('loading');
-  }, 800);
-}
-
-function showVietQR() {
-  const modal = document.getElementById('vietqr-modal');
-  const totalAmount = calculateTotal();
-
-  if (totalAmount <= 0) {
-    showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
-    return;
-  }
-
-  modal.style.display = 'flex';
-  const paymentContent = 'DH' + generateRandomString(7);
-
-  document.getElementById('qr-amount').textContent = totalAmount.toLocaleString('vi-VN') + ' ₫';
-  document.getElementById('payment-content').textContent = paymentContent;
-
-  const qrContainer = document.querySelector('#vietqr-container .qr-loading');
-  const qrImage = document.getElementById('vietqr-image');
-
-  qrContainer.style.display = 'none';
-  qrImage.style.display = 'block';
-  qrImage.alt = `QR Thanh toán ${totalAmount.toLocaleString('vi-VN')}₫`;
-
-  const qrUrl = new URL('https://api.vietqr.io/image/970418-962QR000003146-qvNJZKZ.jpg');
-  qrUrl.searchParams.set('accountName', 'DAO MINH HAI');
-  qrUrl.searchParams.set('amount', totalAmount);
-  qrUrl.searchParams.set('addInfo', paymentContent);
-
-  qrImage.src = qrUrl.toString();
-
-  localStorage.setItem(
-    'currentQRPayment',
-    JSON.stringify({
-      orderId: paymentContent,
-      amount: totalAmount,
-      timestamp: new Date().toISOString()
-    })
-  );
-}
-
-function hideVietQR() {
-  document.getElementById('vietqr-modal').style.display = 'none';
-}
-
-function calculateTotal() {
-  if (!cart || cart.length === 0) return 0;
-  return cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
-}
-
-function showPaymentError(message) {
-  const errorElement = document.getElementById('payment-error');
-  errorElement.textContent = message;
-  errorElement.style.display = 'block';
-  
-  setTimeout(() => {
-    errorElement.style.display = 'none';
-  }, 5000);
-}
 /**
  * Xử lý thanh toán qua SePay
  */
@@ -300,25 +202,26 @@ async function processSePayPayment() {
   btn.classList.add('loading');
   
   try {
-    if (cart.length === 0) {
-      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    const amount = calculateTotal();
+    if (amount <= 0) {
+      throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
     }
 
     const orderData = {
-      orderCode: `SEPAY_${Date.now()}`,
-      amount: calculateTotal(),
+      orderCode: `SEPAY_${generateRandomString()}`,
+      amount,
       description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
       items: cart.map(item => ({
         name: item.name,
         price: item.price,
         quantity: item.quantity
       })),
-      customerName: "Khách hàng Tạp hóa Bà Trâm",
-      returnUrl: window.location.origin + '/payment-success.html',
-      cancelUrl: window.location.origin + '/payment-cancel.html',
+      returnUrl: window.location.href.replace('checkout.html', 'payment-success.html'),
+      cancelUrl: window.location.href.replace('checkout.html', 'payment-cancel.html')
     };
 
-    const response = await fetch('https://sepay.mhcomputer.org/api/payments/sepay', {
+    // Gọi API SePay (thay bằng endpoint thực tế của bạn)
+    const response = await fetch('https://your-sepay-endpoint.com/create-payment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -329,14 +232,15 @@ async function processSePayPayment() {
     const result = await response.json();
     
     if (result.success && result.paymentUrl) {
-      localStorage.setItem('current_payment', JSON.stringify({
-        provider: 'sepay',
+      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
         orderCode: orderData.orderCode,
-        amount: orderData.amount
+        amount,
+        status: 'pending',
+        provider: 'sepay'
       }));
       window.location.href = result.paymentUrl;
     } else {
-      throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
+      throw new Error(result.message || 'Lỗi khi tạo thanh toán SePay');
     }
   } catch (error) {
     console.error('SePay Error:', error);
@@ -346,54 +250,94 @@ async function processSePayPayment() {
   }
 }
 
-// Initialize cart and payment methods
-document.addEventListener('DOMContentLoaded', function() {
+/**
+ * Hiển thị modal VietQR
+ */
+function showVietQR() {
+  const amount = calculateTotal();
+  if (amount <= 0) {
+    showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm');
+    return;
+  }
+
+  const modal = document.getElementById(VIETQR_MODAL_ID);
+  const paymentContent = `DH${generateRandomString(7)}`;
+
+  // Cập nhật thông tin lên modal
+  document.getElementById('qr-amount').textContent = `${amount.toLocaleString('vi-VN')} ₫`;
+  document.getElementById('payment-content').textContent = paymentContent;
+
+  // Tạo QR code (sử dụng API VietQR hoặc service tương tự)
+  const qrImage = document.getElementById('vietqr-image');
+  qrImage.src = `https://api.vietqr.io/image/970418-962QR000003146.jpg?amount=${amount}&addInfo=${encodeURIComponent(paymentContent)}&accountName=DAO%20MINH%20HAI`;
+
+  // Lưu thông tin thanh toán
+  localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
+    orderCode: paymentContent,
+    amount,
+    status: 'pending',
+    provider: 'vietqr'
+  }));
+
+  modal.style.display = 'flex';
+}
+
+/**
+ * Ẩn modal VietQR
+ */
+function hideVietQR() {
+  document.getElementById(VIETQR_MODAL_ID).style.display = 'none';
+}
+
+/**
+ * Khởi tạo trang
+ */
+function initializePage() {
   renderCart();
 
-  // Payment method handling
-  const paymentMethods = document.querySelectorAll('input[name="payment-method"]');
-  const confirmBtn = document.getElementById('confirm-payment-button');
-  
-  paymentMethods.forEach(method => {
-    method.addEventListener('change', function() {
-      if (this.checked) {
-        confirmBtn.classList.remove('payos-btn', 'sepay-btn', 'qrbank-btn', 'vietqr-btn');
-        confirmBtn.classList.add(`${this.value}-btn`);
-      }
-    });
-  });
-  
-  confirmBtn.addEventListener('click', function() {
+  // Xử lý sự kiện click nút thanh toán
+  document.getElementById('confirm-payment-button').addEventListener('click', function() {
     const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
-    const totalAmount = calculateTotal();
     
-    if (totalAmount <= 0) {
-      showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
+    if (cart.length === 0) {
+      showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm');
       return;
     }
     
-    if (selectedMethod === 'payos') {
-      processPayOSPayment();
-    } else if (selectedMethod === 'sepay') {
-      processSePayPayment();
-    } else if (selectedMethod === 'qrbank') {
-      processQRBankPayment();
-    } else if (selectedMethod === 'vietqr') {
-      showVietQR();
+    switch(selectedMethod) {
+      case 'payos':
+        processPayOSPayment();
+        break;
+      case 'sepay':
+        processSePayPayment();
+        break;
+      case 'vietqr':
+        showVietQR();
+        break;
+      default:
+        showPaymentError('Vui lòng chọn phương thức thanh toán');
     }
   });
 
-  // Listen for storage changes from other tabs
-  window.addEventListener('storage', function(e) {
+  // Theo dõi thay đổi giỏ hàng từ các tab khác
+  window.addEventListener('storage', (e) => {
     if (e.key === CART_STORAGE_KEY) {
       cart = JSON.parse(e.newValue || '[]');
       renderCart();
     }
   });
 
-  // Check for pending QR payments
-  const paymentData = JSON.parse(localStorage.getItem('currentQRPayment'));
-  if (paymentData) {
-    // Additional logic for pending payments can be added here
+  // Kiểm tra trạng thái thanh toán trước đó
+  const paymentStatus = JSON.parse(localStorage.getItem(PAYMENT_STATUS_KEY));
+  if (paymentStatus && paymentStatus.status === 'pending') {
+    // Xử lý kiểm tra trạng thái thanh toán nếu cần
   }
-});
+}
+
+// Khởi chạy khi trang tải xong
+document.addEventListener('DOMContentLoaded', initializePage);
+
+// Expose các hàm cần thiết ra global scope
+window.removeItem = removeItem;
+window.hideVietQR = hideVietQR;
+window.copyToClipboard = copyToClipboard;
