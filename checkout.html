@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thanh toán - Tạp hóa Bà Trâm</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="checkout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="checkout.css" />
 </head>
+
 <body>
   <header>
     <a href="index.html" class="back-button">
@@ -35,7 +37,13 @@
           </tr>
         </thead>
         <tbody id="cart-body">
-          <!-- Sản phẩm sẽ được thêm bằng JS -->
+          <tr>
+            <td colspan="5" class="empty-cart">
+              <i class="fas fa-shopping-cart"></i>
+              <p>Giỏ hàng trống</p>
+              <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -45,7 +53,6 @@
         Tổng cộng:
         <span id="total-price">0 ₫</span>
       </h3>
-      
       <div class="payment-methods">
         <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
         
@@ -73,179 +80,30 @@
               <span class="payment-name">SEPAY</span>
             </label>
           </div>
-        </div>
-        
-        <div id="payment-error" class="error-message"></div>
-        
-        <button id="confirm-payment-button" class="payos-btn">
-          <i class="fas fa-check-circle"></i> Xác nhận thanh toán
-        </button>
+  
+          <div class="payment-option">
+            <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
+            <label for="payment-qrbank">
+              <i class="fas fa-qrcode payment-icon"></i>
+              <span class="payment-name">QR Bank</span>
+            </label>
+          </div>
+     </div>
       </div>
+        <div id="payment-error" class="error-message"></div>
+          <button id="confirm-payment-button" class="payos-btn">
+        <i class="fas fa-check-circle"></i> Xác nhận thanh toán
+      </button>
+    </div>
+    <div class="payment-method">
+      <input type="radio" id="payos-method" name="payment-method" value="payos">
+      <label for="payos-method" class="payment-method-label">
+        <img src="/assets/images/payos-logo.png" alt="PayOS" width="60">
+        <span>PayOS (QR Code / Banking)</span>
+      </label>
     </div>
   </div>
-
-  <!-- VietQR Modal -->
-  <div id="vietqr-modal">
-    <!-- Nội dung modal giữ nguyên như bạn đã có -->
   </div>
-
-  <footer>
-    <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
-    <p>Powered by Demo by DMH</p>
-  </footer>
-
-  <script src="checkout.js"></script>
-</body>
-</html>
-Run HTML
-2. File checkout.js (Cập nhật phần xử lý giỏ hàng)
-javascript
-Copy
-const CART_STORAGE_KEY = 'shopping_cart';
-const PAYMENT_STATUS_KEY = 'payment_status';
-
-// Khởi tạo giỏ hàng từ localStorage
-let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
-
-// Hàm hiển thị giỏ hàng
-function renderCart() {
-  const cartBody = document.getElementById('cart-body');
-  const totalPriceEl = document.getElementById('total-price');
-  
-  // Xóa nội dung cũ
-  cartBody.innerHTML = '';
-  
-  // Kiểm tra giỏ hàng trống
-  if (!cart || cart.length === 0) {
-    cartBody.innerHTML = `
-      <tr>
-        <td colspan="5" class="empty-cart">
-          <i class="fas fa-shopping-cart"></i>
-          <p>Giỏ hàng trống</p>
-          <a href="index.html" class="continue-btn">Tiếp tục mua sắm</a>
-        </td>
-      </tr>`;
-    totalPriceEl.textContent = '0 ₫';
-    return;
-  }
-
-  // Tính tổng tiền và hiển thị sản phẩm
-  let totalPrice = 0;
-  
-  cart.forEach((item, index) => {
-    const subtotal = item.price * item.quantity;
-    totalPrice += subtotal;
-    
-    cartBody.innerHTML += `
-      <tr>
-        <td>
-          <div class="product-info">
-            <img src="${item.img || 'https://via.placeholder.com/80'}" 
-                 class="item-img" alt="${item.name}"
-                 onerror="this.src='https://via.placeholder.com/80?text=Image+Error'">
-            <span class="product-name">${item.name}</span>
-          </div>
-        </td>
-        <td>${item.price.toLocaleString('vi-VN')} ₫</td>
-        <td>
-          <div class="quantity-control">
-            <span>${item.quantity}</span>
-          </div>
-        </td>
-        <td>${subtotal.toLocaleString('vi-VN')} ₫</td>
-        <td>
-          <button class="remove-btn" onclick="removeItem(${index})">
-            <i class="fas fa-trash"></i>
-          </button>
-        </td>
-      </tr>`;
-  });
-
-  // Cập nhật tổng tiền
-  totalPriceEl.textContent = `${totalPrice.toLocaleString('vi-VN')} ₫`;
-}
-
-// Hàm xóa sản phẩm
-function removeItem(index) {
-  if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
-    cart.splice(index, 1);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    renderCart();
-  }
-}
-
-// Hàm tính tổng tiền
-function calculateTotal() {
-  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-}
-
-// Khởi tạo khi trang load
-document.addEventListener('DOMContentLoaded', () => {
-  renderCart();
-  
-  // Xử lý sự kiện thanh toán
-  document.getElementById('confirm-payment-button').addEventListener('click', () => {
-    const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
-    
-    if (cart.length === 0) {
-      showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi thanh toán');
-      return;
-    }
-    
-    // Xử lý theo phương thức thanh toán
-    if (selectedMethod === 'payos') {
-      processPayOSPayment();
-    } else if (selectedMethod === 'vietqr') {
-      showVietQR();
-    } else if (selectedMethod === 'sepay') {
-      processSePayPayment();
-    }
-  });
-});
-
-// Các hàm xử lý thanh toán khác giữ nguyên như bạn đã có
-// ...
-3. File checkout.css (Giữ nguyên như bạn đã có)
-Giải thích các điểm quan trọng:
-Cơ chế lưu trữ giỏ hàng:
-
-Sử dụng localStorage với key shopping_cart để đồng bộ giữa các trang
-
-Dữ liệu được lưu dưới dạng JSON string
-
-Quy trình hoạt động:
-
-Khi vào trang checkout, script sẽ tự động đọc giỏ hàng từ localStorage
-
-Hiển thị sản phẩm và tính tổng tiền
-
-Khi click thanh toán, kiểm tra giỏ hàng và xử lý theo phương thức được chọn
-
-Xử lý lỗi:
-
-Kiểm tra giỏ hàng trống trước khi thanh toán
-
-Hiển thị thông báo lỗi nếu có
-
-Tối ưu:
-
-Tách biệt rõ ràng phần hiển thị và xử lý logic
-
-Code dễ bảo trì và mở rộng
-
-Bạn cần đảm bảo rằng:
-
-Cả cart.html và checkout.html đều sử dụng cùng CART_STORAGE_KEY
-
-File checkout.js được liên kết đúng trong checkout.html
-
-Các phương thức thanh toán đã được cấu hình đầy đủ
-
-Nếu cần thêm bất kỳ chức năng nào khác, bạn có thể cho tôi biết để bổ sung!
-
-New chat
-Message DeepSeek
-AI-ge
 
   <!-- VietQR Modal -->
   <div id="vietqr-modal">
