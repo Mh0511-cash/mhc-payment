@@ -633,10 +633,22 @@
   </footer>
   <script>
     // checkout.js
-    const CART_STORAGE_KEY = 'shopping_cart';
+     // checkout.js
+     const CART_STORAGE_KEY = 'shopping_cart';
     const PAYMENT_STATUS_KEY = 'payment_status';
     const VIETQR_MODAL_ID = 'vietqr-modal';
 
+    // Cấu hình API VietQR
+    const VIETQR_CONFIG = {
+      clientId: '0c2eff2c-1ac2-4637-8ed1-5b9665e8da8f', 
+      apiKey: '1bf670a8-ed50-4add-9be0-818d5a7f1a70',     
+      bankConfig: {
+        accountNo: '962QR000003146',
+        accountName: 'DAO MINH HAI',
+        acqId: 970418, 
+        template: 'compact' 
+      }
+    };
     // Product images mapping
     const productImages = {
       'mi-hao-hao': 'https://i.imgur.com/VPBhiHd.png',
@@ -920,7 +932,7 @@
     /**
      * Hiển thị modal VietQR
      */
-    function showVietQR() {
+     async function showVietQR() {
       const amount = calculateTotal();
       if (amount <= 0) {
         showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm');
@@ -939,27 +951,48 @@
       qrImage.style.display = 'none';
       document.querySelector('.qr-loading').style.display = 'block';
 
-      // Tạo QR code
-       // Tạo QR code và thông tin thanh toán
-        switch (currentMethod) {
-          case 'bank':
-            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${realAmount}&addInfo=${paymentContent}`;
-            paymentInfo.innerHTML = `
-              <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
-              <p><strong>Ngân hàng:</strong> BIDV</p>
-              <p><strong>Số TK:</strong> V2QRBCHH01176</p>
-              <p><strong>Chủ TK:</strong> DAO MINH HAI</p>
-              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
-              <p><strong>Nội dung:</strong> ${paymentContent}</p>
-            `;
-            break;
+      try {
+        // Gọi API VietQR để tạo mã QR
+        const response = await fetch('https://api.vietqr.io/v2/generate', {
+          method: 'POST',
+          headers: {
+            'x-client-id': VIETQR_CONFIG.clientId,
+            'x-api-key': VIETQR_CONFIG.apiKey,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            accountNo: VIETQR_CONFIG.bankConfig.accountNo,
+            accountName: VIETQR_CONFIG.bankConfig.accountName,
+            acqId: VIETQR_CONFIG.bankConfig.acqId,
+            amount: amount,
+            addInfo: paymentContent,
+            template: VIETQR_CONFIG.bankConfig.template
+          })
+        });
+
+        const result = await response.json();
+        
+        if (result.code === "00" && result.data && result.data.qrDataURL) {
+          qrImage.src = result.data.qrDataURL;
+          qrImage.onload = function() {
+            document.querySelector('.qr-loading').style.display = 'none';
+            qrImage.style.display = 'block';
+          };
+        } else {
+          throw new Error(result.desc || 'Không thể tạo mã QR');
         }
-      
-      qrImage.src = qrUrl;
-      qrImage.onload = function() {
-        document.querySelector('.qr-loading').style.display = 'none';
-        qrImage.style.display = 'block';
-      };
+      } catch (error) {
+        console.error('VietQR Error:', error);
+        // Fallback sử dụng API khác nếu VietQR lỗi
+        const fallbackQRUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+          `bankId=BIDV&accountNumber=${VIETQR_CONFIG.bankConfig.accountNo}&amount=${amount}&description=${paymentContent}`
+        )}`;
+        qrImage.src = fallbackQRUrl;
+        qrImage.onload = function() {
+          document.querySelector('.qr-loading').style.display = 'none';
+          qrImage.style.display = 'block';
+        };
+      }
 
       // Lưu thông tin thanh toán
       localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
