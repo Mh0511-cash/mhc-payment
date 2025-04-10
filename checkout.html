@@ -940,9 +940,20 @@
       document.querySelector('.qr-loading').style.display = 'block';
 
       // Tạo QR code
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-        `bankId=BIDV&accountNumber=962QR000003146&amount=${amount}&description=${paymentContent}`
-      )}`;
+       // Tạo QR code và thông tin thanh toán
+        switch (currentMethod) {
+          case 'bank':
+            qrCode.src = `https://api.vietqr.io/image/970418-V2QRBCHH01176-e6o1bGR.jpg?accountName=DAO%20MINH%20HAI&amount=${realAmount}&addInfo=${paymentContent}`;
+            paymentInfo.innerHTML = `
+              <p><strong>Phương thức:</strong> Chuyển khoản ngân hàng</p>
+              <p><strong>Ngân hàng:</strong> BIDV</p>
+              <p><strong>Số TK:</strong> V2QRBCHH01176</p>
+              <p><strong>Chủ TK:</strong> DAO MINH HAI</p>
+              <p><strong>Số tiền:</strong> ${formattedAmount} VND</p>
+              <p><strong>Nội dung:</strong> ${paymentContent}</p>
+            `;
+            break;
+        }
       
       qrImage.src = qrUrl;
       qrImage.onload = function() {
