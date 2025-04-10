@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thanh toán - Tạp hóa Bà Trâm</title>
+  <title>Thanh toán - Createpayment by DHM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
@@ -502,7 +502,7 @@
     </a>
     <div class="header-title-container">
       <h1 class="header-title">
-        TẠP HÓA BÀ TRÂM
+        Create Auto PaymentLink by DMH
         <span class="header-subtitle">THANH TOÁN ĐƠN HÀNG</span>
       </h1>
     </div>
@@ -877,7 +877,7 @@
         const orderData = {
           orderCode: `SEPAY_${generateRandomString(8)}`,
           amount,
-          description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
+          description: "Thanh toán đơn hàng KIỂM TRA HÀNG HÓA TRƯỚC KHI RỜI ĐI",
           items: cart.map(item => ({
             name: item.name,
             price: item.price,
@@ -886,7 +886,7 @@
           returnUrl: PAYMENT_ENDPOINTS.sepay.success,
           cancelUrl: PAYMENT_ENDPOINTS.sepay.cancel,
           metadata: {
-            store: "Tạp hóa Bà Trâm"
+            store: "AUTO LINK ORD"
           }
         };
 
