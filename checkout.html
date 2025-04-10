@@ -244,6 +244,8 @@
       border-radius: 5px;
       transition: background 0.2s;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
     }
     
     .payment-option:hover {
@@ -252,13 +254,16 @@
     
     .payment-option input[type="radio"] {
       accent-color: var(--primary);
-      margin-right: 10px;
+      margin-right: 15px;
+      width: 18px;
+      height: 18px;
     }
     
     .payment-option label {
       display: flex;
       align-items: center;
       cursor: pointer;
+      flex: 1;
     }
     
     .payment-icon {
@@ -289,6 +294,8 @@
     #confirm-payment-button {
       width: 100%;
       margin-top: 10px;
+      padding: 12px;
+      font-size: 1rem;
     }
     
     /* QR Modal */
@@ -367,7 +374,9 @@
     .qr-image {
       max-width: 330px;
       margin: 25px auto;
-      display: none;
+      display: block;
+      width: 250px;
+      height: 250px;
     }
     
     /* Footer */
@@ -565,14 +574,13 @@
               <span class="payment-name">QR Bank</span>
             </label>
           </div>
-     </div>
+        </div>
       </div>
-        <div id="payment-error" class="error-message"></div>
-          <button id="confirm-payment-button" class="payos-btn">
+      <div id="payment-error" class="error-message"></div>
+      <button id="confirm-payment-button" class="payos-btn">
         <i class="fas fa-check-circle"></i> Xác nhận thanh toán
       </button>
     </div>
-  </div>
   </div>
 
   <!-- VietQR Modal -->
@@ -583,7 +591,7 @@
         <div class="qr-loading">
           <p>Đang tạo mã QR...</p>
         </div>
-        <img id="vietqr-image" class="qr-image">
+        <img id="vietqr-image" class="qr-image" alt="Mã QR thanh toán">
       </div>
 
       <div class="bank-info">
@@ -603,7 +611,7 @@
           <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
         </p>
         <p>
-          <span><strong>Nội dung:</strong> <span id="payment-content">DH${generateRandomString(7)}</span></span>
+          <span><strong>Nội dung:</strong> <span id="payment-content">DH1234567</span></span>
           <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
         </p>
       </div>
@@ -899,73 +907,6 @@
           // Chuyển hướng đến trang thanh toán
           window.location.href = result.paymentUrl;
         } else {
-          throw new Error(result.message || 'Không thể khởi tạo thanh toán PayOS');
-        }
-      } catch (error) {
-        console.error('PayOS Error:', error);
-        showPaymentError(error.message);
-      } finally {
-        btn.classList.remove('loading');
-      }
-    }
-
-    /**
-     * Xử lý thanh toán qua SePay
-     */
-    async function processSePayPayment() {
-      const btn = document.querySelector('.sepay-btn');
-      btn.classList.add('loading');
-      
-      try {
-        const amount = calculateTotal();
-        if (amount <= 0) {
-          throw new Error('Giỏ hàng trống! Vui lòng thêm sản phẩm');
-        }
-
-        const orderData = {
-          orderCode: `SEPAY_${generateRandomString(8)}`,
-          amount,
-          description: "Thanh toán đơn hàng Tạp hóa Bà Trâm",
-          items: cart.map(item => ({
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity
-          })),
-          returnUrl: PAYMENT_ENDPOINTS.sepay.success,
-          cancelUrl: PAYMENT_ENDPOINTS.sepay.cancel,
-          metadata: {
-            store: "Tạp hóa Bà Trâm"
-          }
-        };
-
-        const response = await fetch(PAYMENT_ENDPOINTS.sepay.create, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(orderData)
-        });
-
-        const result = await response.json();
-        
-        if (result.success && result.paymentUrl) {
-          // Lưu thông tin thanh toán
-          localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
-            orderCode: orderData.orderCode,
-            amount,
-            status: 'pending',
-            provider: 'sepay',
-            timestamp: new Date().toISOString(),
-            items: cart
-          }));
-          
-          // Xóa giỏ hàng sau khi thanh toán thành công
-          localStorage.removeItem(CART_STORAGE_KEY);
-          cart = [];
-          
-          // Chuyển hướng đến trang thanh toán
-          window.location.href = result.paymentUrl;
-        } else {
           throw new Error(result.message || 'Không thể khởi tạo thanh toán SePay');
         }
       } catch (error) {
@@ -988,21 +929,35 @@
 
       const modal = document.getElementById(VIETQR_MODAL_ID);
       const paymentContent = `DH${generateRandomString(7)}`;
-
+      const qrImage = document.getElementById('vietqr-image');
+      
       // Cập nhật thông tin lên modal
       document.getElementById('qr-amount').textContent = `${amount.toLocaleString('vi-VN')} ₫`;
       document.getElementById('payment-content').textContent = paymentContent;
 
-      // Tạo QR code (sử dụng API VietQR hoặc service tương tự)
-      const qrImage = document.getElementById('vietqr-image');
-      qrImage.src = `https://api.vietqr.io/image/970418-962QR000003146.jpg?amount=${amount}&addInfo=${encodeURIComponent(paymentContent)}&accountName=DAO%20MINH%20HAI`;
+      // Hiển thị loading
+      qrImage.style.display = 'none';
+      document.querySelector('.qr-loading').style.display = 'block';
+
+      // Tạo QR code
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+        `bankId=BIDV&accountNumber=962QR000003146&amount=${amount}&description=${paymentContent}`
+      )}`;
+      
+      qrImage.src = qrUrl;
+      qrImage.onload = function() {
+        document.querySelector('.qr-loading').style.display = 'none';
+        qrImage.style.display = 'block';
+      };
 
       // Lưu thông tin thanh toán
       localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
         orderCode: paymentContent,
         amount,
         status: 'pending',
-        provider: 'vietqr'
+        provider: 'vietqr',
+        timestamp: new Date().toISOString(),
+        items: cart
       }));
 
       modal.style.display = 'flex';
