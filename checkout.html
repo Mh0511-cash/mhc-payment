@@ -426,24 +426,28 @@
         transform: translateY(-50%) rotate(360deg);
       }
     }
+
     .vietqr-btn {
-  background-color: #00a651; /* Màu xanh lá của VietQR */
-  color: white;
-}
+      background-color: #00a651;
+      /* Màu xanh lá của VietQR */
+      color: white;
+    }
 
-#vietqr-modal {
-  /* Các style hiện có giữ nguyên */
-  z-index: 10000; /* Đảm bảo hiển thị trên cùng */
-}
+    #vietqr-modal {
+      /* Các style hiện có giữ nguyên */
+      z-index: 10000;
+      /* Đảm bảo hiển thị trên cùng */
+    }
 
-.qr-image {
-  max-width: 300px;
-  max-height: 300px;
-  margin: 20px auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  background: white;
-}
+    .qr-image {
+      max-width: 300px;
+      max-height: 300px;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+      padding: 10px;
+      background: white;
+    }
+
     /* Mobile styles */
     @media (max-width: 768px) {
       header {
@@ -624,23 +628,21 @@
       </div>
 
       <div class="bank-info">
+        <p><strong>Ngân hàng:</strong> <span id="bank-name">BIDV</span></p>
         <p>
-          <span><strong>Ngân hàng:</strong> <span id="bank-name">BIDV</span></span>
-        </p>
-        <p>
-          <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
+          <strong>Số TK:</strong> <span id="account-number">962QR000003146</span>
           <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
         </p>
         <p>
-          <span><strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span></span>
+          <strong>Chủ TK:</strong> <span id="account-name">DAO MINH HAI</span>
           <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
         </p>
         <p>
-          <span><strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span></span>
+          <strong>Số tiền:</strong> <span id="qr-amount">0 ₫</span>
           <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
         </p>
         <p>
-          <span><strong>Nội dung:</strong> <span id="payment-content">DH1234567</span></span>
+          <strong>Nội dung:</strong> <span id="payment-content">DH1234567</span>
           <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
         </p>
       </div>
@@ -655,6 +657,7 @@
       </div>
     </div>
   </div>
+
 
   <footer>
     <p>Copyright © 2025 Đào Minh Hải - Đừng tin vào những gì nhìn thấy</p>
@@ -950,9 +953,9 @@
  * Hiển thị modal VietQR
  */
     const VIETQR_CONFIG = {
-      apiEndpoint: 'https://api.mhcomputer.org/api/create-payment',
+      apiEndpoint: 'https://vietqr.mhcomputer.org/api/payment/vietqr',
+      statusEndpoint: 'https://mhcomputer.org/api/status',
       successUrl: 'https://mhcomputer.org/payment-success',
-      cancelUrl: 'https://mhcomputer.org/payment-cancel',
       bankInfo: {
         name: 'BIDV',
         account: '962QR000003146',
@@ -960,6 +963,7 @@
       }
     };
 
+    // HIỂN THỊ MODAL VIETQR
     async function showVietQR() {
       const amount = calculateTotal();
       if (amount <= 0) {
@@ -967,7 +971,7 @@
         return;
       }
 
-      const orderCode = `DH${generateRandomString(7)}`;
+      const orderCode = `DH${Date.now().toString().slice(-6)}`;
       const modal = document.getElementById('vietqr-modal');
 
       try {
@@ -980,71 +984,88 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            paymentMethod: 'vietqr',
             amount: amount,
-            orderCode: orderCode
+            orderCode: orderCode,
+            bankAccount: VIETQR_CONFIG.bankInfo.account
           })
         });
 
         const result = await response.json();
 
         if (result.success) {
-          // Cập nhật thông tin lên modal
+          // Cập nhật thông tin
           document.getElementById('qr-amount').textContent = `${amount.toLocaleString('vi-VN')} ₫`;
           document.getElementById('payment-content').textContent = orderCode;
-          document.getElementById('account-number').textContent = VIETQR_CONFIG.bankInfo.account;
-          document.getElementById('account-name').textContent = VIETQR_CONFIG.bankInfo.holder;
-          document.getElementById('bank-name').textContent = VIETQR_CONFIG.bankInfo.name;
 
           // Hiển thị QR code
           const qrImage = document.getElementById('vietqr-image');
-          qrImage.src = result.qrUrl || result.paymentUrl;
-          qrImage.onload = function () {
+          qrImage.src = result.data.qrInfo.imageUrl;
+          qrImage.onload = () => {
             document.querySelector('.qr-loading').style.display = 'none';
             qrImage.style.display = 'block';
           };
 
           // Lưu thông tin thanh toán
           localStorage.setItem('payment_status', JSON.stringify({
-            orderCode: orderCode,
-            amount: amount,
+            orderCode,
+            amount,
             status: 'pending',
             provider: 'vietqr',
-            timestamp: new Date().toISOString(),
-            items: cart,
-            qrUrl: result.qrUrl || result.paymentUrl
+            timestamp: new Date().toISOString()
           }));
+
+          // Tự động kiểm tra trạng thái
+          const checkInterval = setInterval(() => {
+            checkVietQRStatus(orderCode, checkInterval);
+          }, 5000);
 
           // Hiển thị modal
           modal.style.display = 'flex';
         } else {
-          throw new Error(result.message || 'Tạo QR thất bại');
+          throw new Error(result.message || 'Lỗi tạo mã QR');
         }
       } catch (error) {
-        console.error('VietQR Error:', error);
+        console.error('Lỗi VietQR:', error);
         showPaymentError(error.message);
         modal.style.display = 'none';
       }
     }
 
-    // Hàm xử lý khi hoàn thành thanh toán
+    // KIỂM TRA TRẠNG THÁI THANH TOÁN
+    async function checkVietQRStatus(orderCode, interval) {
+      try {
+        const response = await fetch(`${VIETQR_CONFIG.statusEndpoint}?orderCode=${orderCode}`);
+        const result = await response.json();
+
+        if (result.data?.payment?.status === 'completed') {
+          clearInterval(interval);
+          completeVietQRPayment();
+        }
+      } catch (error) {
+        console.error('Lỗi kiểm tra trạng thái:', error);
+      }
+    }
+
+    // HOÀN TẤT THANH TOÁN
     function completeVietQRPayment() {
       const paymentData = JSON.parse(localStorage.getItem('payment_status'));
-
-      // Chuyển hướng đến trang thành công
-      window.location.href = `${VIETQR_CONFIG.successUrl}?orderCode=${encodeURIComponent(paymentData.orderCode)}&amount=${paymentData.amount}`;
-
-      // Xóa giỏ hàng
+      window.location.href = `${VIETQR_CONFIG.successUrl}?orderCode=${paymentData.orderCode}&amount=${paymentData.amount}`;
       localStorage.removeItem('shopping_cart');
       cart = [];
     }
-    /**
-     * Ẩn modal VietQR
-     */
+
+    // ẨN MODAL
     function hideVietQR() {
-      document.getElementById(VIETQR_MODAL_ID).style.display = 'none';
+      document.getElementById('vietqr-modal').style.display = 'none';
     }
 
+    // COPY THÔNG TIN
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Đã copy: ' + text);
+      });
+    }
     /**
      * Khởi tạo trang
      */

@@ -1,42 +1,130 @@
-<!-- vietqr-modal.html -->
-<div id="vietqr-modal" class="modal">
-    <div class="modal-content">
-      <h3>THANH TOÁN BẰNG VIETQR</h3>
-      
-      <div id="vietqr-container">
-        <div class="qr-loading">
-          <p>Đang tạo mã QR...</p>
-        </div>
-        <img id="vietqr-image" class="qr-image" style="display:none;">
-      </div>
-  
-      <div class="bank-info">
-        <p><strong>Ngân hàng:</strong> <span id="bank-name"></span></p>
-        <p>
-          <strong>Số TK:</strong> <span id="account-number"></span>
-          <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
-        </p>
-        <p>
-          <strong>Chủ TK:</strong> <span id="account-name"></span>
-          <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
-        </p>
-        <p>
-          <strong>Số tiền:</strong> <span id="qr-amount"></span>
-          <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
-        </p>
-        <p>
-          <strong>Nội dung:</strong> <span id="payment-content"></span>
-          <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
-        </p>
-      </div>
-  
-      <div class="modal-actions">
-        <button class="modal-btn close-btn" onclick="hideVietQR()">
-          <i class="fas fa-times"></i> Đóng
-        </button>
-        <button class="modal-btn continue-btn" onclick="completeVietQRPayment()">
-          <i class="fas fa-check-circle"></i> Đã thanh toán
-        </button>
-      </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán VietQR - BIDV</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .qr-code {
+      margin: 20px auto;
+      width: 250px;
+      height: 250px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      background: white;
+    }
+    .bank-info {
+      text-align: left;
+      margin: 20px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    .copy-btn {
+      background: #2f8ffd;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .confirm-btn {
+      background: #00a651;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>THANH TOÁN VIETQR</h1>
+    
+    <div id="payment-info">
+      <h2 id="amount">0 ₫</h2>
+      <p>Mã đơn hàng: <strong id="order-code">DH123456</strong></p>
     </div>
+
+    <div class="qr-code">
+      <img id="qr-image" width="250" height="250" alt="Mã QR thanh toán">
+    </div>
+
+    <div class="bank-info">
+      <p><strong>Ngân hàng:</strong> BIDV</p>
+      <p>
+        <strong>Số tài khoản:</strong> 962QR000003146
+        <button class="copy-btn" onclick="copyToClipboard('962QR000003146')">Copy</button>
+      </p>
+      <p><strong>Chủ tài khoản:</strong> DAO MINH HAI</p>
+      <p>
+        <strong>Nội dung chuyển khoản:</strong> 
+        <span id="payment-content">DH123456</span>
+        <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
+      </p>
+    </div>
+
+    <button class="confirm-btn" onclick="completePayment()">
+      <i class="fas fa-check-circle"></i> Tôi đã thanh toán
+    </button>
   </div>
+
+  <script>
+    // Lấy thông tin từ URL hoặc localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount') || 100000; // Số tiền mặc định 100,000đ
+    const orderCode = urlParams.get('orderCode') || 'DH' + Date.now().toString().slice(-6);
+
+    // Hiển thị thông tin
+    document.getElementById('amount').textContent = parseInt(amount).toLocaleString() + ' ₫';
+    document.getElementById('order-code').textContent = orderCode;
+    document.getElementById('payment-content').textContent = orderCode;
+
+    // Tạo QR code
+    const qrData = `BIDV|962QR000003146|${amount}|${orderCode}`;
+    document.getElementById('qr-image').src = 
+      `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
+
+    // Hàm copy
+    function copyToClipboard(text) {
+      if (typeof text === 'string') {
+        navigator.clipboard.writeText(text);
+      } else {
+        const element = document.getElementById(text);
+        navigator.clipboard.writeText(element.innerText);
+      }
+      alert('Đã copy thông tin');
+    }
+
+    // Xử lý khi bấm nút hoàn thành
+    function completePayment() {
+      alert('Hệ thống đang kiểm tra thanh toán...');
+      setTimeout(() => {
+        window.location.href = 'payment-success.html?order=' + orderCode;
+      }, 2000);
+    }
+  </script>
+  
+  <!-- Font Awesome cho icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>
