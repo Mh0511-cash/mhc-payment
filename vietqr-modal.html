@@ -1,0 +1,42 @@
+<!-- vietqr-modal.html -->
+<div id="vietqr-modal" class="modal">
+    <div class="modal-content">
+      <h3>THANH TOÁN BẰNG VIETQR</h3>
+      
+      <div id="vietqr-container">
+        <div class="qr-loading">
+          <p>Đang tạo mã QR...</p>
+        </div>
+        <img id="vietqr-image" class="qr-image" style="display:none;">
+      </div>
+  
+      <div class="bank-info">
+        <p><strong>Ngân hàng:</strong> <span id="bank-name"></span></p>
+        <p>
+          <strong>Số TK:</strong> <span id="account-number"></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-number')">Copy</button>
+        </p>
+        <p>
+          <strong>Chủ TK:</strong> <span id="account-name"></span>
+          <button class="copy-btn" onclick="copyToClipboard('account-name')">Copy</button>
+        </p>
+        <p>
+          <strong>Số tiền:</strong> <span id="qr-amount"></span>
+          <button class="copy-btn" onclick="copyToClipboard('qr-amount')">Copy</button>
+        </p>
+        <p>
+          <strong>Nội dung:</strong> <span id="payment-content"></span>
+          <button class="copy-btn" onclick="copyToClipboard('payment-content')">Copy</button>
+        </p>
+      </div>
+  
+      <div class="modal-actions">
+        <button class="modal-btn close-btn" onclick="hideVietQR()">
+          <i class="fas fa-times"></i> Đóng
+        </button>
+        <button class="modal-btn continue-btn" onclick="completeVietQRPayment()">
+          <i class="fas fa-check-circle"></i> Đã thanh toán
+        </button>
+      </div>
+    </div>
+  </div>

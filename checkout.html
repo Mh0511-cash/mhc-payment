@@ -17,7 +17,7 @@
       --light: #f8f9fa;
       --dark: #343a40;
     }
-    
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #333;
@@ -25,7 +25,7 @@
       margin: 0;
       padding: 0;
     }
-    
+
     /* Header styles */
     header {
       display: flex;
@@ -37,26 +37,26 @@
       background-color: var(--primary);
       color: white;
     }
-    
+
     .header-title-container {
       flex: 1;
       text-align: center;
       padding: 0 60px;
     }
-    
+
     .header-title {
       font-size: 1.3rem;
       margin: 0;
       line-height: 1.3;
     }
-    
+
     .header-subtitle {
       display: block;
       font-size: 0.8rem;
       font-weight: normal;
       margin-top: 3px;
     }
-    
+
     .back-button {
       position: absolute;
       left: 20px;
@@ -72,7 +72,7 @@
       white-space: nowrap;
       z-index: 1;
     }
-    
+
     /* Cart styles */
     .cart-container {
       max-width: 1200px;
@@ -83,7 +83,7 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 30px;
     }
-    
+
     .table-wrapper {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -91,30 +91,30 @@
       border-radius: 8px;
       border: 1px solid #eee;
     }
-    
+
     .cart-items {
       width: 100%;
       border-collapse: collapse;
       min-width: 600px;
     }
-    
+
     .cart-items th,
     .cart-items td {
       padding: 12px;
       text-align: left;
       border-bottom: 1px solid #ddd;
     }
-    
+
     .cart-items th {
       background-color: #f2f2f2;
       position: sticky;
       top: 0;
     }
-    
+
     .cart-items td {
       vertical-align: middle;
     }
-    
+
     .item-img {
       width: 80px;
       height: 80px;
@@ -123,23 +123,23 @@
       border-radius: 5px;
       background-color: white;
     }
-    
+
     .product-info {
       display: flex;
       align-items: center;
       gap: 15px;
       min-width: 200px;
     }
-    
+
     .product-name {
       word-break: break-word;
     }
-    
+
     .quantity-control {
       display: flex;
       align-items: center;
     }
-    
+
     .quantity-btn {
       background: var(--light);
       border: none;
@@ -148,7 +148,7 @@
       cursor: pointer;
       font-weight: bold;
     }
-    
+
     .quantity-input {
       width: 50px;
       text-align: center;
@@ -157,7 +157,7 @@
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-    
+
     .remove-btn {
       color: var(--danger);
       background: none;
@@ -165,30 +165,30 @@
       cursor: pointer;
       font-size: 1.2rem;
     }
-    
+
     .cart-summary {
       margin-top: 30px;
       text-align: left;
       padding-top: 20px;
       border-top: 2px solid #4e5050;
     }
-    
+
     .cart-summary #total-price {
       color: var(--primary);
       font-weight: bold;
     }
-    
+
     .empty-cart {
       text-align: center;
       padding: 40px 0;
     }
-    
+
     .empty-cart i {
       font-size: 3rem;
       color: #ccc;
       margin-bottom: 15px;
     }
-    
+
     /* Button styles */
     .continue-btn,
     .payos-btn,
@@ -206,26 +206,26 @@
       display: inline-block;
       text-align: center;
     }
-    
+
     .continue-btn {
       background-color: var(--success);
     }
-    
+
     .sepay-btn {
       background-color: #4e73df;
     }
-    
+
     .qrbank-btn {
       background-color: #9b59b6;
     }
-    
+
     .continue-btn:hover,
     .payos-btn:hover,
     .sepay-btn:hover,
     .qrbank-btn:hover {
       opacity: 0.9;
     }
-    
+
     /* Payment methods */
     .payment-methods {
       background: white;
@@ -234,11 +234,11 @@
       padding: 20px;
       margin-top: 20px;
     }
-    
+
     .payment-options {
       margin: 15px 0;
     }
-    
+
     .payment-option {
       padding: 12px;
       border-radius: 5px;
@@ -247,38 +247,48 @@
       display: flex;
       align-items: center;
     }
-    
+
     .payment-option:hover {
       background: rgba(0, 0, 0, 0.03);
     }
-    
+
     .payment-option input[type="radio"] {
       accent-color: var(--primary);
       margin-right: 15px;
       width: 18px;
       height: 18px;
     }
-    
+
     .payment-option label {
       display: flex;
       align-items: center;
       cursor: pointer;
       flex: 1;
     }
-    
+
     .payment-icon {
       font-size: 1.2rem;
       margin-right: 10px;
       width: 24px;
       text-align: center;
     }
-    #payment-vietqr + label .payment-icon { 
-      color: #00f514; 
+
+    #payment-vietqr+label .payment-icon {
+      color: #00f514;
     }
-    #payment-payos + label .payment-icon { color: var(--primary); }
-    #payment-sepay + label .payment-icon { color: #4e73df; }
-    #payment-qrbank + label .payment-icon { color: #9b59b6; }
-    
+
+    #payment-payos+label .payment-icon {
+      color: var(--primary);
+    }
+
+    #payment-sepay+label .payment-icon {
+      color: #4e73df;
+    }
+
+    #payment-qrbank+label .payment-icon {
+      color: #9b59b6;
+    }
+
     .error-message {
       display: none;
       color: var(--danger);
@@ -287,17 +297,19 @@
       background: #f8d7da;
       border-radius: 4px;
     }
+
     .vietqr-btn {
-      background-color: #00f514; 
+      background-color: #00f514;
       color: white;
     }
+
     #confirm-payment-button {
       width: 100%;
       margin-top: 10px;
       padding: 12px;
       font-size: 1rem;
     }
-    
+
     /* QR Modal */
     #vietqr-modal {
       display: none;
@@ -311,7 +323,7 @@
       justify-content: center;
       align-items: center;
     }
-    
+
     #vietqr-modal>div {
       background: white;
       padding: 20px;
@@ -320,7 +332,7 @@
       max-width: 95%;
       width: 340px;
     }
-    
+
     .bank-info {
       margin-top: 15px;
       font-size: 14px;
@@ -328,14 +340,14 @@
       padding: 10px;
       border-radius: 5px;
     }
-    
+
     .bank-info p {
       margin: 8px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    
+
     .copy-btn {
       background: #3498db;
       color: white;
@@ -346,31 +358,31 @@
       font-size: 12px;
       margin-left: 10px;
     }
-    
+
     .modal-actions {
       display: flex;
       justify-content: space-between;
       margin-top: 15px;
     }
-    
+
     .modal-btn {
       padding: 8px 15px;
       border-radius: 4px;
       cursor: pointer;
     }
-    
+
     .close-btn {
       background: #e74c3c;
       color: white;
     }
-    
+
     .qr-loading {
       height: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-    
+
     .qr-image {
       max-width: 330px;
       margin: 25px auto;
@@ -378,7 +390,7 @@
       width: 250px;
       height: 250px;
     }
-    
+
     /* Footer */
     footer {
       background-color: var(--dark);
@@ -387,14 +399,14 @@
       padding: 20px;
       margin-top: 40px;
     }
-    
+
     /* Loading states */
     .loading {
       opacity: 0.7;
       pointer-events: none;
       position: relative;
     }
-    
+
     .loading::after {
       content: '';
       position: absolute;
@@ -408,13 +420,13 @@
       animation: spin 0.8s linear infinite;
       transform: translateY(-50%);
     }
-    
+
     @keyframes spin {
       to {
         transform: translateY(-50%) rotate(360deg);
       }
     }
-    
+
     /* Mobile styles */
     @media (max-width: 768px) {
       header {
@@ -422,13 +434,13 @@
         min-height: 60px;
         flex-wrap: wrap;
       }
-    
+
       .header-title {
         font-size: 1rem !important;
         padding: 0 5px !important;
         margin-top: 5px !important;
       }
-    
+
       .back-button {
         position: static !important;
         transform: none !important;
@@ -437,30 +449,30 @@
         padding: 6px 10px !important;
         font-size: 0.8rem;
       }
-    
+
       .cart-container {
         padding: 15px;
       }
-    
+
       .cart-items th,
       .cart-items td {
         padding: 8px 5px;
         font-size: 0.9rem;
       }
-    
+
       .item-img {
         width: 50px !important;
         height: 50px !important;
       }
-    
+
       .product-info {
         gap: 5px !important;
       }
-    
+
       .quantity-input {
         width: 30px !important;
       }
-    
+
       .table-wrapper {
         margin-left: -15px;
         margin-right: -15px;
@@ -468,25 +480,25 @@
         border-left: none;
         border-right: none;
       }
-      
+
       .payment-methods {
         padding: 15px;
       }
-      
+
       .payment-option {
         padding: 8px;
       }
     }
-    
+
     @media (max-width: 480px) {
       .header-title {
         font-size: 0.9rem !important;
       }
-    
+
       .product-name {
         font-size: 0.8rem;
       }
-    
+
       .quantity-btn {
         width: 25px !important;
         height: 25px !important;
@@ -510,7 +522,7 @@
 
   <div class="cart-container">
     <h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của bạn</h2>
-  
+
     <div class="table-wrapper">
       <table class="cart-items">
         <thead>
@@ -533,7 +545,7 @@
         </tbody>
       </table>
     </div>
-    
+
     <div class="cart-summary">
       <h3>
         Tổng cộng:
@@ -541,7 +553,7 @@
       </h3>
       <div class="payment-methods">
         <h3><i class="fas fa-credit-card"></i> Phương thức thanh toán</h3>
-        
+
         <div class="payment-options">
           <div class="payment-option">
             <input type="radio" id="payment-payos" name="payment-method" value="payos" checked>
@@ -550,7 +562,7 @@
               <span class="payment-name">PayOS</span>
             </label>
           </div>
-          
+
           <div class="payment-option">
             <input type="radio" id="payment-vietqr" name="payment-method" value="vietqr">
             <label for="payment-vietqr">
@@ -558,7 +570,7 @@
               <span class="payment-name">VIETQR</span>
             </label>
           </div>
-  
+
           <div class="payment-option">
             <input type="radio" id="payment-sepay" name="payment-method" value="sepay">
             <label for="payment-sepay">
@@ -566,7 +578,7 @@
               <span class="payment-name">SEPAY</span>
             </label>
           </div>
-  
+
           <div class="payment-option">
             <input type="radio" id="payment-qrbank" name="payment-method" value="qrbank">
             <label for="payment-qrbank">
@@ -584,9 +596,9 @@
   </div>
 
   <!-- VietQR Modal -->
-  <div id="vietqr-modal">
+  <div id="vietqr-modal" style="display:none;">
     <div>
-      <h3>VIETQR</h3>
+      <h3>THANH TOÁN QUÉT MÃ VIETQR</h3>
       <div id="vietqr-container">
         <div class="qr-loading">
           <p>Đang tạo mã QR...</p>
@@ -596,7 +608,7 @@
 
       <div class="bank-info">
         <p>
-          <span><strong>Ngân hàng:</strong> BIDV</span>
+          <span><strong>Ngân hàng:</strong> <span id="bank-name">BIDV</span></span>
         </p>
         <p>
           <span><strong>Số TK:</strong> <span id="account-number">962QR000003146</span></span>
@@ -620,8 +632,8 @@
         <button class="modal-btn close-btn" onclick="hideVietQR()">
           <i class="fas fa-times"></i> Đóng
         </button>
-        <button class="modal-btn continue-btn" onclick="window.location.href='index.html'">
-          <i class="fas fa-shopping-bag"></i> Tiếp tục mua hàng
+        <button class="modal-btn continue-btn" onclick="completeVietQRPayment()">
+          <i class="fas fa-check-circle"></i> Đã thanh toán
         </button>
       </div>
     </div>
@@ -632,22 +644,11 @@
     <p>Powered by Demo by DMH</p>
   </footer>
   <script>
-     // checkout.js
-     const CART_STORAGE_KEY = 'shopping_cart';
+    // checkout.js
+    const CART_STORAGE_KEY = 'shopping_cart';
     const PAYMENT_STATUS_KEY = 'payment_status';
     const VIETQR_MODAL_ID = 'vietqr-modal';
 
-    // Cấu hình API VietQR
-    const VIETQR_CONFIG = {
-      clientId: '0c2eff2c-1ac2-4637-8ed1-5b9665e8da8f', 
-      apiKey: '1bf670a8-ed50-4add-9be0-818d5a7f1a70',     
-      bankConfig: {
-        accountNo: '962QR000003146',
-        accountName: 'DAO MINH HAI',
-        acqId: 970418, 
-        template: 'compact' 
-      }
-    };
     // Product images mapping
     const productImages = {
       'mi-hao-hao': 'https://i.imgur.com/VPBhiHd.png',
@@ -672,7 +673,7 @@
       const fallbackImage = 'https://via.placeholder.com/80?text=Image+Error';
 
       cartBody.innerHTML = '';
-      
+
       if (!cart || cart.length === 0) {
         cartBody.innerHTML = `
           <tr>
@@ -686,7 +687,7 @@
       }
 
       let totalPrice = 0;
-      
+
       cart.forEach((item, index) => {
         const subtotal = item.price * item.quantity;
         totalPrice += subtotal;
@@ -751,7 +752,7 @@
       const errorElement = document.getElementById('payment-error');
       errorElement.textContent = message;
       errorElement.style.display = 'block';
-      
+
       setTimeout(() => {
         errorElement.style.display = 'none';
       }, 5000);
@@ -800,7 +801,7 @@
     async function processPayOSPayment() {
       const btn = document.querySelector('.payos-btn');
       btn.classList.add('loading');
-      
+
       try {
         const amount = calculateTotal();
         if (amount <= 0) {
@@ -809,7 +810,7 @@
 
         const orderCode = `PAYOS_${generateRandomString(8)}`;
         const description = `Thanh toán đơn hàng #${orderCode}`;
-        
+
         const paymentData = {
           orderCode,
           amount,
@@ -832,7 +833,7 @@
         });
 
         const result = await response.json();
-        
+
         if (result.success && result.paymentUrl) {
           // Lưu thông tin thanh toán
           localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
@@ -843,11 +844,11 @@
             timestamp: new Date().toISOString(),
             items: cart
           }));
-          
+
           // Xóa giỏ hàng sau khi thanh toán thành công
           localStorage.removeItem(CART_STORAGE_KEY);
           cart = [];
-          
+
           // Chuyển hướng đến trang thanh toán
           window.location.href = result.paymentUrl;
         } else {
@@ -867,7 +868,7 @@
     async function processSePayPayment() {
       const btn = document.querySelector('.sepay-btn');
       btn.classList.add('loading');
-      
+
       try {
         const amount = calculateTotal();
         if (amount <= 0) {
@@ -899,7 +900,7 @@
         });
 
         const result = await response.json();
-        
+
         if (result.success && result.paymentUrl) {
           // Lưu thông tin thanh toán
           localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
@@ -910,11 +911,11 @@
             timestamp: new Date().toISOString(),
             items: cart
           }));
-          
+
           // Xóa giỏ hàng sau khi thanh toán thành công
           localStorage.removeItem(CART_STORAGE_KEY);
           cart = [];
-          
+
           // Chuyển hướng đến trang thanh toán
           window.location.href = result.paymentUrl;
         } else {
@@ -929,83 +930,97 @@
     }
 
     /**
-     * Hiển thị modal VietQR
-     */
-     async function showVietQR() {
+ * Hiển thị modal VietQR
+ */
+    const VIETQR_CONFIG = {
+      apiEndpoint: 'https://api.mhcomputer.org/api/create-payment',
+      successUrl: 'https://mhcomputer.org/payment-success',
+      cancelUrl: 'https://mhcomputer.org/payment-cancel',
+      bankInfo: {
+        name: 'BIDV',
+        account: '962QR000003146',
+        holder: 'DAO MINH HAI'
+      }
+    };
+
+    async function showVietQR() {
       const amount = calculateTotal();
       if (amount <= 0) {
         showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm');
         return;
       }
 
-      const modal = document.getElementById(VIETQR_MODAL_ID);
-      const paymentContent = `DH${generateRandomString(7)}`;
-      const qrImage = document.getElementById('vietqr-image');
-      
-      // Cập nhật thông tin lên modal
-      document.getElementById('qr-amount').textContent = `${amount.toLocaleString('vi-VN')} ₫`;
-      document.getElementById('payment-content').textContent = paymentContent;
-
-      // Hiển thị loading
-      qrImage.style.display = 'none';
-      document.querySelector('.qr-loading').style.display = 'block';
+      const orderCode = `DH${generateRandomString(7)}`;
+      const modal = document.getElementById('vietqr-modal');
 
       try {
-        // Gọi API VietQR để tạo mã QR
-        const response = await fetch('https://api.vietqr.io/v2/generate', {
+        // Hiển thị loading
+        document.querySelector('.qr-loading').style.display = 'block';
+        document.getElementById('vietqr-image').style.display = 'none';
+
+        // Gọi API tạo QR
+        const response = await fetch(VIETQR_CONFIG.apiEndpoint, {
           method: 'POST',
-          headers: {
-            'x-client-id': VIETQR_CONFIG.clientId,
-            'x-api-key': VIETQR_CONFIG.apiKey,
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            accountNo: VIETQR_CONFIG.bankConfig.accountNo,
-            accountName: VIETQR_CONFIG.bankConfig.accountName,
-            acqId: VIETQR_CONFIG.bankConfig.acqId,
+            paymentMethod: 'vietqr',
             amount: amount,
-            addInfo: paymentContent,
-            template: VIETQR_CONFIG.bankConfig.template
+            orderCode: orderCode
           })
         });
 
         const result = await response.json();
-        
-        if (result.code === "00" && result.data && result.data.qrDataURL) {
-          qrImage.src = result.data.qrDataURL;
-          qrImage.onload = function() {
+
+        if (result.success) {
+          // Cập nhật thông tin lên modal
+          document.getElementById('qr-amount').textContent = `${amount.toLocaleString('vi-VN')} ₫`;
+          document.getElementById('payment-content').textContent = orderCode;
+          document.getElementById('account-number').textContent = VIETQR_CONFIG.bankInfo.account;
+          document.getElementById('account-name').textContent = VIETQR_CONFIG.bankInfo.holder;
+          document.getElementById('bank-name').textContent = VIETQR_CONFIG.bankInfo.name;
+
+          // Hiển thị QR code
+          const qrImage = document.getElementById('vietqr-image');
+          qrImage.src = result.qrUrl || result.paymentUrl;
+          qrImage.onload = function () {
             document.querySelector('.qr-loading').style.display = 'none';
             qrImage.style.display = 'block';
           };
+
+          // Lưu thông tin thanh toán
+          localStorage.setItem('payment_status', JSON.stringify({
+            orderCode: orderCode,
+            amount: amount,
+            status: 'pending',
+            provider: 'vietqr',
+            timestamp: new Date().toISOString(),
+            items: cart,
+            qrUrl: result.qrUrl || result.paymentUrl
+          }));
+
+          // Hiển thị modal
+          modal.style.display = 'flex';
         } else {
-          throw new Error(result.desc || 'Không thể tạo mã QR');
+          throw new Error(result.message || 'Tạo QR thất bại');
         }
       } catch (error) {
         console.error('VietQR Error:', error);
-        // Fallback sử dụng API khác nếu VietQR lỗi
-        const fallbackQRUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-          `bankId=BIDV&accountNumber=${VIETQR_CONFIG.bankConfig.accountNo}&amount=${amount}&description=${paymentContent}`
-        )}`;
-        qrImage.src = fallbackQRUrl;
-        qrImage.onload = function() {
-          document.querySelector('.qr-loading').style.display = 'none';
-          qrImage.style.display = 'block';
-        };
+        showPaymentError(error.message);
+        modal.style.display = 'none';
       }
-
-      // Lưu thông tin thanh toán
-      localStorage.setItem(PAYMENT_STATUS_KEY, JSON.stringify({
-        orderCode: paymentContent,
-        amount,
-        status: 'pending',
-        provider: 'vietqr',
-        timestamp: new Date().toISOString(),
-        items: cart
-      }));
-
-      modal.style.display = 'flex';
     }
 
+    // Hàm xử lý khi hoàn thành thanh toán
+    function completeVietQRPayment() {
+      const paymentData = JSON.parse(localStorage.getItem('payment_status'));
+
+      // Chuyển hướng đến trang thành công
+      window.location.href = `${VIETQR_CONFIG.successUrl}?orderCode=${encodeURIComponent(paymentData.orderCode)}&amount=${paymentData.amount}`;
+
+      // Xóa giỏ hàng
+      localStorage.removeItem('shopping_cart');
+      cart = [];
+    }
     /**
      * Ẩn modal VietQR
      */
@@ -1020,15 +1035,15 @@
       renderCart();
 
       // Xử lý sự kiện click nút thanh toán
-      document.getElementById('confirm-payment-button').addEventListener('click', function() {
+      document.getElementById('confirm-payment-button').addEventListener('click', function () {
         const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
-        
+
         if (cart.length === 0) {
           showPaymentError('Giỏ hàng trống! Vui lòng thêm sản phẩm');
           return;
         }
-        
-        switch(selectedMethod) {
+
+        switch (selectedMethod) {
           case 'payos':
             processPayOSPayment();
             break;
@@ -1067,4 +1082,5 @@
     window.copyToClipboard = copyToClipboard;
   </script>
 </body>
+
 </html>
