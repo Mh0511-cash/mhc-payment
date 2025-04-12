@@ -426,7 +426,24 @@
         transform: translateY(-50%) rotate(360deg);
       }
     }
+    .vietqr-btn {
+  background-color: #00a651; /* Màu xanh lá của VietQR */
+  color: white;
+}
 
+#vietqr-modal {
+  /* Các style hiện có giữ nguyên */
+  z-index: 10000; /* Đảm bảo hiển thị trên cùng */
+}
+
+.qr-image {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: white;
+}
     /* Mobile styles */
     @media (max-width: 768px) {
       header {
